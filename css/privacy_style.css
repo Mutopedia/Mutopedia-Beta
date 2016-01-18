@@ -1,0 +1,12 @@
+#privacy-container
+{
+	background: transparent radial-gradient(at center bottom , #C8C8C8, #7B7B7C) repeat scroll 0% 0%;
+	
+}
+#privacy-container  #text-container
+{
+	padding-top: 3%;
+	padding-bottom: 3%;
+	padding-left: 5%;
+	padding-right: 5%;
+}

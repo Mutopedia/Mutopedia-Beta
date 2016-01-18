@@ -1,0 +1,13 @@
+Options +FollowSymlinks
+RewriteEngine On
+SetEnv REGISTER_GLOBALS 0
+
+RewriteRule ^home  index.php?page=home [NC,L]
+RewriteRule ^breeding  index.php?page=breeding [NC,L]
+RewriteRule ^search  index.php?page=search [NC,L]
+RewriteRule ^profile/(.*)  index.php?page=profile&argPage=$1 [NC,L]
+RewriteRule ^portal  portal.php [NC,L]
+RewriteRule ^privacy  privacy.php [NC,L]
+
+AuthName "Mutopedia Beta"
+AuthUserFile "/home/mutouebd/.htpasswds/beta/passwd"
