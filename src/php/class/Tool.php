@@ -198,11 +198,15 @@ class Tool
 
 		$xpath = new DOMXpath($xmlDoc);
 
+		$breedingLevel = 1;
+		$ODD_final = 0;
+		$isDoubleGene = false;
+
 		$specimen_1 = $xmlDoc->getElementsByTagName("DynamicEntities")->item(0)->getElementsByTagName("EntityDescriptor");
 		$specimen_1_Code = "";
 		$specimen_1_ODD = "";
 		$specimen_1_DNA = "";
-		$specimen_1_GEN = "";
+		$specimen_1_TYPE = "";
 
 		foreach($specimen_1 as $specimen_1)
 		{
@@ -219,13 +223,13 @@ class Tool
 				$specimen_1_DNA = $specimenDNA_query->value;
 				$specimen_1_DNA_split = str_split($specimen_1_DNA);
 
-				if($specimenGEN_query = $xpath->query('//EntityDescriptor[@id="'.$specimen_1_Code.'"]/Tag[@key="type"]/@value')->item(0) != false)
+				if($specimenTYPE_query = $xpath->query('//EntityDescriptor[@id="'.$specimen_1_Code.'"]/Tag[@key="type"]/@value')->item(0) != false)
 				{
-					$specimen_1_GEN = $specimenGEN_query->value;
+					$specimen_1_TYPE = $specimenTYPE_query->value;
 				}
 				else
 				{
-					$specimen_1_GEN = "NORMAL";
+					$specimen_1_TYPE = "NORMAL";
 				}
 			}
 		}
@@ -234,7 +238,7 @@ class Tool
 		$specimen_2_Code = "";
 		$specimen_2_ODD = "";
 		$specimen_2_DNA = "";
-		$specimen_2_GEN = "";
+		$specimen_2_TYPE = "";
 
 		foreach($specimen_2 as $specimen_2)
 		{
@@ -251,21 +255,16 @@ class Tool
 				$specimen_2_DNA = $specimenDNA_query->value;
 				$specimen_2_DNA_split = str_split($specimen_2_DNA);
 
-				if($specimenGEN_query = $xpath->query('//EntityDescriptor[@id="'.$specimen_2_Code.'"]/Tag[@key="type"]/@value')->item(0))
+				if($specimenTYPE_query = $xpath->query('//EntityDescriptor[@id="'.$specimen_2_Code.'"]/Tag[@key="type"]/@value')->item(0))
 				{
-					$specimen_2_GEN = $specimenGEN_query->value;
+					$specimen_2_TYPE = $specimenTYPE_query->value;
 				}
 				else
 				{
-					$specimen_2_GEN = "NORMAL";
+					$specimen_2_TYPE = "NORMAL";
 				}
 			}
 		}
-
-		$ODDS = 80;
-
-		$Specimen_1_DNACode = substr($specimen_1_Code, -2);
-		$Specimen_2_DNACode = substr($specimen_2_Code, -2);
 
 		$specimen_1_DNA_lenght = strlen($specimen_1_DNA);
 		$specimen_2_DNA_lenght = strlen($specimen_2_DNA);
@@ -308,6 +307,27 @@ class Tool
 		{
 			$specimenODD_query = $xpath->query('//EntityDescriptor[@id="Specimen_'.$value.'"]/Tag[@key="odds"]/@value')->item(0);
 			$specimenResult_ODD = $specimenODD_query->value;
+
+			$specimenDNA_query = $xpath->query('//EntityDescriptor[@id="Specimen_'.$value.'"]/Tag[@key="dna"]/@value')->item(0);
+			$specimenResult_DNA = $specimenDNA_query->value;
+
+			if(($specimen_1_DNA_lenght == 1 AND $specimen_2_DNA_lenght == 2) OR ($specimen_1_DNA_lenght == 2 AND $specimen_2_DNA_lenght == 1) OR ($specimen_1_DNA_lenght == 2 AND $specimen_2_DNA_lenght == 2))
+			{
+				if(strlen($specimenResult_DNA) == 2)
+				{
+					$specimenResult_ODD = $specimenResult_ODD * 18;
+				}
+			}
+			else if($specimen_1_DNA_lenght == 1 AND $specimen_2_DNA_lenght == 1)
+			{
+				if(strlen($specimenResult_DNA) == 2)
+				{
+					$specimenResult_ODD = $specimenResult_ODD * 4;
+				}
+			}
+
+			$specimenResult_percent = $specimenResult_ODD;
+
 			$specimenName = self::findSpecimenName('Specimen_'.$value);
 
 			ob_start();
@@ -316,19 +336,6 @@ class Tool
 			ob_end_clean();
 		}
 
-
-
-		/*if($specimen_1_DNA_lenght == 1 OR $specimen_2_DNA_lenght == 1)
-		{
-			if($specimen_2_GEN)
-			{
-
-			}
-		}
-		else
-		{
-
-		}*/
 
 		/*$dataArray['reply'] = "Spec_1_Code: ".$specimen_1_Code."\nSpec_1_GEN: ".$specimen_1_GEN."\nSpec_1_ODD: ".$specimen_1_ODD."\nSpec_1_DNA: ".$specimen_1_DNA."\nSpec1_DNACode: ".$Specimen_1_DNACode."\n\nSpec_2_Code: ".$specimen_2_Code."\nSpec_2_GEN: ".$specimen_2_GEN."\nSpec_2_ODD: ".$specimen_2_ODD."\nSpec_2_DNA: ".$specimen_2_DNA."\nSpec2_DNACode: ".$Specimen_2_DNACode."\n\n\n\nRESULT :\n".$resultDNA[0]."\n".$resultDNA[1]."\n".$resultDNA[2]."\n".$resultDNA[3]."\n".$resultDNA[4];*/
 		$dataArray['result'] = true;

@@ -47,9 +47,9 @@
 <?php
 	}
 ?>
-		<li class="unactive"><h3>FAN'ART</h3></li>
-		<li class="unactive"><h3>FORUM</h3></li>
+		<li class="unactive"><h3>STORY</h3></li>
+		<!--<li class="unactive"><h3>FORUM</h3></li>-->
 		<li class="unactive"><h3>CONTACT</h3></li>
-		<li class="unactive"><h3>LINKS</h3></li>
+		<!--<li class="unactive"><h3>LINKS</h3></li>-->
 	</ul>
 </nav>
