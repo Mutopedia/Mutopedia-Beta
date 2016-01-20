@@ -325,6 +325,10 @@ class Tool
 
 		$resultDNA = array_unique($resultDNA);
 
+		$resultSpecimenODD = array();
+		$resultSpecimenName = array();
+		$resultSpecimenCount = 0;
+
 		foreach($resultDNA as $key => $value)
 		{
 			$specimenODD_query = $xpath->query('//EntityDescriptor[@id="Specimen_'.$value.'"]/Tag[@key="odds"]/@value')->item(0);
@@ -348,14 +352,27 @@ class Tool
 				}
 			}
 
-			$specimenResult_percent = $specimenResult_ODD;
+			$resultSpecimenODD[$resultSpecimenCount] = $specimenResult_ODD;
 
-			$specimenName = self::findSpecimenName('Specimen_'.$value);
+			$resultSpecimenName[$resultSpecimenCount] = self::findSpecimenName('Specimen_'.$value);
+
+			$resultSpecimenCount++;
+		}
+
+
+
+		$resultCount = 0;
+		while ($resultCount <= $resultSpecimenCount)
+		{
+			$specimenName = $resultSpecimenODD[$resultCount];
+			$specimenODD = $resultSpecimenODD[$resultCount];
 
 			ob_start();
 			include('../../models/mutant_container.php');
 			$dataArray['reply'] .= ob_get_contents();
 			ob_end_clean();
+
+			$resultCount++;
 		}
 
 		/*$dataArray['reply'] = $resultDNA;*/
