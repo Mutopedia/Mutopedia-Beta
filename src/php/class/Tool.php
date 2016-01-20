@@ -223,14 +223,14 @@ class Tool
 				$specimen_1_DNA = $specimenDNA_query->value;
 				$specimen_1_DNA_split = str_split($specimen_1_DNA);
 
-				if($specimenTYPE_query = $xpath->query('//EntityDescriptor[@id="'.$specimen_1_Code.'"]/Tag[@key="type"]/@value')->item(0) != false)
+				/*if($specimenTYPE_query = $xpath->query('//EntityDescriptor[@id="'.$specimen_1_Code.'"]/Tag[@key="type"]/@value')->item(0) !== false)
 				{
 					$specimen_1_TYPE = $specimenTYPE_query->value;
 				}
 				else
-				{
+				{*/
 					$specimen_1_TYPE = "NORMAL";
-				}
+				/*}*/
 			}
 		}
 
@@ -275,30 +275,52 @@ class Tool
 		{
 			$resultDNA[0] = $specimen_1_DNA_split[0].$specimen_2_DNA_split[0]."_01";
 			$resultDNA[1] = $specimen_1_DNA_split[0].$specimen_2_DNA_split[1]."_01";
-			$resultDNA[2] = $specimen_2_DNA_split[1].$specimen_1_DNA_split[0]."_01";
-			$resultDNA[3] = $specimen_2_DNA_split[1].$specimen_2_DNA_split[0]."_01";
-			$resultDNA[4] = $specimen_2_DNA_split[0].$specimen_2_DNA_split[1]."_01";
+
+			$resultDNA[2] = $specimen_1_DNA_split[1].$specimen_2_DNA_split[0]."_01";
+			$resultDNA[3] = $specimen_1_DNA_split[1].$specimen_2_DNA_split[1]."_01";
+
+			$resultDNA[4] = $specimen_2_DNA_split[0].$specimen_1_DNA_split[0]."_01";
+			$resultDNA[5] = $specimen_2_DNA_split[0].$specimen_1_DNA_split[1]."_01";
+
+			$resultDNA[6] = $specimen_2_DNA_split[1].$specimen_1_DNA_split[0]."_01";
+			$resultDNA[7] = $specimen_2_DNA_split[1].$specimen_1_DNA_split[1]."_01";
 		}
 		else if($specimen_1_DNA_lenght == 1 AND $specimen_2_DNA_lenght == 2)
 		{
-			$resultDNA[0] = $specimen_1_DNA_split[0].$specimen_2_DNA_split[0]."_01";
-			$resultDNA[1] = $specimen_1_DNA_split[0].$specimen_2_DNA_split[1]."_01";
-			$resultDNA[2] = $specimen_2_DNA_split[1].$specimen_1_DNA_split[0]."_01";
-			$resultDNA[3] = $specimen_2_DNA_split[1].$specimen_2_DNA_split[0]."_01";
-			$resultDNA[4] = $specimen_2_DNA_split[0].$specimen_2_DNA_split[1]."_01";
+			$resultDNA[0] = $specimen_2_DNA_split[0].$specimen_1_DNA_split[0]."_01";
+			$resultDNA[1] = $specimen_2_DNA_split[1].$specimen_1_DNA_split[0]."_01";
+
+			$resultDNA[2] = $specimen_1_DNA_split[0].$specimen_2_DNA_split[0]."_01";
+			$resultDNA[3] = $specimen_1_DNA_split[0].$specimen_2_DNA_split[1]."_01";
+
+			if(($specimen_1_DNA_split[0] == $specimen_2_DNA_split[0]) OR ($specimen_1_DNA_split[0] == $specimen_2_DNA_split[1]))
+			{
+				$resultDNA[4] = $specimen_1_DNA_split[0]."_01";
+			}
 		}
 		else if($specimen_1_DNA_lenght == 2 AND $specimen_2_DNA_lenght == 1)
 		{
-			$resultDNA[0] = $specimen_2_DNA_split[0].$specimen_1_DNA_split[0]."_01";
-			$resultDNA[1] = $specimen_2_DNA_split[0].$specimen_1_DNA_split[1]."_01";
-			$resultDNA[2] = $specimen_1_DNA_split[1].$specimen_2_DNA_split[0]."_01";
-			$resultDNA[3] = $specimen_1_DNA_split[1].$specimen_1_DNA_split[0]."_01";
-			$resultDNA[4] = $specimen_1_DNA_split[0].$specimen_1_DNA_split[1]."_01";
+			$resultDNA[0] = $specimen_1_DNA_split[0].$specimen_2_DNA_split[0]."_01";
+			$resultDNA[1] = $specimen_1_DNA_split[1].$specimen_2_DNA_split[0]."_01";
+
+			$resultDNA[2] = $specimen_2_DNA_split[0].$specimen_1_DNA_split[0]."_01";
+			$resultDNA[3] = $specimen_2_DNA_split[0].$specimen_1_DNA_split[1]."_01";
+
+			if(($specimen_2_DNA_split[0] == $specimen_1_DNA_split[0]) OR ($specimen_2_DNA_split[0] == $specimen_1_DNA_split[1]))
+			{
+				$resultDNA[4] = $specimen_2_DNA_split[0]."_01";
+			}
 		}
 		else if($specimen_1_DNA_lenght == 1 AND $specimen_2_DNA_lenght == 1)
 		{
 			$resultDNA[0] = $specimen_1_DNA_split[0].$specimen_2_DNA_split[0]."_01";
 			$resultDNA[1] = $specimen_2_DNA_split[0].$specimen_1_DNA_split[0]."_01";
+
+			if(($specimen_1_DNA_split[0] == $specimen_2_DNA_split[0]))
+			{
+				$resultDNA[2] = $specimen_1_DNA_split[0]."_01";
+				$resultDNA[3] = $specimen_2_DNA_split[0]."_01";
+			}
 		}
 
 		$resultDNA = array_unique($resultDNA);
@@ -336,8 +358,7 @@ class Tool
 			ob_end_clean();
 		}
 
-
-		/*$dataArray['reply'] = "Spec_1_Code: ".$specimen_1_Code."\nSpec_1_GEN: ".$specimen_1_GEN."\nSpec_1_ODD: ".$specimen_1_ODD."\nSpec_1_DNA: ".$specimen_1_DNA."\nSpec1_DNACode: ".$Specimen_1_DNACode."\n\nSpec_2_Code: ".$specimen_2_Code."\nSpec_2_GEN: ".$specimen_2_GEN."\nSpec_2_ODD: ".$specimen_2_ODD."\nSpec_2_DNA: ".$specimen_2_DNA."\nSpec2_DNACode: ".$Specimen_2_DNACode."\n\n\n\nRESULT :\n".$resultDNA[0]."\n".$resultDNA[1]."\n".$resultDNA[2]."\n".$resultDNA[3]."\n".$resultDNA[4];*/
+		/*$dataArray['reply'] = $resultDNA;*/
 		$dataArray['result'] = true;
 		$dataArray['error'] = null;
 
