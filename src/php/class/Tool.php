@@ -324,6 +324,10 @@ class Tool
 		}
 
 		$resultDNA = array_unique($resultDNA);
+		$resultSpecimenODD = array();
+		$resultSpecimenName = array();
+		$resultSpecimenCount = 0;
+		$total_ODD = 0;
 
 		foreach($resultDNA as $key => $value)
 		{
@@ -348,14 +352,26 @@ class Tool
 				}
 			}
 
-			$specimenResult_percent = $specimenResult_ODD;
+			$resultSpecimenODD[$resultSpecimenCount] = $specimenResult_ODD;
+			$resultSpecimenName[$resultSpecimenCount] = self::findSpecimenName('Specimen_'.$value);
+			$total_ODD = $total_ODD + $resultSpecimenODD[$resultSpecimenCount];
 
-			$specimenName = self::findSpecimenName('Specimen_'.$value);
+			$resultSpecimenCount++;
+		}
+
+		$resultCount = 0;
+		while ($resultCount < $resultSpecimenCount)
+		{
+			$specimenName = $resultSpecimenName[$resultCount];
+			$specimenODD = $resultSpecimenODD[$resultCount];
+			$specimenPercent = ($resultSpecimenODD[$resultCount] / $total_ODD) * 100;
 
 			ob_start();
 			include('../../models/mutant_container.php');
 			$dataArray['reply'] .= ob_get_contents();
 			ob_end_clean();
+
+			$resultCount++;
 		}
 
 		/*$dataArray['reply'] = $resultDNA;*/
