@@ -16,7 +16,7 @@ class Tool
 		}
 	}
 
-	static function listSpecimen()
+	/*static function listSpecimen()
 	{
 		$specimenCount = 0;
 		$dataArray[$specimenCount]['nameCode'] = array();
@@ -75,18 +75,21 @@ class Tool
 		}
 
 		return $dataArray;
-	}
+	}*/
 
-	/*static function listSpecimen()
+	static function listSpecimen()
 	{
-		$dataArray['nameCode'] = array();
-		$dataArray['name'] = array();
-		$dataArray['specimenCount'] = "";
+		$specimenCount = 0;
+		$dataArray[$specimenCount]['nameCode'] = array();
+		$dataArray[$specimenCount]['name'] = array();
 
 		$xmlDoc = new DOMDocument();
 		$xmlDoc->load(self::$gamedefinitionsXMLPath);
 
+		$xpath = new DOMXpath($xmlDoc);
+
 		$specimen = $xmlDoc->getElementsByTagName("DynamicEntities")->item(0)->getElementsByTagName("EntityDescriptor");
+
 		$specimenList = file_get_contents(self::$localisationTXTPath);
 
 		$specimenCount = 0;
@@ -117,8 +120,19 @@ class Tool
 							$namePos++;
 						}
 
-						$dataArray['nameCode'][$specimenCount] = $specimen->getAttribute('id');
-						$dataArray['name'][$specimenCount] = $name;
+						$dataArray[$specimenCount]['nameCode'][$specimenCount] = $specimen->getAttribute('id');
+						$dataArray[$specimenCount]['name'][$specimenCount] = $name;
+
+						$specimenDNA_query = $xpath->query('//EntityDescriptor[@id="'.$dataArray[$specimenCount]['nameCode'][$specimenCount].'"]/Tag[@key="dna"]/@value')->item(0);
+						$specimen_DNA = $specimenDNA_query->value;
+						$specimen_DNA_split = str_split($specimen_DNA);
+
+						$dataArray[$specimenCount]['dna_0'][$specimenCount] = $specimen_DNA_split[0];
+						if(count($specimen_DNA_split) == 2)
+						{
+							$dataArray[$specimenCount]['dna_1'][$specimenCount] = $specimen_DNA_split[1];
+						}
+
 						$specimenCount++;
 					}
 
@@ -127,10 +141,8 @@ class Tool
 			}
 		}
 
-		$dataArray['specimenCount'] = $specimenCount;
-
 		return $dataArray;
-	}*/
+	}
 
 	static function getSpecimens()
 	{
@@ -143,6 +155,12 @@ class Tool
 		{
 			$mutantNameCode = $returnSpecimen[$countSpecimen]['nameCode'][$countSpecimen];
 			$mutantName = $returnSpecimen[$countSpecimen]['name'][$countSpecimen];
+			$mutantIconDNA_0 = self::getIconDNA($returnSpecimen[$countSpecimen]['dna_0'][$countSpecimen]);
+			$mutantIconDNA_1 = "";
+			if(!empty($returnSpecimen[$countSpecimen]['dna_1'][$countSpecimen]))
+			{
+				$mutantIconDNA_1 = self::getIconDNA($returnSpecimen[$countSpecimen]['dna_1'][$countSpecimen]);
+			}
 
 			ob_start();
 			include('../../models/specimen_list.php');

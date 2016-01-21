@@ -108,21 +108,31 @@ function startBreeding()
 	var specimenNameCode_1 = $('#left_panel .select').attr('value');
 	var specimenNameCode_2 = $('#right_panel .select').attr('value');
 
-	$('#odds_container').fadeOut(400).queue(function()
+	$('#odds_container').fadeOut(200).queue(function()
 	{
-		$.post("src/php/executor.php", { action: "startBreeding", specimenNameCode_1: specimenNameCode_1, specimenNameCode_2: specimenNameCode_2}, function(data)
+		$(this).html('<h1 style="text-align: center;">Loading ...</h1>').fadeIn(200).queue(function()
 		{
-			if(data.result)
+			$.post("src/php/executor.php", { action: "startBreeding", specimenNameCode_1: specimenNameCode_1, specimenNameCode_2: specimenNameCode_2}, function(data)
 			{
-				$('#odds_container').html(data.reply).fadeIn(300);
-			}
-			else
-			{
-				$('#odds_container').html(data.error).fadeIn(300);
-			}
+				if(data.result)
+				{
+					$('#odds_container').fadeOut(200).queue(function(){
+						$(this).html(data.reply).fadeIn(300);
+						$(this).dequeue();
+					});
+				}
+				else
+				{
+					$('#odds_container').fadeOut(200).queue(function(){
+						$(this).html(data.error).fadeIn(300);
+						$(this).dequeue();
+					});
+				}
 
-		}, "json");
+			}, "json");
 
+			$(this).dequeue();
+		});
 		$(this).dequeue();
 	});
 }

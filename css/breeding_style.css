@@ -85,10 +85,6 @@
 {
 	margin-left: 70px;
 }
-#right_panel #input_container .select .ul .li
-{
-	text-align: left;
-}
 
 #odds_container
 {
@@ -126,20 +122,28 @@
 #odds_container .mutant_container .mutant_description
 {
 	width: 260px;
-	margin-top: 20px;
+	margin-top: 18px;
+	padding-left: 15px;
 	display: inline-block;
 	vertical-align: top;
-	text-align: center;
+	text-align: left;
+	box-sizing: border-box;
 }
 #odds_container .mutant_container .mutant_description h2
 {
 	color: rgb(0, 0, 0);
 	text-shadow: none;
 }
+#odds_container .mutant_container .mutant_description h2 .percent-specimen
+{
+	float: right;
+	margin-right: 20px;
+}
 
 #odds_container .mutant_container .mutant_description .mutant_grade 
 {
 	margin-top: 5px;
+	text-align: left;
 }
 
 #play_button
