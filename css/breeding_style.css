@@ -137,6 +137,11 @@
 	text-shadow: none;
 }
 
+#odds_container .mutant_container .mutant_description .mutant_grade 
+{
+	margin-top: 5px;
+}
+
 #play_button
 {
 	background-image: url('../img/breeding/button_launch.png');

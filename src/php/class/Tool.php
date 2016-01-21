@@ -18,9 +18,9 @@ class Tool
 
 	static function listSpecimen()
 	{
-		$dataArray['nameCode'] = array();
-		$dataArray['name'] = array();
-		$dataArray['specimenCount'] = "";
+		$specimenCount = 0;
+		$dataArray[$specimenCount]['nameCode'] = array();
+		$dataArray[$specimenCount]['name'] = array();
 
 		$specimenList = file_get_contents(self::$localisationTXTPath);
 
@@ -54,7 +54,7 @@ class Tool
  					$nameCode .= $specimenList[$namePos];
 			   		$namePos++;
 			   	}
-			   	$dataArray['nameCode'][$nameCode_CharPos] = $nameCode;
+			   	$dataArray[$specimenCount]['nameCode'][$nameCode_CharPos] = $nameCode;
 			   	$nameCode_CharPos++;
 
 			   	$namePos++;
@@ -65,10 +65,10 @@ class Tool
 			   		$name .= $specimenList[$namePos];
 			   		$namePos++;
 			   	}
-			   	$dataArray['name'][$name_CharPos] = $name;
+			   	$dataArray[$specimenCount]['name'][$name_CharPos] = $name;
 			   	$name_CharPos++;
 
-			   	$dataArray['specimenCount']++;
+			   	$specimenCount++;
 			}
 
 			$char_pos++;
@@ -136,12 +136,13 @@ class Tool
 	{
 		$returnSpecimen = array();
 		$returnSpecimen = self::listSpecimen();
+		$result_pos = "";
 
 		$countSpecimen = 0;
-		while($countSpecimen < $returnSpecimen['specimenCount'])
+		while($countSpecimen < count($returnSpecimen))
 		{
-			$mutantNameCode = $returnSpecimen['nameCode'][$countSpecimen];
-			$mutantName = $returnSpecimen['name'][$countSpecimen];
+			$mutantNameCode = $returnSpecimen[$countSpecimen]['nameCode'][$countSpecimen];
+			$mutantName = $returnSpecimen[$countSpecimen]['name'][$countSpecimen];
 
 			ob_start();
 			include('../../models/specimen_list.php');
@@ -161,10 +162,10 @@ class Tool
 		if(isset($specimenName) && !empty($specimenName))
 		{
 			$countSpecimen = 0;
-			while($countSpecimen < $returnSpecimen['specimenCount'])
+			while($countSpecimen < count($returnSpecimen))
 			{
-				$mutantNameCode = $returnSpecimen['nameCode'][$countSpecimen];
-				$mutantName = $returnSpecimen['name'][$countSpecimen];
+				$mutantNameCode = $returnSpecimen[$countSpecimen]['nameCode'][$countSpecimen];
+				$mutantName = $returnSpecimen[$countSpecimen]['name'][$countSpecimen];
 
 				if(strpos(strtolower($mutantName), strtolower($specimenName)) !== false)
 				{
@@ -324,6 +325,7 @@ class Tool
 		}
 
 		$resultDNA = array_unique($resultDNA);
+
 		$resultSpecimenODD = array();
 		$resultSpecimenName = array();
 		$resultSpecimenCount = 0;
@@ -364,7 +366,7 @@ class Tool
 		{
 			$specimenName = $resultSpecimenName[$resultCount];
 			$specimenODD = $resultSpecimenODD[$resultCount];
-			$specimenPercent = ($resultSpecimenODD[$resultCount] / $total_ODD) * 100;
+			$specimenPercent = round(($resultSpecimenODD[$resultCount] / $total_ODD) * 100, 1);
 
 			ob_start();
 			include('../../models/mutant_container.php');
@@ -389,10 +391,10 @@ class Tool
 		if(isset($nameCode) && !empty($nameCode))
 		{
 			$countSpecimen = 0;
-			while($countSpecimen < $returnSpecimen['specimenCount'])
+			while($countSpecimen < count($returnSpecimen))
 			{
-				$mutantNameCode = $returnSpecimen['nameCode'][$countSpecimen];
-				$mutantName = $returnSpecimen['name'][$countSpecimen];
+				$mutantNameCode = $returnSpecimen[$countSpecimen]['nameCode'][$countSpecimen];
+				$mutantName = $returnSpecimen[$countSpecimen]['name'][$countSpecimen];
 
 				if(strpos(strtolower($mutantNameCode), strtolower($nameCode)) !== false)
 				{
