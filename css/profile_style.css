@@ -45,8 +45,9 @@
 }
 #profile-container #infos-container #facebook-infos-container .button
 {
-	width: 150px;
 	margin: auto;
+	width: 140px;
+	text-align: left;
 }
 #profile-container #infos-container #facebook-infos-container #fb-permission-container
 {
@@ -61,6 +62,17 @@
 {
 	display: inline-block;
 	vertical-align: middle;
+}
+
+#profile-container #infos-container #report-user-container
+{
+	margin-top: 10px;
+}
+#profile-container #infos-container #report-user-container .button
+{
+	margin: auto;
+	width: 140px;
+	text-align: left;
 }
 
 #profile-container #infos-container #user-info-container

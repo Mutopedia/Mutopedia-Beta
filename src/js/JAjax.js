@@ -110,7 +110,7 @@ function startBreeding()
 
 	$('#odds_container').fadeOut(200).queue(function()
 	{
-		$(this).html('<h1 style="text-align: center;">Loading ...</h1>').fadeIn(200).queue(function()
+		$(this).html('<h2 style="text-align: center;">Breeding in progress ...</h2>').fadeIn(200).queue(function()
 		{
 			$.post("src/php/executor.php", { action: "startBreeding", specimenNameCode_1: specimenNameCode_1, specimenNameCode_2: specimenNameCode_2}, function(data)
 			{
@@ -273,6 +273,24 @@ function changeUserFameLevel(fameLevel)
 			console.log(data.error);
 		}else{
 			console.log(data.reply);
+		}
+
+	}, "json");
+}
+
+function sendReport(reported_player)
+{
+	var report_message = $('.popup-box#report-box .box-content #report_message').val();
+
+	$.post("src/php/executor.php", { action: "reportPlayer", reported_player: reported_player, report_message: report_message}, function(data)
+	{
+		if(data.result){
+			$('.popup-box#report-box .box-content ul li:nth-child(2)').fadeOut(200);
+			$('.popup-box#report-box .box-content ul li:first-child p').fadeOut(200).html(data.reply).fadeIn(200);
+			$('.popup-box#report-box .box-content ul li:last-child .button').attr("onclick", "closePopUp('report-box');").children('p').html('Finish !');
+		}
+		if(data.error != null){
+			$('.popup-box#report-box .box-content ul li:first-child p').fadeOut(200).html(data.error).fadeIn(200);
 		}
 
 	}, "json");

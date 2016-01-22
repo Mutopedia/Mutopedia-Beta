@@ -278,6 +278,28 @@
 				$dataArray['reply'] = null;
 			}
 		}
+
+		if($action == "reportPlayer")
+		{
+			if((isset($_POST['reported_player']) AND !empty($_POST['reported_player'])) AND (isset($_POST['report_message']) AND !empty($_POST['report_message'])))
+			{
+				$reportedPlayer = htmlspecialchars($_POST['reported_player']);
+				$reportMessage = htmlspecialchars($_POST['report_message']);
+
+				$returnUserMutant = array();
+				$returnUserMutant = User::reportPlayer($reportedPlayer, $reportMessage);
+
+				$dataArray['result'] = $returnUserMutant['result'];
+				$dataArray['error'] = $returnUserMutant['error'];
+				$dataArray['reply'] = $returnUserMutant['reply'];
+			}
+			else
+			{
+				$dataArray['result'] = false;
+				$dataArray['error'] = "The message of the report is empty !";
+				$dataArray['reply'] = null;
+			}
+		}
 	}
 	else
 	{

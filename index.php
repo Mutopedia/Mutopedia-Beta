@@ -66,10 +66,9 @@
 		</footer>
 
 		<?php
-			include('includes/signUp_box.php');
-			include('includes/signIn_box.php');
 			include('includes/logInToFb_box.php');
 			include('includes/welcome_box.php');
+			include('includes/profile_box.php');
 		?>
 
 		<div id="background-container"><!--onClick="closePopUp();closeBackground();"-->

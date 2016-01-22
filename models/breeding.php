@@ -47,7 +47,7 @@
 		</div>
 
 		<div id="play_button" onClick="startBreeding()">
-			<h2>LANCER</h2>
+			<h2>LAUNCH</h2>
 		</div>
 
 		<div id="">

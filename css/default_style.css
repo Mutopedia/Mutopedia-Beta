@@ -102,7 +102,7 @@ p
 	font-family: 'Oswald-Regular';
 	font-size: 10px;
 	text-shadow: 0 2px 0.5px black;
-	font-size: 0.7em;
+	font-size: 0.8em;
 	font-weight: normal;
 }
 
@@ -381,11 +381,11 @@ footer #copyright-container
 	position: fixed;
 	top: 50%;
 	left: 50%;
-	margin-left: -125px;
-	margin-top: -125px;
+	margin-left: -150px;
+	margin-top: -200px;
 	background: transparent radial-gradient(at center bottom , rgba(150, 150, 150, 0.9), rgba(30, 30, 30, 1)) repeat scroll 0% 0%;
 	border-top: 1px solid rgb(177, 177, 178);
-	width: 250px;
+	width: 300px;
 	border-radius: 10px;
 	text-align: center;
 	padding-top: 15px;
@@ -419,6 +419,7 @@ footer #copyright-container
 {
 	margin-top: 10px;
 	margin-bottom: 10px;
+	text-align: left;
 }
 .popup-box input
 {
@@ -470,12 +471,18 @@ footer #copyright-container
 	display: inline-block;
 	vertical-align: middle;
 }
-.button img
+.button .button-icon
 {
 	display: inline-block;
 	vertical-align: middle;
-	margin-right: 5px;
+	margin-right: 7px;
 	border-radius: 3px;
+	float: left;
+}
+.button .button-icon img
+{
+	display: inline-block;
+	vertical-align: middle;
 }
 .button.unactivated
 {
@@ -605,6 +612,26 @@ input[type=number]
 	font-size: 0.9em;
 	font-weight: normal;
 	color: white;
+}
+
+textarea
+{
+	border: none;
+	border-radius: 3px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	width: 100%;
+	min-height: 100px;
+	box-sizing: border-box;
+	background-color: rgba(0, 0, 0, 0.5);
+	font-family: 'Oswald-Regular';
+	text-shadow: 0px 2px 0.5px #000;
+	font-size: 0.8em;
+	font-weight: normal;
+	color: white;
+	resize: none;
 }
 
 .mark

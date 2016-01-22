@@ -4,9 +4,9 @@ class Tool
 {
 	public $newbdd;
 
-	static $localisationTXTPath = 'http://s-beta.kobojo.com/mutants/gameconfig/localisation_en.txt';
+	static $localisationTXTPath = 'https://s-beta.kobojo.com/mutants/gameconfig/localisation_en.txt';
 	static $gamedefinitionsXMLPath = 'https://s-beta.kobojo.com/mutants/gameconfig/gamedefinitions.xml';
-	static $bigDNAPNG = "http://s-ak.kobojo.com/mutants/assets/genes/";
+	static $bigDNAPNG = "https://s-ak.kobojo.com/mutants/assets/genes/";
 
 	public function __construct()
 	{
@@ -84,59 +84,65 @@ class Tool
 		$dataArray[$specimenCount]['name'] = array();
 
 		$xmlDoc = new DOMDocument();
-		$xmlDoc->load(self::$gamedefinitionsXMLPath);
 
-		$xpath = new DOMXpath($xmlDoc);
-
-		$specimen = $xmlDoc->getElementsByTagName("DynamicEntities")->item(0)->getElementsByTagName("EntityDescriptor");
-
-		$specimenList = file_get_contents(self::$localisationTXTPath);
-
-		$specimenCount = 0;
-
-		foreach($specimen as $specimen)
+		if(@$xmlDoc->load(self::$gamedefinitionsXMLPath) === false)
 		{
-			if(strpos($specimen->getAttribute('id'), 'Specimen_') !== false)
+			$dataArray = null;
+		}
+		else
+		{
+			$xpath = new DOMXpath($xmlDoc);
+
+			$specimen = $xmlDoc->getElementsByTagName("DynamicEntities")->item(0)->getElementsByTagName("EntityDescriptor");
+
+			$specimenList = file_get_contents(self::$localisationTXTPath);
+
+			$specimenCount = 0;
+
+			foreach($specimen as $specimen)
 			{
-				$char_pos = 0;
-
-				while(($char_pos = strpos($specimenList, $specimen->getAttribute('id'), $char_pos)) !== false)
+				if(strpos($specimen->getAttribute('id'), 'Specimen_') !== false)
 				{
-					$nameCode = "";
-					$semiColonPos = $char_pos;
-					while($specimenList[$semiColonPos] != ";")
-					{
-						$nameCode .= $specimenList[$semiColonPos];
-						$semiColonPos++;
-					}
+					$char_pos = 0;
 
-					if($nameCode == $specimen->getAttribute('id'))
+					while(($char_pos = strpos($specimenList, $specimen->getAttribute('id'), $char_pos)) !== false)
 					{
-						$name = "";
-						$namePos = $semiColonPos + 1;
-						while($specimenList[$namePos] != "\n")
+						$nameCode = "";
+						$semiColonPos = $char_pos;
+						while($specimenList[$semiColonPos] != ";")
 						{
-							$name .= $specimenList[$namePos];
-							$namePos++;
+							$nameCode .= $specimenList[$semiColonPos];
+							$semiColonPos++;
 						}
 
-						$dataArray[$specimenCount]['nameCode'][$specimenCount] = $specimen->getAttribute('id');
-						$dataArray[$specimenCount]['name'][$specimenCount] = $name;
-
-						$specimenDNA_query = $xpath->query('//EntityDescriptor[@id="'.$dataArray[$specimenCount]['nameCode'][$specimenCount].'"]/Tag[@key="dna"]/@value')->item(0);
-						$specimen_DNA = $specimenDNA_query->value;
-						$specimen_DNA_split = str_split($specimen_DNA);
-
-						$dataArray[$specimenCount]['dna_0'][$specimenCount] = $specimen_DNA_split[0];
-						if(count($specimen_DNA_split) == 2)
+						if($nameCode == $specimen->getAttribute('id'))
 						{
-							$dataArray[$specimenCount]['dna_1'][$specimenCount] = $specimen_DNA_split[1];
+							$name = "";
+							$namePos = $semiColonPos + 1;
+							while($specimenList[$namePos] != "\n")
+							{
+								$name .= $specimenList[$namePos];
+								$namePos++;
+							}
+
+							$dataArray[$specimenCount]['nameCode'][$specimenCount] = $specimen->getAttribute('id');
+							$dataArray[$specimenCount]['name'][$specimenCount] = $name;
+
+							$specimenDNA_query = $xpath->query('//EntityDescriptor[@id="'.$dataArray[$specimenCount]['nameCode'][$specimenCount].'"]/Tag[@key="dna"]/@value')->item(0);
+							$specimen_DNA = $specimenDNA_query->value;
+							$specimen_DNA_split = str_split($specimen_DNA);
+
+							$dataArray[$specimenCount]['dna_0'][$specimenCount] = $specimen_DNA_split[0];
+							if(count($specimen_DNA_split) == 2)
+							{
+								$dataArray[$specimenCount]['dna_1'][$specimenCount] = $specimen_DNA_split[1];
+							}
+
+							$specimenCount++;
 						}
 
-						$specimenCount++;
+						$char_pos++;
 					}
-
-					$char_pos++;
 				}
 			}
 		}
@@ -148,28 +154,36 @@ class Tool
 	{
 		$returnSpecimen = array();
 		$returnSpecimen = self::listSpecimen();
-		$result_pos = "";
 
-		$countSpecimen = 0;
-		while($countSpecimen < count($returnSpecimen))
+		if($returnSpecimen !== null)
 		{
-			$mutantNameCode = $returnSpecimen[$countSpecimen]['nameCode'][$countSpecimen];
-			$mutantName = $returnSpecimen[$countSpecimen]['name'][$countSpecimen];
-			$mutantIconDNA_0 = self::getIconDNA($returnSpecimen[$countSpecimen]['dna_0'][$countSpecimen]);
-			$mutantIconDNA_1 = "";
-			if(!empty($returnSpecimen[$countSpecimen]['dna_1'][$countSpecimen]))
+			$result_pos = "";
+
+			$countSpecimen = 0;
+			while($countSpecimen < count($returnSpecimen))
 			{
-				$mutantIconDNA_1 = self::getIconDNA($returnSpecimen[$countSpecimen]['dna_1'][$countSpecimen]);
+				$mutantNameCode = $returnSpecimen[$countSpecimen]['nameCode'][$countSpecimen];
+				$mutantName = $returnSpecimen[$countSpecimen]['name'][$countSpecimen];
+				$mutantIconDNA_0 = self::getIconDNA($returnSpecimen[$countSpecimen]['dna_0'][$countSpecimen]);
+				$mutantIconDNA_1 = "";
+				if(!empty($returnSpecimen[$countSpecimen]['dna_1'][$countSpecimen]))
+				{
+					$mutantIconDNA_1 = self::getIconDNA($returnSpecimen[$countSpecimen]['dna_1'][$countSpecimen]);
+				}
+
+				ob_start();
+				include('../../models/specimen_list.php');
+				$result_pos .= ob_get_contents();
+				ob_end_clean();
+				$countSpecimen++;
 			}
 
-			ob_start();
-			include('../../models/specimen_list.php');
-			$result_pos .= ob_get_contents();
-			ob_end_clean();
-			$countSpecimen++;
+			return $result_pos;
 		}
-
-		return $result_pos;
+		else
+		{
+			return "Unable to retrieve the list of mutants ...";
+		}
 	}
 
 	static function searchSpecimen($specimenName)
@@ -177,32 +191,41 @@ class Tool
 		$returnSpecimen = array();
 		$returnSpecimen = self::listSpecimen();
 
-		if(isset($specimenName) && !empty($specimenName))
+		if($returnSpecimen == null)
 		{
-			$countSpecimen = 0;
-			while($countSpecimen < count($returnSpecimen))
-			{
-				$mutantNameCode = $returnSpecimen[$countSpecimen]['nameCode'][$countSpecimen];
-				$mutantName = $returnSpecimen[$countSpecimen]['name'][$countSpecimen];
-
-				if(strpos(strtolower($mutantName), strtolower($specimenName)) !== false)
-				{
-					ob_start();
-					include('../../models/specimen_list.php');
-					$dataArray['reply'] .= ob_get_contents();
-					ob_end_clean();
-				}
-				$countSpecimen++;
-			}
-
-			$dataArray['result'] = true;
-			$dataArray['error'] = null;
+			$dataArray['reply'] = null;
+			$dataArray['result'] = false;
+			$dataArray['error'] = "Unable to retrieve the list of mutants ...";
 		}
 		else
 		{
-			$dataArray['reply'] = self::getSpecimens();
-			$dataArray['result'] = true;
-			$dataArray['error'] = "specimenName is empty or invalid";
+			if(isset($specimenName) && !empty($specimenName))
+			{
+				$countSpecimen = 0;
+				while($countSpecimen < count($returnSpecimen))
+				{
+					$mutantNameCode = $returnSpecimen[$countSpecimen]['nameCode'][$countSpecimen];
+					$mutantName = $returnSpecimen[$countSpecimen]['name'][$countSpecimen];
+
+					if(strpos(strtolower($mutantName), strtolower($specimenName)) !== false)
+					{
+						ob_start();
+						include('../../models/specimen_list.php');
+						$dataArray['reply'] .= ob_get_contents();
+						ob_end_clean();
+					}
+					$countSpecimen++;
+				}
+
+				$dataArray['result'] = true;
+				$dataArray['error'] = null;
+			}
+			else
+			{
+				$dataArray['reply'] = self::getSpecimens();
+				$dataArray['result'] = true;
+				$dataArray['error'] = "specimenName is empty or invalid";
+			}
 		}
 
 		return $dataArray;
@@ -213,190 +236,198 @@ class Tool
 		$dataArray['reply'] = "";
 
 		$xmlDoc = new DOMDocument();
-		$xmlDoc->load(self::$gamedefinitionsXMLPath);
 
-		$xpath = new DOMXpath($xmlDoc);
-
-		$breedingLevel = 1;
-		$ODD_final = 0;
-		$isDoubleGene = false;
-
-		$specimen_1 = $xmlDoc->getElementsByTagName("DynamicEntities")->item(0)->getElementsByTagName("EntityDescriptor");
-		$specimen_1_Code = "";
-		$specimen_1_ODD = "";
-		$specimen_1_DNA = "";
-		$specimen_1_TYPE = "";
-
-		foreach($specimen_1 as $specimen_1)
+		if(@$xmlDoc->load(self::$gamedefinitionsXMLPath) === false)
 		{
-			$valueId = $specimen_1->getAttribute('id');
-
-			if(strpos($valueId, $specimenNameCode_1) !== false)
-			{
-				$specimen_1_Code = $valueId;
-
-				$specimenODD_query = $xpath->query('//EntityDescriptor[@id="'.$specimen_1_Code.'"]/Tag[@key="odds"]/@value')->item(0);
-				$specimen_1_ODD = $specimenODD_query->value;
-
-				$specimenDNA_query = $xpath->query('//EntityDescriptor[@id="'.$specimen_1_Code.'"]/Tag[@key="dna"]/@value')->item(0);
-				$specimen_1_DNA = $specimenDNA_query->value;
-				$specimen_1_DNA_split = str_split($specimen_1_DNA);
-
-				/*if($specimenTYPE_query = $xpath->query('//EntityDescriptor[@id="'.$specimen_1_Code.'"]/Tag[@key="type"]/@value')->item(0) !== false)
-				{
-					$specimen_1_TYPE = $specimenTYPE_query->value;
-				}
-				else
-				{*/
-					$specimen_1_TYPE = "NORMAL";
-				/*}*/
-			}
+			$dataArray['reply'] = null;
+			$dataArray['result'] = false;
+			$dataArray['error'] = "Unable to retrieve the list of mutants ...";
 		}
-
-		$specimen_2 = $xmlDoc->getElementsByTagName("DynamicEntities")->item(0)->getElementsByTagName("EntityDescriptor");
-		$specimen_2_Code = "";
-		$specimen_2_ODD = "";
-		$specimen_2_DNA = "";
-		$specimen_2_TYPE = "";
-
-		foreach($specimen_2 as $specimen_2)
+		else
 		{
-			$valueId = $specimen_2->getAttribute('id');
+			$xpath = new DOMXpath($xmlDoc);
 
-			if(strpos($valueId, $specimenNameCode_2) !== false)
+			$breedingLevel = 1;
+			$ODD_final = 0;
+			$isDoubleGene = false;
+
+			$specimen_1 = $xmlDoc->getElementsByTagName("DynamicEntities")->item(0)->getElementsByTagName("EntityDescriptor");
+			$specimen_1_Code = "";
+			$specimen_1_ODD = "";
+			$specimen_1_DNA = "";
+			$specimen_1_TYPE = "";
+
+			foreach($specimen_1 as $specimen_1)
 			{
-				$specimen_2_Code = $valueId;
+				$valueId = $specimen_1->getAttribute('id');
 
-				$specimenODD_query = $xpath->query('//EntityDescriptor[@id="'.$specimen_2_Code.'"]/Tag[@key="odds"]/@value')->item(0);
-				$specimen_2_ODD = $specimenODD_query->value;
-
-				$specimenDNA_query = $xpath->query('//EntityDescriptor[@id="'.$specimen_2_Code.'"]/Tag[@key="dna"]/@value')->item(0);
-				$specimen_2_DNA = $specimenDNA_query->value;
-				$specimen_2_DNA_split = str_split($specimen_2_DNA);
-
-				if($specimenTYPE_query = $xpath->query('//EntityDescriptor[@id="'.$specimen_2_Code.'"]/Tag[@key="type"]/@value')->item(0))
+				if(strpos($valueId, $specimenNameCode_1) !== false)
 				{
-					$specimen_2_TYPE = $specimenTYPE_query->value;
-				}
-				else
-				{
-					$specimen_2_TYPE = "NORMAL";
+					$specimen_1_Code = $valueId;
+
+					$specimenODD_query = $xpath->query('//EntityDescriptor[@id="'.$specimen_1_Code.'"]/Tag[@key="odds"]/@value')->item(0);
+					$specimen_1_ODD = $specimenODD_query->value;
+
+					$specimenDNA_query = $xpath->query('//EntityDescriptor[@id="'.$specimen_1_Code.'"]/Tag[@key="dna"]/@value')->item(0);
+					$specimen_1_DNA = $specimenDNA_query->value;
+					$specimen_1_DNA_split = str_split($specimen_1_DNA);
+
+					/*if($specimenTYPE_query = $xpath->query('//EntityDescriptor[@id="'.$specimen_1_Code.'"]/Tag[@key="type"]/@value')->item(0) !== false)
+					{
+						$specimen_1_TYPE = $specimenTYPE_query->value;
+					}
+					else
+					{*/
+						$specimen_1_TYPE = "NORMAL";
+					/*}*/
 				}
 			}
-		}
 
-		$specimen_1_DNA_lenght = strlen($specimen_1_DNA);
-		$specimen_2_DNA_lenght = strlen($specimen_2_DNA);
+			$specimen_2 = $xmlDoc->getElementsByTagName("DynamicEntities")->item(0)->getElementsByTagName("EntityDescriptor");
+			$specimen_2_Code = "";
+			$specimen_2_ODD = "";
+			$specimen_2_DNA = "";
+			$specimen_2_TYPE = "";
 
-		$resultDNA = array();
-
-		if($specimen_1_DNA_lenght == 2 AND $specimen_2_DNA_lenght == 2)
-		{
-			$resultDNA[0] = $specimen_1_DNA_split[0].$specimen_2_DNA_split[0]."_01";
-			$resultDNA[1] = $specimen_1_DNA_split[0].$specimen_2_DNA_split[1]."_01";
-
-			$resultDNA[2] = $specimen_1_DNA_split[1].$specimen_2_DNA_split[0]."_01";
-			$resultDNA[3] = $specimen_1_DNA_split[1].$specimen_2_DNA_split[1]."_01";
-
-			$resultDNA[4] = $specimen_2_DNA_split[0].$specimen_1_DNA_split[0]."_01";
-			$resultDNA[5] = $specimen_2_DNA_split[0].$specimen_1_DNA_split[1]."_01";
-
-			$resultDNA[6] = $specimen_2_DNA_split[1].$specimen_1_DNA_split[0]."_01";
-			$resultDNA[7] = $specimen_2_DNA_split[1].$specimen_1_DNA_split[1]."_01";
-		}
-		else if($specimen_1_DNA_lenght == 1 AND $specimen_2_DNA_lenght == 2)
-		{
-			$resultDNA[0] = $specimen_2_DNA_split[0].$specimen_1_DNA_split[0]."_01";
-			$resultDNA[1] = $specimen_2_DNA_split[1].$specimen_1_DNA_split[0]."_01";
-
-			$resultDNA[2] = $specimen_1_DNA_split[0].$specimen_2_DNA_split[0]."_01";
-			$resultDNA[3] = $specimen_1_DNA_split[0].$specimen_2_DNA_split[1]."_01";
-
-			if(($specimen_1_DNA_split[0] == $specimen_2_DNA_split[0]) OR ($specimen_1_DNA_split[0] == $specimen_2_DNA_split[1]))
+			foreach($specimen_2 as $specimen_2)
 			{
-				$resultDNA[4] = $specimen_1_DNA_split[0]."_01";
-			}
-		}
-		else if($specimen_1_DNA_lenght == 2 AND $specimen_2_DNA_lenght == 1)
-		{
-			$resultDNA[0] = $specimen_1_DNA_split[0].$specimen_2_DNA_split[0]."_01";
-			$resultDNA[1] = $specimen_1_DNA_split[1].$specimen_2_DNA_split[0]."_01";
+				$valueId = $specimen_2->getAttribute('id');
 
-			$resultDNA[2] = $specimen_2_DNA_split[0].$specimen_1_DNA_split[0]."_01";
-			$resultDNA[3] = $specimen_2_DNA_split[0].$specimen_1_DNA_split[1]."_01";
-
-			if(($specimen_2_DNA_split[0] == $specimen_1_DNA_split[0]) OR ($specimen_2_DNA_split[0] == $specimen_1_DNA_split[1]))
-			{
-				$resultDNA[4] = $specimen_2_DNA_split[0]."_01";
-			}
-		}
-		else if($specimen_1_DNA_lenght == 1 AND $specimen_2_DNA_lenght == 1)
-		{
-			$resultDNA[0] = $specimen_1_DNA_split[0].$specimen_2_DNA_split[0]."_01";
-			$resultDNA[1] = $specimen_2_DNA_split[0].$specimen_1_DNA_split[0]."_01";
-
-			if(($specimen_1_DNA_split[0] == $specimen_2_DNA_split[0]))
-			{
-				$resultDNA[2] = $specimen_1_DNA_split[0]."_01";
-				$resultDNA[3] = $specimen_2_DNA_split[0]."_01";
-			}
-		}
-
-		$resultDNA = array_unique($resultDNA);
-
-		$resultSpecimenODD = array();
-		$resultSpecimenName = array();
-		$resultSpecimenCount = 0;
-		$total_ODD = 0;
-
-		foreach($resultDNA as $key => $value)
-		{
-			$specimenODD_query = $xpath->query('//EntityDescriptor[@id="Specimen_'.$value.'"]/Tag[@key="odds"]/@value')->item(0);
-			$specimenResult_ODD = $specimenODD_query->value;
-
-			$specimenDNA_query = $xpath->query('//EntityDescriptor[@id="Specimen_'.$value.'"]/Tag[@key="dna"]/@value')->item(0);
-			$specimenResult_DNA = $specimenDNA_query->value;
-
-			if(($specimen_1_DNA_lenght == 1 AND $specimen_2_DNA_lenght == 2) OR ($specimen_1_DNA_lenght == 2 AND $specimen_2_DNA_lenght == 1) OR ($specimen_1_DNA_lenght == 2 AND $specimen_2_DNA_lenght == 2))
-			{
-				if(strlen($specimenResult_DNA) == 2)
+				if(strpos($valueId, $specimenNameCode_2) !== false)
 				{
-					$specimenResult_ODD = $specimenResult_ODD * 18;
+					$specimen_2_Code = $valueId;
+
+					$specimenODD_query = $xpath->query('//EntityDescriptor[@id="'.$specimen_2_Code.'"]/Tag[@key="odds"]/@value')->item(0);
+					$specimen_2_ODD = $specimenODD_query->value;
+
+					$specimenDNA_query = $xpath->query('//EntityDescriptor[@id="'.$specimen_2_Code.'"]/Tag[@key="dna"]/@value')->item(0);
+					$specimen_2_DNA = $specimenDNA_query->value;
+					$specimen_2_DNA_split = str_split($specimen_2_DNA);
+
+					if($specimenTYPE_query = $xpath->query('//EntityDescriptor[@id="'.$specimen_2_Code.'"]/Tag[@key="type"]/@value')->item(0))
+					{
+						$specimen_2_TYPE = $specimenTYPE_query->value;
+					}
+					else
+					{
+						$specimen_2_TYPE = "NORMAL";
+					}
+				}
+			}
+
+			$specimen_1_DNA_lenght = strlen($specimen_1_DNA);
+			$specimen_2_DNA_lenght = strlen($specimen_2_DNA);
+
+			$resultDNA = array();
+
+			if($specimen_1_DNA_lenght == 2 AND $specimen_2_DNA_lenght == 2)
+			{
+				$resultDNA[0] = $specimen_1_DNA_split[0].$specimen_2_DNA_split[0]."_01";
+				$resultDNA[1] = $specimen_1_DNA_split[0].$specimen_2_DNA_split[1]."_01";
+
+				$resultDNA[2] = $specimen_1_DNA_split[1].$specimen_2_DNA_split[0]."_01";
+				$resultDNA[3] = $specimen_1_DNA_split[1].$specimen_2_DNA_split[1]."_01";
+
+				$resultDNA[4] = $specimen_2_DNA_split[0].$specimen_1_DNA_split[0]."_01";
+				$resultDNA[5] = $specimen_2_DNA_split[0].$specimen_1_DNA_split[1]."_01";
+
+				$resultDNA[6] = $specimen_2_DNA_split[1].$specimen_1_DNA_split[0]."_01";
+				$resultDNA[7] = $specimen_2_DNA_split[1].$specimen_1_DNA_split[1]."_01";
+			}
+			else if($specimen_1_DNA_lenght == 1 AND $specimen_2_DNA_lenght == 2)
+			{
+				$resultDNA[0] = $specimen_2_DNA_split[0].$specimen_1_DNA_split[0]."_01";
+				$resultDNA[1] = $specimen_2_DNA_split[1].$specimen_1_DNA_split[0]."_01";
+
+				$resultDNA[2] = $specimen_1_DNA_split[0].$specimen_2_DNA_split[0]."_01";
+				$resultDNA[3] = $specimen_1_DNA_split[0].$specimen_2_DNA_split[1]."_01";
+
+				if(($specimen_1_DNA_split[0] == $specimen_2_DNA_split[0]) OR ($specimen_1_DNA_split[0] == $specimen_2_DNA_split[1]))
+				{
+					$resultDNA[4] = $specimen_1_DNA_split[0]."_01";
+				}
+			}
+			else if($specimen_1_DNA_lenght == 2 AND $specimen_2_DNA_lenght == 1)
+			{
+				$resultDNA[0] = $specimen_1_DNA_split[0].$specimen_2_DNA_split[0]."_01";
+				$resultDNA[1] = $specimen_1_DNA_split[1].$specimen_2_DNA_split[0]."_01";
+
+				$resultDNA[2] = $specimen_2_DNA_split[0].$specimen_1_DNA_split[0]."_01";
+				$resultDNA[3] = $specimen_2_DNA_split[0].$specimen_1_DNA_split[1]."_01";
+
+				if(($specimen_2_DNA_split[0] == $specimen_1_DNA_split[0]) OR ($specimen_2_DNA_split[0] == $specimen_1_DNA_split[1]))
+				{
+					$resultDNA[4] = $specimen_2_DNA_split[0]."_01";
 				}
 			}
 			else if($specimen_1_DNA_lenght == 1 AND $specimen_2_DNA_lenght == 1)
 			{
-				if(strlen($specimenResult_DNA) == 2)
+				$resultDNA[0] = $specimen_1_DNA_split[0].$specimen_2_DNA_split[0]."_01";
+				$resultDNA[1] = $specimen_2_DNA_split[0].$specimen_1_DNA_split[0]."_01";
+
+				if(($specimen_1_DNA_split[0] == $specimen_2_DNA_split[0]))
 				{
-					$specimenResult_ODD = $specimenResult_ODD * 4;
+					$resultDNA[2] = $specimen_1_DNA_split[0]."_01";
+					$resultDNA[3] = $specimen_2_DNA_split[0]."_01";
 				}
 			}
 
-			$resultSpecimenODD[$resultSpecimenCount] = $specimenResult_ODD;
-			$resultSpecimenName[$resultSpecimenCount] = self::findSpecimenName('Specimen_'.$value);
-			$total_ODD = $total_ODD + $resultSpecimenODD[$resultSpecimenCount];
+			$resultDNA = array_unique($resultDNA);
 
-			$resultSpecimenCount++;
+			$resultSpecimenODD = array();
+			$resultSpecimenName = array();
+			$resultSpecimenCount = 0;
+			$total_ODD = 0;
+
+			foreach($resultDNA as $key => $value)
+			{
+				$specimenODD_query = $xpath->query('//EntityDescriptor[@id="Specimen_'.$value.'"]/Tag[@key="odds"]/@value')->item(0);
+				$specimenResult_ODD = $specimenODD_query->value;
+
+				$specimenDNA_query = $xpath->query('//EntityDescriptor[@id="Specimen_'.$value.'"]/Tag[@key="dna"]/@value')->item(0);
+				$specimenResult_DNA = $specimenDNA_query->value;
+
+				if(($specimen_1_DNA_lenght == 1 AND $specimen_2_DNA_lenght == 2) OR ($specimen_1_DNA_lenght == 2 AND $specimen_2_DNA_lenght == 1) OR ($specimen_1_DNA_lenght == 2 AND $specimen_2_DNA_lenght == 2))
+				{
+					if(strlen($specimenResult_DNA) == 2)
+					{
+						$specimenResult_ODD = $specimenResult_ODD * 18;
+					}
+				}
+				else if($specimen_1_DNA_lenght == 1 AND $specimen_2_DNA_lenght == 1)
+				{
+					if(strlen($specimenResult_DNA) == 2)
+					{
+						$specimenResult_ODD = $specimenResult_ODD * 4;
+					}
+				}
+
+				$resultSpecimenODD[$resultSpecimenCount] = $specimenResult_ODD;
+				$resultSpecimenName[$resultSpecimenCount] = self::findSpecimenName('Specimen_'.$value);
+				$total_ODD = $total_ODD + $resultSpecimenODD[$resultSpecimenCount];
+
+				$resultSpecimenCount++;
+			}
+
+			$resultCount = 0;
+			while ($resultCount < $resultSpecimenCount)
+			{
+				$specimenName = $resultSpecimenName[$resultCount];
+				$specimenODD = $resultSpecimenODD[$resultCount];
+				$specimenPercent = round(($resultSpecimenODD[$resultCount] / $total_ODD) * 100, 1);
+
+				ob_start();
+				include('../../models/mutant_container.php');
+				$dataArray['reply'] .= ob_get_contents();
+				ob_end_clean();
+
+				$resultCount++;
+			}
+
+			/*$dataArray['reply'] = $resultDNA;*/
+			$dataArray['result'] = true;
+			$dataArray['error'] = null;
 		}
-
-		$resultCount = 0;
-		while ($resultCount < $resultSpecimenCount)
-		{
-			$specimenName = $resultSpecimenName[$resultCount];
-			$specimenODD = $resultSpecimenODD[$resultCount];
-			$specimenPercent = round(($resultSpecimenODD[$resultCount] / $total_ODD) * 100, 1);
-
-			ob_start();
-			include('../../models/mutant_container.php');
-			$dataArray['reply'] .= ob_get_contents();
-			ob_end_clean();
-
-			$resultCount++;
-		}
-
-		/*$dataArray['reply'] = $resultDNA;*/
-		$dataArray['result'] = true;
-		$dataArray['error'] = null;
 
 		return $dataArray;
 	}

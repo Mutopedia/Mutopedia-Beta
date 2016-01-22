@@ -165,6 +165,32 @@ class User
 		}
 	}
 
+	public static function getFbId()
+	{
+		if(self::isLogged())
+		{
+			$newStaticBdd = new BDD();
+			$FbIdToken = $newStaticBdd->select("fb_id", "users", "WHERE token LIKE '".self::getToken()."'");
+			$getFbIdToken = $newStaticBdd->fetch_array($FbIdToken);
+
+			return $getFbIdToken['fb_id'];
+		}
+	}
+
+	public static function getUserFbId($user)
+	{
+		if(isset($user) AND !empty($user))
+		{
+			$newStaticBdd = new BDD();
+			$user = $newStaticBdd->real_escape_string(htmlspecialchars($user));
+
+			$FbId = $newStaticBdd->select("fb_id", "users", "WHERE userlink LIKE '".$user."'");
+			$getFbId = $newStaticBdd->fetch_array($FbId);
+
+			return $getFbId['fb_id'];
+		}
+	}
+
 	public static function getUsername()
 	{
 		if(self::isLogged())
@@ -242,20 +268,6 @@ class User
 			$getUserMutant = $newStaticBdd->fetch_array($UserMutant);
 
 			return $getUserMutant['fame_level'];
-		}
-	}
-
-	public static function getUserFbId($user)
-	{
-		if(isset($user) AND !empty($user))
-		{
-			$newStaticBdd = new BDD();
-			$user = $newStaticBdd->real_escape_string(htmlspecialchars($user));
-
-			$FbId = $newStaticBdd->select("fb_id", "users", "WHERE userlink LIKE '".$user."'");
-			$getFbId = $newStaticBdd->fetch_array($FbId);
-
-			return $getFbId['fb_id'];
 		}
 	}
 
@@ -454,6 +466,45 @@ class User
 		{
 			$dataArray['result'] = false;
 			$dataArray['error'] = "User not logged !";
+			$dataArray['reply'] = null;
+		}
+
+		return $dataArray;
+	}
+
+	public static function reportPlayer($reportedPlayer, $reportMessage)
+	{
+		$newStaticBdd = new BDD();
+
+		if(!empty($reportedPlayer) AND !empty($reportMessage))
+		{
+			$fromPlayerFBId = self::getFbId();
+			$reportedPlayerFBId = $newStaticBdd->real_escape_string(htmlspecialchars($reportedPlayer));
+			$reportedPlayerFBId = self::getUserFbId($reportedPlayer);
+			$reportMessage = $newStaticBdd->real_escape_string(htmlspecialchars($reportMessage));
+
+			$reportInfos = $newStaticBdd->select("reporting_from, reported_player", "report_player", "WHERE reporting_from LIKE '".$fromPlayerFBId."' AND reported_player LIKE '".$reportedPlayerFBId."'");
+			$getReportInfos = $newStaticBdd->num_rows($reportInfos);
+
+			if($getReportInfos < 1)
+			{
+				$regUser = $newStaticBdd->insert("report_player", "reporting_from, reported_player, report_message", "'".$fromPlayerFBId."', '".$reportedPlayerFBId."', '".$reportMessage."'");
+
+				$dataArray['result'] = true;
+				$dataArray['error'] = null;
+				$dataArray['reply'] = "The user has been successfully reported, thanks for your help !";
+			}
+			else
+			{
+				$dataArray['result'] = false;
+				$dataArray['error'] = "Sorry, you have already reported this player. Only one report per player is possible.";
+				$dataArray['reply'] = null;
+			}
+		}
+		else
+		{
+			$dataArray['result'] = false;
+			$dataArray['error'] = "The message of the report is empty !";
 			$dataArray['reply'] = null;
 		}
 

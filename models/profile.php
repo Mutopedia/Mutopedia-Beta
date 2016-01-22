@@ -20,7 +20,7 @@
 				{
 ?>
 					<div class="button" onclick="openInNewTab('http://www.facebook.com/<?php echo User::getUserFbid($argPage);?>');">
-						<img src="img/default/facebook_icon.png"/><p>Facebook Profile</p>
+						<img class="button-icon" src="img/default/facebook_icon.png"/><p>Facebook Profile</p>
 					</div>
 <?php
 				}
@@ -48,6 +48,18 @@
 				}
 ?>
 				</div>
+<?php 
+			if(User::isLogged() AND (User::getToken() != User::getUserToken($argPage)))
+			{
+?>
+				<div id="report-user-container">
+					<div class="button" onclick="showPopUp('report-box');">
+						<img class="button-icon" src="img/default/report_icon.png"/><p>Report Player</p>
+					</div>
+				</div>
+<?php
+			}
+?>
 
 				<ul id="user-info-container">
 					<h2>Information <?php echo $argPage;?> :</h2>
@@ -183,6 +195,13 @@
 		}
 ?>
 		</div>
+
+		<?php
+			include('../../includes/report_box.php');
+		?>
+		<script type="text/javascript">
+			showPopUp("profile-box");
+		</script>
 <?php
 	}
 ?>
