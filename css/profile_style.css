@@ -11,7 +11,8 @@
 #profile-container #infos-container
 {
 	background-color: rgba(0, 0, 0, 0.5);
-	border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+	border-bottom: 3px solid rgba(0, 0, 0, 0.3);
+	box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.4);
 	border-radius: 10px;
 	padding-top: 20px;
 	padding-bottom: 20px;
