@@ -1,0 +1,109 @@
+#admin-container
+{
+	width: 100%;
+	text-align: center;
+	box-sizing: border-box;
+	overflow: hidden;
+	background-color: rgba(0, 0, 0, 0.8);
+	box-sizing: border-box;
+	padding-top: 1%;
+	padding-bottom: 1%;
+	min-height: 620px;
+}
+
+.title-container
+{
+	margin-bottom: 5px;
+}
+
+#report-panel
+{
+	min-width: 200px;
+	width: 20%;
+	margin: auto;
+	background-color: rgba(255, 255, 255, 0.2);
+	border-radius: 5px;
+	padding-top: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	overflow: hidden;
+}
+#report-panel .title-container
+{
+	margin-top: 3px;
+	margin-bottom: 5px;
+}
+#report-panel .title-container h2
+{
+	display: inline-block;
+	vertical-align: middle;
+}
+#report-panel .title-icon
+{
+	display: inline-block;
+	vertical-align: middle;
+	margin-right: 5px;
+}
+#report-panel .report-container
+{
+	background-color: rgba(255, 255, 255, 0.2);
+	width: 100%;
+	border-radius: 5px;
+	overflow: hidden;
+	box-sizing: border-box;
+	margin-top: 10px;
+}
+#report-panel .report-container .user-report-container
+{
+	margin-bottom: 15px;
+	overflow: hidden;
+}
+#report-panel .report-container .user-report-container .report-infos-container
+{
+	background-color: rgba(255, 255, 255, 0.1);
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-radius: 3px;
+	width: 100%;
+	margin-bottom: 10px;
+	border-radius: 3px;
+	box-sizing: border-box;
+}
+#report-panel .report-container .user-report-container .user-picture
+{
+	border-radius: 3px;
+	overflow: hidden;
+	display: inline-block;
+	height: 50px;
+	width: 50px
+}
+#report-panel .report-container .user-report-container .report-from-user
+{
+	display: inline-block;
+	vertical-align: top;
+	float: left;
+	cursor: pointer;
+	margin-left: 15px;
+}
+#report-panel .report-container .user-report-container .reported-user
+{
+	display: inline-block;
+	vertical-align: top;
+	float: right;
+	cursor: pointer;
+	margin-right: 15px;
+}
+#report-panel .report-container .report-message
+{
+	width: 100%;
+	background-color: rgba(255, 255, 255, 0.2);
+	padding-top: 5px;
+	padding-bottom: 7px;
+	padding-left: 10px;
+	padding-right: 10px;
+	box-sizing: border-box;
+	border-radius: 3px;
+}

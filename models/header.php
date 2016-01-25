@@ -45,6 +45,12 @@
 ?>
 		<li name="profile" class="unactive" onClick="loadModel('profile', '<?php echo User::getUserLink();?>')"><h3>PROFILE</h3></li>
 <?php
+		if(User::isAdmin())
+		{
+?>
+				<li name="admin" class="unactive" onClick="loadModel('admin')"><h3>ADMIN PANEL</h3></li>
+<?php
+		}
 	}
 ?>
 		<li class="unactive"><h3>STORY</h3></li>

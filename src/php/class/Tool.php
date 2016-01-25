@@ -101,44 +101,48 @@ class Tool
 
 			foreach($specimen as $specimen)
 			{
-				if(strpos($specimen->getAttribute('id'), 'Specimen_') !== false)
+				if($specimen->getAttribute('category') == "specimen")
 				{
 					$char_pos = 0;
 
 					while(($char_pos = strpos($specimenList, $specimen->getAttribute('id'), $char_pos)) !== false)
 					{
-						$nameCode = "";
-						$semiColonPos = $char_pos;
-						while($specimenList[$semiColonPos] != ";")
+						$firstCharPos = $char_pos - 1;
+						if($specimenList[$firstCharPos] !== '-' AND $specimenList[$firstCharPos] !== '_')
 						{
-							$nameCode .= $specimenList[$semiColonPos];
-							$semiColonPos++;
-						}
-
-						if($nameCode == $specimen->getAttribute('id'))
-						{
-							$name = "";
-							$namePos = $semiColonPos + 1;
-							while($specimenList[$namePos] != "\n")
+							$nameCode = "";
+							$semiColonPos = $char_pos;
+							while($specimenList[$semiColonPos] != ";")
 							{
-								$name .= $specimenList[$namePos];
-								$namePos++;
+								$nameCode .= $specimenList[$semiColonPos];
+								$semiColonPos++;
 							}
 
-							$dataArray[$specimenCount]['nameCode'][$specimenCount] = $specimen->getAttribute('id');
-							$dataArray[$specimenCount]['name'][$specimenCount] = $name;
-
-							$specimenDNA_query = $xpath->query('//EntityDescriptor[@id="'.$dataArray[$specimenCount]['nameCode'][$specimenCount].'"]/Tag[@key="dna"]/@value')->item(0);
-							$specimen_DNA = $specimenDNA_query->value;
-							$specimen_DNA_split = str_split($specimen_DNA);
-
-							$dataArray[$specimenCount]['dna_0'][$specimenCount] = $specimen_DNA_split[0];
-							if(count($specimen_DNA_split) == 2)
+							if($nameCode == $specimen->getAttribute('id'))
 							{
-								$dataArray[$specimenCount]['dna_1'][$specimenCount] = $specimen_DNA_split[1];
-							}
+								$name = "";
+								$namePos = $semiColonPos + 1;
+								while($specimenList[$namePos] != "\n")
+								{
+									$name .= $specimenList[$namePos];
+									$namePos++;
+								}
 
-							$specimenCount++;
+								$dataArray[$specimenCount]['nameCode'][$specimenCount] = $specimen->getAttribute('id');
+								$dataArray[$specimenCount]['name'][$specimenCount] = $name;
+
+								$specimenDNA_query = $xpath->query('//EntityDescriptor[@id="'.$dataArray[$specimenCount]['nameCode'][$specimenCount].'"]/Tag[@key="dna"]/@value')->item(0);
+								$specimen_DNA = $specimenDNA_query->value;
+								$specimen_DNA_split = str_split($specimen_DNA);
+
+								$dataArray[$specimenCount]['dna_0'][$specimenCount] = $specimen_DNA_split[0];
+								if(count($specimen_DNA_split) == 2)
+								{
+									$dataArray[$specimenCount]['dna_1'][$specimenCount] = $specimen_DNA_split[1];
+								}
+
+								$specimenCount++;
+							}
 						}
 
 						$char_pos++;

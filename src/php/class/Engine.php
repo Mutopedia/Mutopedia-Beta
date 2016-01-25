@@ -5,7 +5,7 @@ class Engine
 
 	public function __construct()
 	{
-		
+		$dataArray = array();
 	}
 
 	public static function loadModel($modelName, $argPage)
@@ -149,6 +149,25 @@ class Engine
 		}
 
 		return $dataArray;
+	}
+
+	public static function getReports()
+	{
+		if(User::isAdmin())
+		{
+			$newStaticBdd = new BDD();
+
+			$ReportsInfos = $newStaticBdd->select("id, reporting_from, reported_player, report_message, date", "report_player", "ORDER BY date DESC");
+			while($getReportsInfos = $newStaticBdd->fetch_array($ReportsInfos))
+			{
+				ob_start();
+				include('../../models/report-container.php');
+				$dataArray['reply'] .= ob_get_contents();
+				ob_end_clean();
+			}
+
+			return $dataArray;
+		}
 	}
 }
 

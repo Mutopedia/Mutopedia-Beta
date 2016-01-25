@@ -123,6 +123,18 @@ class User
 		}
 	}
 
+	public static function isAdmin()
+	{
+		if(self::isLogged())
+		{
+			$newStaticBdd = new BDD();
+			$IdToken = $newStaticBdd->select("isAdmin", "users", "WHERE token LIKE '".self::getToken()."'");
+			$getIdToken = $newStaticBdd->fetch_array($IdToken);
+
+			return $getIdToken['isAdmin'];
+		}
+	}
+
 	public static function getId()
 	{
 		if(self::isLogged())
@@ -478,17 +490,16 @@ class User
 
 		if(!empty($reportedPlayer) AND !empty($reportMessage))
 		{
-			$fromPlayerFBId = self::getFbId();
-			$reportedPlayerFBId = $newStaticBdd->real_escape_string(htmlspecialchars($reportedPlayer));
-			$reportedPlayerFBId = self::getUserFbId($reportedPlayer);
+			$fromPlayerLinkId = self::getUserLink();
+			$reportedPlayerLinkId = $reportedPlayer;
 			$reportMessage = $newStaticBdd->real_escape_string(htmlspecialchars($reportMessage));
 
-			$reportInfos = $newStaticBdd->select("reporting_from, reported_player", "report_player", "WHERE reporting_from LIKE '".$fromPlayerFBId."' AND reported_player LIKE '".$reportedPlayerFBId."'");
+			$reportInfos = $newStaticBdd->select("reporting_from, reported_player", "report_player", "WHERE reporting_from LIKE '".$fromPlayerLinkId."' AND reported_player LIKE '".$reportedPlayerLinkId."'");
 			$getReportInfos = $newStaticBdd->num_rows($reportInfos);
 
 			if($getReportInfos < 1)
 			{
-				$regUser = $newStaticBdd->insert("report_player", "reporting_from, reported_player, report_message", "'".$fromPlayerFBId."', '".$reportedPlayerFBId."', '".$reportMessage."'");
+				$regUser = $newStaticBdd->insert("report_player", "reporting_from, reported_player, report_message, date", "'".$fromPlayerLinkId."', '".$reportedPlayerLinkId."', '".$reportMessage."', '".time()."'");
 
 				$dataArray['result'] = true;
 				$dataArray['error'] = null;
