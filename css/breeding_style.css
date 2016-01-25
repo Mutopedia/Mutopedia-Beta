@@ -49,7 +49,7 @@
 #left_panel #input_container .select .value
 {
 	text-align: right;
-	margin-left: -35px;
+	margin-left: -25px;
 }
 /*#left_panel #input_container .select .ul
 {
@@ -83,7 +83,7 @@
 }
 #right_panel #input_container .select .value
 {
-	margin-left: 70px;
+	margin-left: 60px;
 }
 
 #odds_container

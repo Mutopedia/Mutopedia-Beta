@@ -1,7 +1,7 @@
 <div class="report-container">
 	<div class="user-report-container">
 		<div class="report-infos-container">
-			<h3>Reported on <?php echo date("d/m/Y - H:i", $getReportsInfos['date']);?></h3>
+			<h3><?php echo $getReportsInfos['id'];?># Reported on <?php echo date("d/m/Y - H:i", $getReportsInfos['date']);?></h3>
 		</div>
 		<div class="report-from-user" onclick="loadModel('profile', '<?php echo $getReportsInfos['reporting_from'];?>')">
 			<div class="user-picture">

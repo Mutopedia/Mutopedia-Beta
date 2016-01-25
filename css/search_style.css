@@ -32,17 +32,17 @@
 	border-bottom: 2px solid rgba(0, 0, 0, 0.3);
 }
 
-#search-container #option-container
+#search-container #option-layout-container
 {
 	display: inline-block;
 	vertical-align: bottom;
 	margin-left: 7%;
 }
-#search-container #option-container #option-title
+#search-container #option-layout-container #option-layout-title
 {
 	margin-bottom: 5px;
 }
-#search-container #option-container .option-button
+#search-container #option-layout-container .option-layout-button
 {
 	display: inline-block;
 	vertical-align: middle;
@@ -57,14 +57,49 @@
 	cursor: pointer;
 	box-sizing: border-box;
 }
-#search-container #option-container .option-button.unactive
+#search-container #option-layout-container .option-layout-button.unactive
 {
 	opacity: 0.5;
 }
-#search-container #option-container .option-button.unactive:hover
+#search-container #option-layout-container .option-layout-button.unactive:hover
 {
 	opacity: 0.7;
 }
+
+
+#search-container #option-sort-container
+{
+	display: inline-block;
+	vertical-align: bottom;
+	margin-left: 20px;
+}
+#search-container #option-sort-container #option-sort-title
+{
+	margin-bottom: 5px;
+}
+#search-container #option-sort-container .select
+{
+	width: 175px;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+#search-container #option-sort-container .select .icon
+{
+	margin-left: 7px;
+}
+#search-container #option-sort-container .select .value
+{
+	text-align: right;
+	padding-left: 5px;
+	height: 35px;
+	line-height: 35px;
+	border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+	border-radius: 3px;
+}
+#search-container #option-sort-container .select .ul
+{
+	background-color: rgba(0, 0, 0, 0.8);
+}
+
 
 #search-container #option-row-container
 {

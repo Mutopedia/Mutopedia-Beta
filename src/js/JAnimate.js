@@ -200,9 +200,9 @@ $(document).on('change', '#profile-container #infos-container #user-info-contain
 	changeUserFameLevel(selectValue);
 });
 
-$(document).on('click', '#search-container #option-container .option-button.unactive', function() 
+$(document).on('click', '#search-container #option-layout-container .option-layout-button.unactive', function() 
 {
-	$('#search-container #option-container .option-button').addClass('unactive');
+	$('#search-container #option-layout-container .option-layout-button').addClass('unactive');
 	$(this).removeClass('unactive');
 
 	var buttonValue = $(this).attr('value');
@@ -217,4 +217,9 @@ $(document).on('click', '#search-container #option-container .option-button.unac
 		$('#search-container #result-container .user-container').addClass('row');
 		$('#search-container #option-row-container').slideDown(200);
 	}
+});
+
+$(document).on('click', '#search-container #option-sort-container .select .ul .li', function() 
+{
+	searchUsers('');
 });

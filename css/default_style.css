@@ -518,7 +518,7 @@ footer #copyright-container
 	background-image: url('../img/breeding/roll.png');
 	background-repeat: no-repeat;
 	background-position: center, center;
-	height: 25px;
+	height: 100%;
 	width: 25px;
 	position: absolute;
 	z-index: 2;
@@ -529,6 +529,9 @@ footer #copyright-container
 	line-height: 25px;
 	height: 25px;
 	width: 100%;
+	box-sizing: border-box;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 .select .search
 {
@@ -563,7 +566,6 @@ footer #copyright-container
 	overflow-y: auto;
 	max-height: 200px;
 	z-index: 2;
-	box-shadow: 0 5px 20px 0px rgba(255, 255, 255, 0.5);
 }
 .select .ul .li
 {

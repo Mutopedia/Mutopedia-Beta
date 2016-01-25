@@ -140,6 +140,10 @@ class Tool
 								{
 									$dataArray[$specimenCount]['dna_1'][$specimenCount] = $specimen_DNA_split[1];
 								}
+								else
+								{
+									$dataArray[$specimenCount]['dna_1'][$specimenCount] = null;
+								}
 
 								$specimenCount++;
 							}

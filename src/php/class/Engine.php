@@ -35,15 +35,46 @@ class Engine
 		return $dataArray; 
 	}
 
-	public static function searchUsers($searchContent)
+	public static function searchUsers($searchContent, $sortByValue)
 	{
 		$newStaticBdd = new BDD();
 
 		if(!empty($searchContent))
 		{
 			$searchContent = $newStaticBdd->real_escape_string(htmlspecialchars($searchContent));
+			$sortByValue = $newStaticBdd->real_escape_string(htmlspecialchars($sortByValue));
 
-			$UserInfos = $newStaticBdd->select("userlink, fb_firstname, fb_lastname, fb_picture, user_mutant_namecode, fame_level, center_level, time_update", "users", "WHERE fb_firstname LIKE '%".$searchContent."%' OR fb_lastname LIKE '%".$searchContent."%' OR user_mutant_namecode LIKE '%".Tool::findSpecimenNameCode($searchContent)[0]."%'");
+			switch ($sortByValue) {
+				case "fame-asc":
+					$orderBySQL = "fame_level ASC";
+					break;
+				case "fame-desc":
+					$orderBySQL = "fame_level DESC";
+					break;
+
+				case "center-asc":
+					$orderBySQL = "center_level ASC";
+					break;
+				case "center-desc":
+					$orderBySQL = "center_level DESC";
+					break;
+				
+				case "mutant-asc":
+					$orderBySQL = "user_mutant_namecode ASC";
+					break;
+				case "mutant-desc":
+					$orderBySQL = "user_mutant_namecode DESC";
+					break;
+
+				case "user-asc":
+					$orderBySQL = "userlink ASC";
+					break;
+				case "user-desc":
+					$orderBySQL = "userlink DESC";
+					break;
+			}
+
+			$UserInfos = $newStaticBdd->select("userlink, fb_firstname, fb_lastname, fb_picture, user_mutant_namecode, fame_level, center_level, time_update", "users", "WHERE fb_firstname LIKE '%".$searchContent."%' OR fb_lastname LIKE '%".$searchContent."%' OR user_mutant_namecode LIKE '%".Tool::findSpecimenNameCode($searchContent)[0]."%' ORDER BY ".$orderBySQL."");
 			$isUserExist = $newStaticBdd->num_rows($UserInfos);
 
 			if($isUserExist == 1)
@@ -66,17 +97,58 @@ class Engine
 		}
 		else
 		{
-			$UserInfos = $newStaticBdd->select("userlink, fb_firstname, fb_lastname, fb_picture, fame_level, center_level, user_mutant_namecode, time_update", "users");
-			while($getUserInfos = $newStaticBdd->fetch_array($UserInfos))
+			if(isset($sortByValue) AND !empty($sortByValue))
 			{
-				ob_start();
-				include('../../models/user_card.php');
-				$dataArray['reply'] .= ob_get_contents();
-				ob_end_clean();
-			}
+				$sortByValue = $newStaticBdd->real_escape_string(htmlspecialchars($sortByValue));
 
-			$dataArray["result"] = true;
-			$dataArray['error'] = null;
+				switch ($sortByValue) {
+					case "fame-asc":
+						$orderBySQL = "fame_level ASC";
+						break;
+					case "fame-desc":
+						$orderBySQL = "fame_level DESC";
+						break;
+
+					case "center-asc":
+						$orderBySQL = "center_level ASC";
+						break;
+					case "center-desc":
+						$orderBySQL = "center_level DESC";
+						break;
+					
+					case "mutant-asc":
+						$orderBySQL = "user_mutant_namecode ASC";
+						break;
+					case "mutant-desc":
+						$orderBySQL = "user_mutant_namecode DESC";
+						break;
+
+					case "user-asc":
+						$orderBySQL = "userlink ASC";
+						break;
+					case "user-desc":
+						$orderBySQL = "userlink DESC";
+						break;
+				}
+
+				$UserInfos = $newStaticBdd->select("userlink, fb_firstname, fb_lastname, fb_picture, fame_level, center_level, user_mutant_namecode, time_update", "users", "ORDER BY ".$orderBySQL."");
+				while($getUserInfos = $newStaticBdd->fetch_array($UserInfos))
+				{
+					ob_start();
+					include('../../models/user_card.php');
+					$dataArray['reply'] .= ob_get_contents();
+					ob_end_clean();
+				}
+
+				$dataArray["result"] = true;
+				$dataArray['error'] = null;
+			}
+			else
+			{
+				$dataArray["reply"] = null;
+				$dataArray["result"] = false;
+				$dataArray['error'] = "sortByValue not set !";
+			}
 		}
 
 		return $dataArray;

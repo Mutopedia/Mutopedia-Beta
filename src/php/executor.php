@@ -143,12 +143,23 @@
 				$searchContent = "";
 			}
 
-			$returnReg = array();
-			$returnReg = Engine::searchUsers($searchContent);
+			if(isset($_POST['sortByValue']) AND !empty($_POST['sortByValue']))
+			{
+				$sortByValue = htmlspecialchars($_POST['sortByValue']);
 
-			$dataArray['result'] = $returnReg['result'];
-			$dataArray['error'] = $returnReg['error'];
-			$dataArray['reply'] = $returnReg['reply'];
+				$returnReg = array();
+				$returnReg = Engine::searchUsers($searchContent, $sortByValue);
+
+				$dataArray['result'] = $returnReg['result'];
+				$dataArray['error'] = $returnReg['error'];
+				$dataArray['reply'] = $returnReg['reply'];
+			}
+			else
+			{
+				$dataArray['result'] = false;
+				$dataArray['error'] = "sortByValue is empty !";
+				$dataArray['reply'] = null;
+			}
 		}
 
 		if($action == "getReleaseDate")

@@ -154,9 +154,11 @@ function logUser(userid, userfirstname, userlastname, userpic)
 
 function searchUsers(searchContent)
 {
+	var sortByValue = $("#search-container #option-sort-container .select").attr('value');
+
 	$('#search-container #result-container').stop().fadeOut(100).queue(function()
 	{
-		$.post("src/php/executor.php", { action: "searchUsers", searchContent: searchContent}, function(data)
+		$.post("src/php/executor.php", { action: "searchUsers", searchContent: searchContent, sortByValue: sortByValue}, function(data)
 		{
 			if(data.result)
 			{
