@@ -19,7 +19,7 @@
 		<div id="option-sort-title">
 			<h3>Sort By</h3>
 		</div>
-		<div class="select" value="Specimen_A_01">
+		<div class="select" value="user-asc">
 			<div class="icon">
 		 				
 		 	</div>

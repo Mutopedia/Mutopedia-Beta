@@ -13,13 +13,16 @@
 <?php
 		if(isset($getUserInfos['user_mutant_namecode']) AND !empty($getUserInfos['user_mutant_namecode']))
 		{
-?>
-			<img class="icon-dna" src="<?php echo Tool::getIconDNA(Tool::getSpecimenDNA($getUserInfos['user_mutant_namecode'])[0]);?>" />
-<?php
-			if(isset(Tool::getSpecimenDNA($getUserInfos['user_mutant_namecode'])[1]))
+			if(isset($mutantIconDNA_0) AND !empty($mutantIconDNA_0))
 			{
 ?>
-				<img class="icon-dna" src="<?php echo Tool::getIconDNA(Tool::getSpecimenDNA($getUserInfos['user_mutant_namecode'])[1]);?>" />
+				<img class="icon-dna" src="<?php echo $mutantIconDNA_0;?>" />
+<?php
+			}
+			if(isset($mutantIconDNA_1) AND !empty($mutantIconDNA_1))
+			{
+?>
+				<img class="icon-dna" src="<?php echo $mutantIconDNA_1;?>" />
 <?php
 			}
 		}

@@ -80,6 +80,19 @@ class Engine
 			if($isUserExist == 1)
 			{
 				$getUserInfos = $newStaticBdd->fetch_array($UserInfos);
+				$mutantDNA = Tool::getSpecimenDNA($getUserInfos['user_mutant_namecode']);
+
+				$mutantIconDNA_0 = "";
+				if(!empty($mutantDNA[0]))
+				{
+					$mutantIconDNA_0 = Tool::getIconDNA($mutantDNA[0]);
+				}
+
+				$mutantIconDNA_1 = "";
+				if(!empty($mutantDNA[1]))
+				{
+					$mutantIconDNA_1 = Tool::getIconDNA($mutantDNA[1]);
+				}
 
 				$dataArray["result"] = true;
 				$dataArray['error'] = null;
@@ -134,6 +147,20 @@ class Engine
 				$UserInfos = $newStaticBdd->select("userlink, fb_firstname, fb_lastname, fb_picture, fame_level, center_level, user_mutant_namecode, time_update", "users", "ORDER BY ".$orderBySQL."");
 				while($getUserInfos = $newStaticBdd->fetch_array($UserInfos))
 				{
+					$mutantDNA = Tool::getSpecimenDNA($getUserInfos['user_mutant_namecode']);
+
+					$mutantIconDNA_0 = "";
+					if(!empty($mutantDNA[0]))
+					{
+						$mutantIconDNA_0 = Tool::getIconDNA($mutantDNA[0]);
+					}
+
+					$mutantIconDNA_1 = "";
+					if(!empty($mutantDNA[1]))
+					{
+						$mutantIconDNA_1 = Tool::getIconDNA($mutantDNA[1]);
+					}
+
 					ob_start();
 					include('../../models/user_card.php');
 					$dataArray['reply'] .= ob_get_contents();

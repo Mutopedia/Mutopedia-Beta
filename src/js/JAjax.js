@@ -156,7 +156,7 @@ function searchUsers(searchContent)
 {
 	var sortByValue = $("#search-container #option-sort-container .select").attr('value');
 
-	$('#search-container #result-container').stop().fadeOut(100).queue(function()
+	$('#search-container #result-container').stop().fadeOut(100).html('<h2 style="text-align: center;">Loading ...</h2>').fadeIn(200).queue(function()
 	{
 		$.post("src/php/executor.php", { action: "searchUsers", searchContent: searchContent, sortByValue: sortByValue}, function(data)
 		{
@@ -176,8 +176,8 @@ function searchUsers(searchContent)
 			else
 			{
 				$('#search-container #result-container').fadeOut(200).queue(function(){
-					$('#search-container #error-container').fadeOut(200).queue(function() {
-						$(this).children('h2').html(data.error).parent().fadeIn(200);
+					$('#search-container #error-container').fadeOut(200).html('<h2 style="text-align: center;">Loading ...</h2>').fadeIn(200).queue(function() {
+						$(this).children('h2').fadeOut(200).html(data.error).parent().fadeIn(200);
 						$(this).dequeue();
 					});
 					$(this).dequeue();
