@@ -29,12 +29,9 @@
 			{
 				$modelName = htmlspecialchars($_POST['modelName']);
 
-				if(isset($_POST['argPage']) AND !empty($_POST['argPage']))
-				{
+				if(isset($_POST['argPage']) AND !empty($_POST['argPage'])){
 					$argPage = htmlspecialchars($_POST['argPage']);
-				}
-				else
-				{
+				}else {
 					$argPage = null;
 				}
 

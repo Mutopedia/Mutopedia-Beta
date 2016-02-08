@@ -12,27 +12,27 @@ class Engine
 	{
 		$modelFilename = '../../models/'.$modelName.'.php';
 
-		if(file_exists($modelFilename)) 
+		if(file_exists($modelFilename))
 		{
 			$dataArray['reply'] = "";
 			$dataArray['error'] = null;
 
-		    ob_start();
+		  ob_start();
 			include($modelFilename);
 			$dataArray['reply'] .= ob_get_contents();
 			ob_end_clean();
 
 			$dataArray['result'] = true;
 			$dataArray['modelName'] = $modelName;
-		} 
-		else 
+		}
+		else
 		{
 			$dataArray['result'] = false;
 			$dataArray['modelName'] = null;
-			$dataArray['error'] = "Le modele n'existe pas !";
+			$dataArray['error'] = "This model does not exist !";
 		}
 
-		return $dataArray; 
+		return $dataArray;
 	}
 
 	public static function searchUsers($searchContent, $sortByValue)
@@ -58,7 +58,7 @@ class Engine
 				case "center-desc":
 					$orderBySQL = "center_level DESC";
 					break;
-				
+
 				case "mutant-asc":
 					$orderBySQL = "user_mutant_namecode ASC";
 					break;
@@ -128,7 +128,7 @@ class Engine
 					case "center-desc":
 						$orderBySQL = "center_level DESC";
 						break;
-					
+
 					case "mutant-asc":
 						$orderBySQL = "user_mutant_namecode ASC";
 						break;

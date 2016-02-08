@@ -1,11 +1,25 @@
 <?php
 	session_start();
-	include('includes/define_header.php');
-	require(PHP."class/bdd.php");
-	require(PHP."class/Engine.php");
-	require(PHP."class/User.php");
+	include('src/includes/define_header.php');
+	require(PHPCLASS."bdd.php");
+	require(PHPCLASS."Engine.php");
+	require(PHPCLASS."User.php");
 
 	/*require(INCLUDES."release.php");*/
+
+	if(isset($_GET['page']) AND !empty($_GET['page']))
+	{
+		$pageName = htmlentities($_GET['page']);
+
+		if(isset($_GET['argPage']) AND !empty($_GET['argPage'])){
+			$argPage = htmlentities($_GET['argPage']);
+		}else {
+			$argPage = 'null';
+		}
+	}
+	else {
+		$pageName = "home";
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,30 +39,8 @@
 		<section id="ajax-loader">
 			<div id="ajax-container">
 				<script type="text/javascript">
-				<?php
-					if(isset($_GET['page']) AND !empty($_GET['page']))
-					{
-						$modelName = $_GET['page'];
-
-						if(isset($_GET['argPage']) AND !empty($_GET['argPage']))
-						{
-							$argPage = $_GET['argPage'];
-						}
-						else
-						{
-							$argPage = 'null';
-						}
-				?>
-						loadModel('<?php echo $modelName;?>', '<?php echo $argPage;?>');
-				<?php
-					}
-					else
-					{
-				?>
-						loadModel('home', null, false);
-				<?php
-					}
-				?>
+					App.init();
+					Interface.loadModel('<?php echo $pageName;?>', '<?php echo $argPage;?>');
 				</script>
 			</div>
 		</section>
