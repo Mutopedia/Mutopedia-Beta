@@ -16,10 +16,14 @@ var Engine = {
     }
   },
 
-  historyPushState: function(modelName){
-    if(modelName){
-      document.title = this.documentTitle + ' | ' + modelName.toUpperCase();
-      window.history.pushState({'pageName': modelName}, modelName, modelName);
+  historyPushState: function(modelName, argName){
+    document.title = this.documentTitle + ' | ' + modelName.toUpperCase();
+    if (modelName) {
+      if(argName !== null) {
+        window.history.pushState({'pageName': modelName}, modelName, modelName);
+      }else{
+        window.history.pushState({'pageName': modelName, 'argName': argName}, modelName+'/'+argName, modelName+'/'+argName);
+      }
     }
   },
 
@@ -28,7 +32,7 @@ var Engine = {
   	expires.setTime(today.getTime() + (365*24*60*60*1000));
   	document.cookie = "AcceptationCookies =" + encodeURIComponent(1) + ";expires=" + expires.toGMTString();
 
-  	closePopUp();
+  	Interface.closePopUp();
   },
 
   getCookie: function(cookieName){

@@ -24,11 +24,11 @@ $(window).ready(function(){
   		}
   	}
 
-  	changeSlider(nextImg);
+  	Interface.changeSlider(nextImg);
   });
 
   $(document).on('click', '#slider-nav #img-view img.unactive', function() {
   	var imgId = $(this).attr('id');
-  	changeSlider(imgId);
+  	Interface.changeSlider(imgId);
   });
 });

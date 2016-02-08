@@ -7,6 +7,7 @@ class Tool
 	static $localisationTXTPath = 'https://s-beta.kobojo.com/mutants/gameconfig/localisation_en.txt';
 	static $gamedefinitionsXMLPath = 'https://s-beta.kobojo.com/mutants/gameconfig/gamedefinitions.xml';
 	static $bigDNAPNG = "https://s-ak.kobojo.com/mutants/assets/genes/";
+	static $specimenList;
 
 	public function __construct()
 	{
@@ -14,6 +15,8 @@ class Tool
 		{
 			return null;
 		}
+
+		$specimenList = self::listSpecimen();
 	}
 
 	/*static function listSpecimen()
@@ -180,7 +183,7 @@ class Tool
 				}
 
 				ob_start();
-				include('../../models/specimen_list.php');
+				include('../models/specimen_list.php');
 				$result_pos .= ob_get_contents();
 				ob_end_clean();
 				$countSpecimen++;
@@ -218,7 +221,7 @@ class Tool
 					if(strpos(strtolower($mutantName), strtolower($specimenName)) !== false)
 					{
 						ob_start();
-						include('../../models/specimen_list.php');
+						include('../models/specimen_list.php');
 						$dataArray['reply'] .= ob_get_contents();
 						ob_end_clean();
 					}
@@ -425,7 +428,7 @@ class Tool
 				$specimenPercent = round(($resultSpecimenODD[$resultCount] / $total_ODD) * 100, 1);
 
 				ob_start();
-				include('../../models/mutant_container.php');
+				include('../models/mutant_container.php');
 				$dataArray['reply'] .= ob_get_contents();
 				ob_end_clean();
 

@@ -1,6 +1,6 @@
 <nav id="top-bar">
 	<ul id="left-ul">
-		<li id="top-icon"><a href=""><img src="<?PHP echo IMG;?>default/icon.png"/></a></li>
+		<li id="top-icon"><a href=""><img src="src/img/default/icon.png"/></a></li>
 		<div id="top-bar-left-separator"></div>
 		<li id="title-message"><p>Welcome on <a href="">Mutopedia ALPHA</a> :<i> The World of Mutants Genetics Gladiators</i></p></li>
 	</ul>
@@ -10,7 +10,7 @@
 		if(!User::isLogged()){
 ?>
 			<div class="loading">
-				<img src="<?PHP echo IMG;?>default/loading.gif">
+				<img src="src/img/default/loading.gif">
 			</div>
 <?php
 		}else {

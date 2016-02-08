@@ -34,10 +34,12 @@ var Interface = {
             }
             $('script.default-animation').after('<script name="'+modelName+'" type="text/javascript" src="'+App.animationsPath+modelName+".js"+'"></script>');
           }
-          $(this).load(App.modelsPath+modelName+".php", function() {
+
+          $.post(App.phpPath+"executor.php", { action: 'loadModel', modelName: modelName, argPage: argPage }, function( data ) {
             Engine.historyPushState(modelName, argPage);
-            $(this).stop().animate({'opacity': '1'}, 400);
-          });
+            Interface.ajaxContainer.html(data.reply).stop().animate({'opacity': '1'}, 400);
+          }, 'json');
+
           $(this).dequeue();
         });
       }
@@ -46,9 +48,10 @@ var Interface = {
 
   loadHeader: function(){
     this.headerContainer.stop().animate({'opacity': '0'}, 100).queue(function(){
-      $(this).load(App.modelsPath+"header.php", function() {
-        $(this).stop().animate({'opacity': '1'}, 200);
-      });
+      $.post( App.phpPath+"executor.php", { action: 'loadModel', modelName: 'header', argPage: null }, function( data ) {
+        Interface.headerContainer.html(data.reply).stop().animate({'opacity': '1'}, 400);
+        Interface.newsBarTextScroll();
+      }, 'json');
       $(this).dequeue();
     });
   },

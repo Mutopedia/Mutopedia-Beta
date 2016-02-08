@@ -1,24 +1,25 @@
 <?php
 	session_start();
-	include('src/includes/define_header.php');
-	require(PHPCLASS."bdd.php");
-	require(PHPCLASS."Engine.php");
-	require(PHPCLASS."User.php");
+
+	require("src/includes/define_header.php");
+	require("src/php/class/bdd.php");
+	require("src/php/class/Engine.php");
+	require("src/php/class/User.php");
+	require("src/php/class/Tool.php");
+	$MutopediaTool = new Tool();
 
 	/*require(INCLUDES."release.php");*/
 
-	if(isset($_GET['page']) AND !empty($_GET['page']))
-	{
+	if(isset($_GET['page']) AND !empty($_GET['page'])){
 		$pageName = htmlentities($_GET['page']);
-
-		if(isset($_GET['argPage']) AND !empty($_GET['argPage'])){
-			$argPage = htmlentities($_GET['argPage']);
-		}else {
-			$argPage = 'null';
-		}
-	}
-	else {
+	}else {
 		$pageName = "home";
+	}
+
+	if(isset($_GET['argPage']) AND !empty($_GET['argPage'])){
+		$argPage = htmlentities($_GET['argPage']);
+	}else {
+		$argPage = null;
 	}
 ?>
 <!DOCTYPE html>
@@ -58,9 +59,9 @@
 		</footer>
 
 		<?php
-			include('includes/logInToFb_box.php');
-			include('includes/welcome_box.php');
-			include('includes/profile_box.php');
+			include(INCLUDES.'logInToFb_box.php');
+			include(INCLUDES.'welcome_box.php');
+			include(INCLUDES.'profile_box.php');
 		?>
 
 		<div id="background-container"><!--onClick="closePopUp();closeBackground();"-->

@@ -15,7 +15,7 @@
 				</p>
 			</li>
 			<li>
-				<div class="button" onClick="closePopUp('sorry-box');"><p>Okay</p></div>
+				<div class="button" onClick="Interface.closePopUp('sorry-box');"><p>Okay</p></div>
 			</li>
 		</ul>
 	</div>

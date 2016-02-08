@@ -2,6 +2,7 @@
 
 class Engine
 {
+	public static $dataArray;
 
 	public function __construct()
 	{
@@ -10,10 +11,9 @@ class Engine
 
 	public static function loadModel($modelName, $argPage)
 	{
-		$modelFilename = '../../models/'.$modelName.'.php';
+		$modelFilename = '../models/'.$modelName.'.php';
 
-		if(file_exists($modelFilename))
-		{
+		if(file_exists($modelFilename)){
 			$dataArray['reply'] = "";
 			$dataArray['error'] = null;
 
@@ -24,9 +24,7 @@ class Engine
 
 			$dataArray['result'] = true;
 			$dataArray['modelName'] = $modelName;
-		}
-		else
-		{
+		}else {
 			$dataArray['result'] = false;
 			$dataArray['modelName'] = null;
 			$dataArray['error'] = "This model does not exist !";
@@ -97,7 +95,7 @@ class Engine
 				$dataArray["result"] = true;
 				$dataArray['error'] = null;
 				ob_start();
-				include('../../models/user_card.php');
+				include('../models/user_card.php');
 				$dataArray['reply'] .= ob_get_contents();
 				ob_end_clean();
 			}
@@ -162,7 +160,7 @@ class Engine
 					}
 
 					ob_start();
-					include('../../models/user_card.php');
+					include('../models/user_card.php');
 					$dataArray['reply'] .= ob_get_contents();
 					ob_end_clean();
 				}
@@ -252,15 +250,13 @@ class Engine
 
 	public static function getReports()
 	{
-		if(User::isAdmin())
-		{
+		if(User::isAdmin()) {
 			$newStaticBdd = new BDD();
 
 			$ReportsInfos = $newStaticBdd->select("id, reporting_from, reported_player, report_message, date", "report_player", "ORDER BY date DESC");
-			while($getReportsInfos = $newStaticBdd->fetch_array($ReportsInfos))
-			{
+			while($getReportsInfos = $newStaticBdd->fetch_array($ReportsInfos)) {
 				ob_start();
-				include('../../models/report-container.php');
+				include('../models/report-container.php');
 				$dataArray['reply'] .= ob_get_contents();
 				ob_end_clean();
 			}

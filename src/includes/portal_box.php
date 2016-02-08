@@ -14,7 +14,7 @@
 				<p>En poursuivant votre navigation sur ce site, vous acceptez l’utilisation des <b>Cookies</b>.<br/>Ils vous offrirons une meilleure expérience utilisateur.</p>
 			</li>
 			<li>
-				<div class="button" onClick="closePopUp();AcceptCookies();"><p>Thanks !</p></div>
+				<div class="button" onClick="Interface.closePopUp();Engine.AcceptCookies();"><p>Thanks !</p></div>
 			</li>
 		</ul>
 	</div>

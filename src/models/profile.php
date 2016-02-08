@@ -20,7 +20,7 @@
 				{
 ?>
 					<div class="button" onclick="openInNewTab('http://www.facebook.com/<?php echo User::getUserFbid($argPage);?>');">
-						<img class="button-icon" src="img/default/facebook_icon.png"/><p>Facebook Profile</p>
+						<img class="button-icon" src="src/img/default/facebook_icon.png"/><p>Facebook Profile</p>
 					</div>
 <?php
 				}
@@ -33,7 +33,7 @@
 					{
 ?>
 						<input type="checkbox" name="fb-permission" checked="checked">
-<?php 
+<?php
 					}
 					else
 					{
@@ -48,7 +48,7 @@
 				}
 ?>
 				</div>
-<?php 
+<?php
 			if(User::isLogged() AND (User::getToken() != User::getUserToken($argPage)))
 			{
 ?>
@@ -73,7 +73,7 @@
 						{
 ?>
 							<input type="checkbox" name="fb-permission" checked="checked">
-<?php 
+<?php
 						}
 						else
 						{
@@ -112,7 +112,7 @@
 							<h3>Mutant :</h3>
 							<div class="select" value="<?php echo User::getUserMutant($argPage);?>">
 								<div class="icon">
-						
+
 								</div>
 								<div class="value">
 									<h3><?php echo Tool::findSpecimenName(User::getUserMutant($argPage));?></h3>
@@ -130,7 +130,7 @@
 						{
 ?>
 							<h3>Mutant : <span class="mark">
-							<?php 
+							<?php
 								if(Tool::findSpecimenName(User::getUserMutant($argPage)) !== null)
 								{
 									echo Tool::findSpecimenName(User::getUserMutant($argPage));
@@ -182,7 +182,7 @@
 				</ul>
 			</div>
 
-<?php 
+<?php
 		if(User::isLogged() AND (User::getToken() == User::getUserToken($argPage)))
 		{
 ?>
@@ -197,10 +197,10 @@
 		</div>
 
 		<?php
-			include('../../includes/report_box.php');
+			include('../includes/report_box.php');
 		?>
 		<script type="text/javascript">
-			showPopUp("profile-box");
+			Interface.showPopUp("profile-box");
 		</script>
 <?php
 	}
