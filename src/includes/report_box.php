@@ -1,5 +1,5 @@
 <div id="report-box" class="popup-box">
-	<div class="close-box" onClick="closePopUp('report-box');"></div>
+	<div class="close-box" onClick="Interface.closePopUp('report-box');"></div>
 
 	<div class="box-title">
 		<h2>Report : <?php echo User::getUserUsername($argPage);?></h2>
@@ -17,7 +17,7 @@
 				<p><i>Report from <?php echo User::getUsername();?></i></p>
 			</li>
 			<li>
-				<div class="button" onClick="sendReport('<?php echo $argPage;?>');"><p>Send report</p></div>
+				<div class="button" onClick="Engine.sendReport('<?php echo $argPage;?>');"><p>Send report</p></div>
 			</li>
 		</ul>
 	</div>

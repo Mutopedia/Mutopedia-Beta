@@ -1,26 +1,31 @@
-$(window).ready(function(){
+$("#profile-container").ready(function(){
   $(document).on('change', '#profile-container #infos-container #facebook-infos-container #fb-permission-container input', function() {
   	var checkBoxValue = $(this).prop('checked');
-  	changeFbPermission(checkBoxValue);
+  	Engine.changeFbPermission(checkBoxValue);
   });
 
   $(document).on('change', '#profile-container #infos-container #user-info-container #charter-acceptance-container input', function() {
   	var checkBoxValue = $(this).prop('checked');
-  	changeCharterAcceptance(checkBoxValue);
+  	Engine.changeCharterAcceptance(checkBoxValue);
   });
 
   $(document).on('click', '#profile-container #infos-container #user-info-container #user-mutant-container .select .ul .li', function() {
   	var selectValue = $(this).attr('value');
-  	changeUserMutant(selectValue);
+  	Engine.changeUserMutant(selectValue);
   });
 
   $(document).on('change', '#profile-container #infos-container #user-info-container #center-level-container input', function() {
   	var selectValue = $(this).val();
-  	changeUserCenterLevel(selectValue);
+  	Engine.changeUserCenterLevel(selectValue);
   });
 
   $(document).on('change', '#profile-container #infos-container #user-info-container #fame-level-container input', function() {
   	var selectValue = $(this).val();
-  	changeUserFameLevel(selectValue);
+  	Engine.changeUserFameLevel(selectValue);
+  });
+
+  $(document).on('change, keyup', '#profile-container .select .search input', function(){
+    var specimenName = $(this).val();
+    Engine.searchSpecimen(specimenName, $(this).parent());
   });
 });

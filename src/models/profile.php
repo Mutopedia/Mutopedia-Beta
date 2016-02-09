@@ -1,6 +1,8 @@
 <?php
-	if(isset($argPage) AND !empty($argPage))
+	if(!isset($argPage) OR empty($argPage) OR $argPage == null)
 	{
+		$argPage = User::getUserLink();
+	}
 ?>
 		<div id="profile-container">
 			<div id="infos-container">
@@ -19,7 +21,7 @@
 				if(User::getFbPermission($argPage))
 				{
 ?>
-					<div class="button" onclick="openInNewTab('http://www.facebook.com/<?php echo User::getUserFbid($argPage);?>');">
+					<div class="button" onclick="Engine.openInNewTab('http://www.facebook.com/<?php echo User::getUserFbid($argPage);?>');">
 						<img class="button-icon" src="src/img/default/facebook_icon.png"/><p>Facebook Profile</p>
 					</div>
 <?php
@@ -53,8 +55,8 @@
 			{
 ?>
 				<div id="report-user-container">
-					<div class="button" onclick="showPopUp('report-box');">
-						<img class="button-icon" src="img/default/report_icon.png"/><p>Report Player</p>
+					<div class="button" onclick="Interface.showPopUp('report-box');">
+						<img class="button-icon" src="src/img/default/report_icon.png"/><p>Report Player</p>
 					</div>
 				</div>
 <?php
@@ -187,7 +189,7 @@
 		{
 ?>
 			<div id="profile-options">
-				<div class="button" onClick="disconnectApp()">
+				<div class="button" onClick="Engine.disconnectApp()">
 					<h2>Log out</h2>
 				</div>
 			</div>
@@ -202,6 +204,3 @@
 		<script type="text/javascript">
 			Interface.showPopUp("profile-box");
 		</script>
-<?php
-	}
-?>

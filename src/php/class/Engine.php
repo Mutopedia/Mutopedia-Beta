@@ -2,11 +2,11 @@
 
 class Engine
 {
-	public static $dataArray;
+	public static $dataArray = array();
 
 	public function __construct()
 	{
-		$dataArray = array();
+		self::$dataArray = array();
 	}
 
 	public static function loadModel($modelName, $argPage)
@@ -14,23 +14,23 @@ class Engine
 		$modelFilename = '../models/'.$modelName.'.php';
 
 		if(file_exists($modelFilename)){
-			$dataArray['reply'] = "";
-			$dataArray['error'] = null;
+			self::$dataArray['reply'] = "";
+			self::$dataArray['error'] = null;
 
 		  ob_start();
 			include($modelFilename);
-			$dataArray['reply'] .= ob_get_contents();
+			self::$dataArray['reply'] .= ob_get_contents();
 			ob_end_clean();
 
-			$dataArray['result'] = true;
-			$dataArray['modelName'] = $modelName;
+			self::$dataArray['result'] = true;
+			self::$dataArray['modelName'] = $modelName;
 		}else {
-			$dataArray['result'] = false;
-			$dataArray['modelName'] = null;
-			$dataArray['error'] = "This model does not exist !";
+			self::$dataArray['result'] = false;
+			self::$dataArray['modelName'] = null;
+			self::$dataArray['error'] = "This model does not exist !";
 		}
 
-		return $dataArray;
+		return self::$dataArray;
 	}
 
 	public static function searchUsers($searchContent, $sortByValue)
@@ -92,18 +92,18 @@ class Engine
 					$mutantIconDNA_1 = Tool::getIconDNA($mutantDNA[1]);
 				}
 
-				$dataArray["result"] = true;
-				$dataArray['error'] = null;
+				self::$dataArray["result"] = true;
+				self::$dataArray['error'] = null;
 				ob_start();
 				include('../models/user_card.php');
-				$dataArray['reply'] .= ob_get_contents();
+				self::$dataArray['reply'] .= ob_get_contents();
 				ob_end_clean();
 			}
 			else
 			{
-				$dataArray["result"] = false;
-				$dataArray['error'] = "No user found ...";
-				$dataArray['reply'] = null;
+				self::$dataArray["result"] = false;
+				self::$dataArray['error'] = "No user found ...";
+				self::$dataArray['reply'] = null;
 			}
 		}
 		else
@@ -161,22 +161,22 @@ class Engine
 
 					ob_start();
 					include('../models/user_card.php');
-					$dataArray['reply'] .= ob_get_contents();
+					self::$dataArray['reply'] .= ob_get_contents();
 					ob_end_clean();
 				}
 
-				$dataArray["result"] = true;
-				$dataArray['error'] = null;
+				self::$dataArray["result"] = true;
+				self::$dataArray['error'] = null;
 			}
 			else
 			{
-				$dataArray["reply"] = null;
-				$dataArray["result"] = false;
-				$dataArray['error'] = "sortByValue not set !";
+				self::$dataArray["reply"] = null;
+				self::$dataArray["result"] = false;
+				self::$dataArray['error'] = "sortByValue not set !";
 			}
 		}
 
-		return $dataArray;
+		return self::$dataArray;
 	}
 
 	public static function getReleaseDate($releaseName)
@@ -213,39 +213,39 @@ class Engine
 						}
 						$timeRemainingResult = $days.':'.$hours.date(':i:s', $timeRemaining);
 
-						$dataArray["result"] = true;
-						$dataArray['error'] = null;
-						$dataArray['reply'] = $timeRemainingResult;
+						self::$dataArray["result"] = true;
+						self::$dataArray['error'] = null;
+						self::$dataArray['reply'] = $timeRemainingResult;
 					}
 					else
 					{
-						$dataArray["result"] = false;
-						$dataArray['error'] = "Releasedate off";
-						$dataArray['reply'] = "OVER !";
+						self::$dataArray["result"] = false;
+						self::$dataArray['error'] = "Releasedate off";
+						self::$dataArray['reply'] = "OVER !";
 					}
 				}
 				else
 				{
-					$dataArray["result"] = false;
-					$dataArray['error'] = "This release is not activated !";
-					$dataArray['reply'] = null;
+					self::$dataArray["result"] = false;
+					self::$dataArray['error'] = "This release is not activated !";
+					self::$dataArray['reply'] = null;
 				}
 			}
 			else
 			{
-				$dataArray["result"] = false;
-				$dataArray['error'] = "No release with name ".$releaseName." found !";
-				$dataArray['reply'] = null;
+				self::$dataArray["result"] = false;
+				self::$dataArray['error'] = "No release with name ".$releaseName." found !";
+				self::$dataArray['reply'] = null;
 			}
 		}
 		else
 		{
-			$dataArray["result"] = false;
-			$dataArray['error'] = "releaseName is empty !";
-			$dataArray['reply'] = null;
+			self::$dataArray["result"] = false;
+			self::$dataArray['error'] = "releaseName is empty !";
+			self::$dataArray['reply'] = null;
 		}
 
-		return $dataArray;
+		return self::$dataArray;
 	}
 
 	public static function getReports()
@@ -257,11 +257,11 @@ class Engine
 			while($getReportsInfos = $newStaticBdd->fetch_array($ReportsInfos)) {
 				ob_start();
 				include('../models/report-container.php');
-				$dataArray['reply'] .= ob_get_contents();
+				self::$dataArray['reply'] .= ob_get_contents();
 				ob_end_clean();
 			}
 
-			return $dataArray;
+			return self::$dataArray;
 		}
 	}
 }

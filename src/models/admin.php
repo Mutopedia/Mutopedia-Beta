@@ -9,7 +9,7 @@
 
 		<div id="report-panel">
 			<div class="title-container">
-				<img class="title-icon" src="img/default/report_icon.png"/><h2>Report Panel</h2>
+				<img class="title-icon" src="src/img/default/report_icon.png"/><h2>Report Panel</h2>
 			</div>
 			<div id="report-result-container">
 				<?php echo Engine::getReports()['reply'];?>

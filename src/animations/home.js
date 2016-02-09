@@ -1,4 +1,4 @@
-$(window).ready(function(){
+$("#home-container").ready(function(){
   $(document).on('click', '#slider-nav .slide', function() {
   	var maxImgNb = 2;
   	var imgNumber = $("#slider-nav #img-view img").length;

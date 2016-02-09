@@ -1,4 +1,4 @@
-$(window).ready(function(){
+$("#search-container").ready(function(){
   $(document).on('click', '#search-container #option-layout-container .option-layout-button.unactive', function() {
   	$('#search-container #option-layout-container .option-layout-button').addClass('unactive');
   	$(this).removeClass('unactive');
@@ -15,11 +15,11 @@ $(window).ready(function(){
   });
 
   $(document).on('click', '#search-container #option-sort-container .select .ul .li', function() {
-  	searchUsers('');
+  	Engine.searchUsers('');
   });
 
   $(document).on('keyup', '#search-container #input-container input', function(){
   	var searchContent = $(this).val();
-  	searchUsers(searchContent);
+  	Engine.searchUsers(searchContent);
   });
 });

@@ -8,12 +8,6 @@ var Interface = {
   init: function(){
     this.ajaxContainer = $('#ajax-loader #ajax-container');
     this.headerContainer = $('#header-container');
-    this.newsbarText = $('#news-bar p');
-    this.newsbarTextContainerWidth = $('#news-bar p').width();
-    this.newsbarTextWidth = $('#news-bar p').textWidth();
-    this.newsbarWidth = this.newsbarTextContainerWidth + this.newsbarTextWidth;
-
-    this.newsbarText.css({'margin-right': -50});
   },
 
   loadModel: function(modelName, argPage){
@@ -38,6 +32,7 @@ var Interface = {
           $.post(App.phpPath+"executor.php", { action: 'loadModel', modelName: modelName, argPage: argPage }, function( data ) {
             Engine.historyPushState(modelName, argPage);
             Interface.ajaxContainer.html(data.reply).stop().animate({'opacity': '1'}, 400);
+            Interface.activeNavLi(modelName);
           }, 'json');
 
           $(this).dequeue();
@@ -56,17 +51,23 @@ var Interface = {
     });
   },
 
-  activeNavLi: function(){
+  activeNavLi: function(pageName){
   	$("#menu-nav ul li").attr('class', 'unactive');
-  	$("#menu-nav ul li[name='"+history.state.pageName+"']").attr('class', 'active');
+  	$("#menu-nav ul li[name='"+pageName+"']").attr('class', 'active');
   },
 
   newsBarTextScroll: function(){
-  	this.newsbarText.css({'margin-left': this.newsbarTextContainerWidth});
+    var newsbarText = $('#news-bar p');
+    var newsbarTextContainerWidth = $('#news-bar p').width();
+    var newsbarTextWidth = $('#news-bar p').textWidth();
+    var newsbarWidth = newsbarTextContainerWidth + newsbarTextWidth;
 
-  	this.newsbarText.animate({
-  		'margin-left': '-'+this.newsbarTextWidth+'px'
-  	}, 35000, "linear").queue(function(){
+  	newsbarText.css({'margin-right': -50});
+  	newsbarText.css({'margin-left': newsbarTextContainerWidth});
+
+  	newsbarText.animate({
+  		'margin-left': '-'+newsbarTextWidth+'px'
+  	}, 50000, "linear").queue(function(){
   		Interface.newsBarTextScroll();
   		$(this).dequeue();
   	});

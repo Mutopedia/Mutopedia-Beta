@@ -78,7 +78,7 @@
 
 	<div id="result-container">
 		<script type="text/javascript">
-			searchUsers();
+			Engine.searchUsers();
 		</script>
 	</div>
 

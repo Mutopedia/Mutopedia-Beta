@@ -1,8 +1,4 @@
-  $(document).on('change, keyup', '#tool_container .select .search input', function(){
-    var specimenName = $(this).val();
-    searchSpecimen(specimenName, $(this).parent());
-  });
-
+$(window).ready(function(){
   $(document).on('click', '.select .value, .select .icon', function(){
   	var selectDiv = $(this).parent();
   	var searchDiv = $(this).parent().children('.search');
@@ -54,3 +50,4 @@
   	var selectHtml = $(this).parent().parent().children(".value");
   	$('h3', selectHtml).html(valueHtml);
   });
+});

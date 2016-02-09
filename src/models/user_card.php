@@ -1,4 +1,4 @@
-<div class="user-container row" onclick="loadModel('profile', '<?php echo $getUserInfos['userlink'];?>')">
+<div class="user-container row" onclick="Interface.loadModel('profile', '<?php echo $getUserInfos['userlink'];?>')">
 	<div class="user-picture">
 		<img src="<?php echo $getUserInfos['fb_picture'];?>">
 	</div>

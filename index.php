@@ -33,7 +33,7 @@
 
 		<header>
 			<div id="header-container">
-				<?php include(MODELS.'header.php');?>
+
 			</div>
 		</header>
 
