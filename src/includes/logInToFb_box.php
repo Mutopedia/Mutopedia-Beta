@@ -6,7 +6,7 @@
 	<div class="box-content">
 		<ul>
 			<li>
-				<h3>This is a TEST VERSION of Mutopedia, you must be a alpha-tester to access Mutopedia ALPHA !</h3><br/>
+				<h3>This is a TEST VERSION of Mutopedia, you must be an alpha-tester to access Mutopedia ALPHA !</h3><br/>
 				<h3>You must be logged in to facebook to access Mutopedia ALPHA !</h3>
 			</li>
 			<li>

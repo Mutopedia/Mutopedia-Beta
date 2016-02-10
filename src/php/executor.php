@@ -40,7 +40,6 @@
 
 				$dataArray['error'] = $returnModel['error'];
 				$dataArray['reply'] = $returnModel['reply'];
-				$dataArray['modelName'] = $returnModel['modelName'];
 				$dataArray['result'] = $returnModel['result'];
 			}
 			else

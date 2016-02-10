@@ -1,4 +1,4 @@
-$("#home-container").ready(function(){
+
   $(document).on('click', '#slider-nav .slide', function() {
   	var maxImgNb = 2;
   	var imgNumber = $("#slider-nav #img-view img").length;
@@ -31,4 +31,3 @@ $("#home-container").ready(function(){
   	var imgId = $(this).attr('id');
   	Interface.changeSlider(imgId);
   });
-});

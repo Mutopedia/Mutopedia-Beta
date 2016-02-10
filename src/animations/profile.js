@@ -1,4 +1,4 @@
-$("#profile-container").ready(function(){
+
   $(document).on('change', '#profile-container #infos-container #facebook-infos-container #fb-permission-container input', function() {
   	var checkBoxValue = $(this).prop('checked');
   	Engine.changeFbPermission(checkBoxValue);
@@ -28,4 +28,3 @@ $("#profile-container").ready(function(){
     var specimenName = $(this).val();
     Engine.searchSpecimen(specimenName, $(this).parent());
   });
-});

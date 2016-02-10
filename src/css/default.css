@@ -415,6 +415,10 @@ footer #copyright-container
 {
 	margin-bottom: 0px;
 }
+.popup-box ul
+{
+	width: 100%;
+}
 .popup-box li
 {
 	margin-top: 10px;

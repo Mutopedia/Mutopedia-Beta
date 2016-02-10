@@ -193,7 +193,7 @@
 		{
 ?>
 			<div id="profile-options">
-				<div class="button" onClick="Engine.disconnectApp()">
+				<div class="button" onClick="disconnectApp()">
 					<h2>Log out</h2>
 				</div>
 			</div>

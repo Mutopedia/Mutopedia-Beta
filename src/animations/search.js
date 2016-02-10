@@ -1,4 +1,4 @@
-$("#search-container").ready(function(){
+
   $(document).on('click', '#search-container #option-layout-container .option-layout-button.unactive', function() {
   	$('#search-container #option-layout-container .option-layout-button').addClass('unactive');
   	$(this).removeClass('unactive');
@@ -22,4 +22,3 @@ $("#search-container").ready(function(){
   	var searchContent = $(this).val();
   	Engine.searchUsers(searchContent);
   });
-});

@@ -12,32 +12,35 @@ var Interface = {
 
   loadModel: function(modelName, argPage){
     if(modelName){
-      if(Engine.fileExists(App.modelsPath+modelName+".php")){
-        this.ajaxContainer.stop().animate({'opacity': '0'}, 200).queue(function(){
-          if(Engine.fileExists(App.cssPath+modelName+".css")){
-            var currentStylesheet = $('link[name='+modelName+']');
-            if(currentStylesheet){
-              currentStylesheet.remove();
-            }
-            $('link.default-stylesheet').after('<link name="'+modelName+'" rel="stylesheet" type="text/css" href="'+App.cssPath+modelName+".css"+'"></link>');
+      Interface.ajaxContainer.stop().animate({'opacity': '0'}, 200).queue(function(){
+        if(Engine.fileExists(App.cssPath+modelName+".css")){
+          var currentStylesheet = $('link[name='+modelName+']');
+          if(currentStylesheet){
+            currentStylesheet.remove();
           }
-          if(Engine.fileExists(App.animationsPath+modelName+".js")){
-            var currentAnimation = $('script[name='+modelName+']');
-            if(currentStylesheet){
-              currentAnimation.remove();
-            }
-            $('script.default-animation').after('<script name="'+modelName+'" type="text/javascript" src="'+App.animationsPath+modelName+".js"+'"></script>');
+          $('link.default-stylesheet').after('<link name="'+modelName+'" rel="stylesheet" type="text/css" href="'+App.cssPath+modelName+".css"+'"></link>');
+        }
+        if(Engine.fileExists(App.animationsPath+modelName+".js")){
+          var currentAnimation = $('script[name='+modelName+']');
+          if(currentAnimation){
+            currentAnimation.remove();
           }
+          $('script.default-animation').after('<script name="'+modelName+'" type="text/javascript" src="'+App.animationsPath+modelName+".js"+'"></script>');
+        }
 
-          $.post(App.phpPath+"executor.php", { action: 'loadModel', modelName: modelName, argPage: argPage }, function( data ) {
+        $.post(App.phpPath+"executor.php", { action: 'loadModel', modelName: modelName, argPage: argPage }, function( data ) {
+          if(data.result){
             Engine.historyPushState(modelName, argPage);
             Interface.ajaxContainer.html(data.reply).stop().animate({'opacity': '1'}, 400);
             Interface.activeNavLi(modelName);
-          }, 'json');
+          }else{
+            console.log(data.error);
+            Interface.loadModel('home');
+          }
+        }, 'json');
 
-          $(this).dequeue();
-        });
-      }
+        $(this).dequeue();
+      });
     }
   },
 
@@ -75,7 +78,7 @@ var Interface = {
 
   changeSlider: function(imgId){
   	$('#slider #img-container img').fadeOut(300).queue(function(){
-  		$(this).attr('src', "slider/img_"+imgId+".jpg");
+  		$(this).attr('src', "src/img/slider/img_"+imgId+".jpg");
   		$(this).fadeIn(300);
   		$(this).dequeue();
   	});

@@ -9,7 +9,7 @@
 
 <link rel="stylesheet" type="text/css" href="<?php echo CSS;?>default_style.css">
 
-<link rel="icon" href="img/default/favicon.ico" />
+<link rel="icon" href="src/img/default/favicon.ico" />
 
 <base href="<?php echo WEBROOT;?>" >
 

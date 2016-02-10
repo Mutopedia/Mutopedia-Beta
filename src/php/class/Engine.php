@@ -23,10 +23,9 @@ class Engine
 			ob_end_clean();
 
 			self::$dataArray['result'] = true;
-			self::$dataArray['modelName'] = $modelName;
 		}else {
 			self::$dataArray['result'] = false;
-			self::$dataArray['modelName'] = null;
+			self::$dataArray['reply'] = null;
 			self::$dataArray['error'] = "This model does not exist !";
 		}
 
@@ -252,7 +251,7 @@ class Engine
 	public static function getReports()
 	{
 		$dataArray = array();
-		
+
 		if(User::isAdmin()) {
 			$newStaticBdd = new BDD();
 
