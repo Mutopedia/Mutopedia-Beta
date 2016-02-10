@@ -3,6 +3,10 @@
 	{
 		$argPage = User::getUserLink();
 	}
+
+	if(User::getUserFbId($argPage))
+	{
+
 ?>
 		<div id="profile-container">
 			<div id="infos-container">
@@ -204,3 +208,13 @@
 		<script type="text/javascript">
 			Interface.showPopUp("profile-box");
 		</script>
+<?php
+	}else {
+?>
+			<div id="profile-container">
+				<h1>Sorry :(</h1>
+				<h2>This user does not exist !</h2>
+			</div>
+<?php
+	}
+ ?>

@@ -12,12 +12,12 @@ class User
 		$dataArray = array();
 	}
 
-	public static function randomSalt($nbChar) 
+	public static function randomSalt($nbChar)
 	{
 		$randString = "";
 		$chars = "abcdefghijklmnpqrstuvwxy0123456789";
 		srand((double)microtime()*1000000);
-		for($i=0; $i < $nbChar; $i++) 
+		for($i=0; $i < $nbChar; $i++)
 		{
 			$randString .= $chars[rand()%strlen($chars)];
 		}
@@ -200,6 +200,8 @@ class User
 			$getFbId = $newStaticBdd->fetch_array($FbId);
 
 			return $getFbId['fb_id'];
+		}else {
+			return false;
 		}
 	}
 
@@ -226,7 +228,7 @@ class User
 			return $getUsernameToken['userlink'];
 		}
 	}
-	
+
 	public static function getUserUsername($user)
 	{
 		if(isset($user) AND !empty($user))
@@ -523,7 +525,7 @@ class User
 	}
 
 	public static function logUser($userId, $userFirstName, $userLastName, $userPicSrc)
-	{	
+	{
 		$newStaticBdd = new BDD();
 
 		if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
@@ -553,7 +555,7 @@ class User
 		if(self::setToken($userId))
 		{
 			if($getUserId != 1)
-			{	
+			{
 				$regUser = $newStaticBdd->insert("users", "fb_id, userlink, fb_firstname, fb_lastname, fb_picture, user_ip, isLoggedFB", "'".$userId."', '".$userLink."', '".$userFirstName."', '".$userLastName."', '".$userPicSrc."', '".$ip."', 1");
 
 				$dataArray['result'] = true;

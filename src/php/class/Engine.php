@@ -182,6 +182,7 @@ class Engine
 	public static function getReleaseDate($releaseName)
 	{
 		$newStaticBdd = new BDD();
+		$dataArray = array();
 
 		if(!empty($releaseName))
 		{
@@ -213,43 +214,45 @@ class Engine
 						}
 						$timeRemainingResult = $days.':'.$hours.date(':i:s', $timeRemaining);
 
-						self::$dataArray["result"] = true;
-						self::$dataArray['error'] = null;
-						self::$dataArray['reply'] = $timeRemainingResult;
+						$dataArray["result"] = true;
+						$dataArray['error'] = null;
+						$dataArray['reply'] = $timeRemainingResult;
 					}
 					else
 					{
-						self::$dataArray["result"] = false;
-						self::$dataArray['error'] = "Releasedate off";
-						self::$dataArray['reply'] = "OVER !";
+						$dataArray["result"] = false;
+						$dataArray['error'] = "Releasedate off";
+						$dataArray['reply'] = "OVER !";
 					}
 				}
 				else
 				{
-					self::$dataArray["result"] = false;
-					self::$dataArray['error'] = "This release is not activated !";
-					self::$dataArray['reply'] = null;
+					$dataArray["result"] = false;
+					$dataArray['error'] = "This release is not activated !";
+					$dataArray['reply'] = null;
 				}
 			}
 			else
 			{
-				self::$dataArray["result"] = false;
-				self::$dataArray['error'] = "No release with name ".$releaseName." found !";
-				self::$dataArray['reply'] = null;
+				$dataArray["result"] = false;
+				$dataArray['error'] = "No release with name ".$releaseName." found !";
+				$dataArray['reply'] = null;
 			}
 		}
 		else
 		{
-			self::$dataArray["result"] = false;
-			self::$dataArray['error'] = "releaseName is empty !";
-			self::$dataArray['reply'] = null;
+			$dataArray["result"] = false;
+			$dataArray['error'] = "releaseName is empty !";
+			$dataArray['reply'] = null;
 		}
 
-		return self::$dataArray;
+		return $dataArray;
 	}
 
 	public static function getReports()
 	{
+		$dataArray = array();
+		
 		if(User::isAdmin()) {
 			$newStaticBdd = new BDD();
 
@@ -257,11 +260,11 @@ class Engine
 			while($getReportsInfos = $newStaticBdd->fetch_array($ReportsInfos)) {
 				ob_start();
 				include('../models/report-container.php');
-				self::$dataArray['reply'] .= ob_get_contents();
+				$dataArray['reply'] .= ob_get_contents();
 				ob_end_clean();
 			}
 
-			return self::$dataArray;
+			return $dataArray;
 		}
 	}
 }

@@ -236,7 +236,7 @@ var Engine = {
   		if(data.result){
   			$('.popup-box#report-box .box-content ul li:nth-child(2)').fadeOut(200);
   			$('.popup-box#report-box .box-content ul li:first-child p').fadeOut(200).html(data.reply).fadeIn(200);
-  			$('.popup-box#report-box .box-content ul li:last-child .button').attr("onclick", "closePopUp('report-box');").children('p').html('Finish !');
+  			$('.popup-box#report-box .box-content ul li:last-child .button').attr("onclick", "Engine.closePopUp('report-box');").children('p').html('Finish !');
   		}
   		if(data.error != null){
   			$('.popup-box#report-box .box-content ul li:first-child p').fadeOut(200).html(data.error).fadeIn(200);

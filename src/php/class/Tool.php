@@ -477,10 +477,10 @@ class Tool
 		if(isset($specimenName) && !empty($specimenName))
 		{
 			$countSpecimen = 0;
-			while($countSpecimen < $returnSpecimen['specimenCount'])
+			while($countSpecimen < count($returnSpecimen))
 			{
-				$mutantNameCode = $returnSpecimen['nameCode'][$countSpecimen];
-				$mutantName = $returnSpecimen['name'][$countSpecimen];
+				$mutantNameCode = $returnSpecimen[$countSpecimen]['nameCode'][$countSpecimen];
+				$mutantName = $returnSpecimen[$countSpecimen]['name'][$countSpecimen];
 
 				if(strpos(strtolower($mutantName), strtolower($specimenName)) !== false)
 				{
