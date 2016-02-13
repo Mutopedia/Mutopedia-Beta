@@ -6,7 +6,6 @@
 
 	if(User::getUserFbId($argPage))
 	{
-
 ?>
 		<div id="profile-container">
 			<div id="infos-container">
@@ -127,7 +126,7 @@
 									<input type="text" placeholder="Search a specimen">
 								</div>
 								<div class="ul">
-									<?php echo Tool::getSpecimens();?>
+									<?php echo $ToolClass->getSpecimens();?>
 								</div>
 							</div>
 <?php

@@ -28,7 +28,7 @@ var Interface = {
           $('script.default-animation').after('<script name="'+modelName+'" type="text/javascript" src="'+App.animationsPath+modelName+".js"+'"></script>');
         }
 
-        $.post(App.phpPath+"executor.php", { action: 'loadModel', modelName: modelName, argPage: argPage }, function( data ) {
+        $.post(App.phpPath+"app.php", { action: 'loadModel', modelName: modelName, argPage: argPage }, function( data ) {
           if(data.result){
             Engine.historyPushState(modelName, argPage);
             Interface.ajaxContainer.html(data.reply).stop().animate({'opacity': '1'}, 400);
@@ -46,7 +46,7 @@ var Interface = {
 
   loadHeader: function(){
     this.headerContainer.stop().animate({'opacity': '0'}, 100).queue(function(){
-      $.post( App.phpPath+"executor.php", { action: 'loadModel', modelName: 'header', argPage: null }, function( data ) {
+      $.post( App.phpPath+"app.php", { action: 'loadModel', modelName: 'header', argPage: null }, function( data ) {
         Interface.headerContainer.html(data.reply).stop().animate({'opacity': '1'}, 400);
         Interface.newsBarTextScroll();
       }, 'json');

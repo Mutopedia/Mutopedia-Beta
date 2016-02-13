@@ -3,6 +3,12 @@ var Engine = {
 
   init: function(){
     this.documentTitle = document.title;
+
+    $.post(App.phpPath+"app.php", { action: "init"}, function(data){
+      if(data.result){
+        console.log(data.result);
+      }
+  	}, "json");
   },
 
   fileExists: function(filePath){
@@ -61,10 +67,7 @@ var Engine = {
   },
 
   searchSpecimen: function(specimenName, searchDiv){
-  	searchDiv.parent().children('.ul').fadeOut(100).html('<h2 style="text-align: center;">Loading ...</h2>').fadeIn(100);
-
-  	$.post("src/php/executor.php", { action: "searchSpecimen", specimenName: specimenName}, function(data)
-  	{
+    $.post(App.phpPath+"app.php", { action: "searchSpecimen", specimenName: specimenName}, function(data){
   		searchDiv.parent().children('.ul').fadeOut(100).queue(function() {
   			$(this).html(data.reply).queue(function() {
   				$(this).fadeIn(100);
@@ -72,7 +75,6 @@ var Engine = {
   			});
   			$(this).dequeue();
   		});
-
   	}, "json");
   },
 
@@ -84,7 +86,7 @@ var Engine = {
   	{
   		$(this).html('<h2 style="text-align: center;">Breeding in progress ...</h2>').fadeIn(200).queue(function()
   		{
-  			$.post("src/php/executor.php", { action: "startBreeding", specimenNameCode_1: specimenNameCode_1, specimenNameCode_2: specimenNameCode_2}, function(data)
+  			$.post(App.phpPath+"app.php", { action: "startBreeding", specimenNameCode_1: specimenNameCode_1, specimenNameCode_2: specimenNameCode_2}, function(data)
   			{
   				if(data.result)
   				{
@@ -110,7 +112,7 @@ var Engine = {
   },
 
   logUser: function(userid, userfirstname, userlastname, userpic){
-  	$.post("src/php/executor.php", { action: "logUser", userid: userid, userfirstname: userfirstname, userlastname: userlastname, userpic: userpic}, function(data){
+  	$.post(App.phpPath+"app.php", { action: "logUser", userid: userid, userfirstname: userfirstname, userlastname: userlastname, userpic: userpic}, function(data){
   		if(data.result){
   			console.log(data.reply);
   			Interface.loadHeader();
@@ -126,7 +128,7 @@ var Engine = {
   	var sortByValue = $("#search-container #option-sort-container .select").attr('value');
 
   	$('#search-container #result-container').stop().fadeOut(100).html('<h2 style="text-align: center;">Loading ...</h2>').fadeIn(200).queue(function(){
-  		$.post("src/php/executor.php", { action: "searchUsers", searchContent: searchContent, sortByValue: sortByValue}, function(data){
+  		$.post(App.phpPath+"app.php", { action: "searchUsers", searchContent: searchContent, sortByValue: sortByValue}, function(data){
   			if(data.result){
   				$('#search-container #error-container').fadeOut(200).queue(function(){
   					$('#search-container #result-container').fadeOut(200).queue(function() {
@@ -155,7 +157,7 @@ var Engine = {
   },
 
   getReleaseCounter: function(releaseName){
-  	$.post("src/php/executor.php", { action: "getReleaseDate", releaseName: releaseName}, function(data)
+  	$.post(App.phpPath+"app.php", { action: "getReleaseDate", releaseName: releaseName}, function(data)
   	{
   		$('#portal-container #counter-container #counter').html(data.reply);
 
@@ -170,7 +172,7 @@ var Engine = {
   },
 
   changeFbPermission: function(state){
-  	$.post("src/php/executor.php", { action: "changeFbPermission", state: state}, function(data){
+  	$.post(App.phpPath+"app.php", { action: "changeFbPermission", state: state}, function(data){
   		if(data.error != null){
   			console.log(data.error);
   		}else{
@@ -180,7 +182,7 @@ var Engine = {
   },
 
   changeCharterAcceptance: function(state){
-  	$.post("src/php/executor.php", { action: "changeCharterAcceptance", state: state}, function(data){
+  	$.post(App.phpPath+"app.php", { action: "changeCharterAcceptance", state: state}, function(data){
   		if(data.error != null){
   			console.log(data.error);
   		}else{
@@ -199,7 +201,7 @@ var Engine = {
   },
 
   changeUserMutant: function(mutantNameCode){
-  	$.post("src/php/executor.php", { action: "changeUserMutant", mutantNameCode: mutantNameCode}, function(data){
+  	$.post(App.phpPath+"app.php", { action: "changeUserMutant", mutantNameCode: mutantNameCode}, function(data){
   		if(data.error != null){
   			console.log(data.error);
   		}else{
@@ -209,7 +211,7 @@ var Engine = {
   },
 
   changeUserCenterLevel: function(centerLevel){
-  	$.post("src/php/executor.php", { action: "changeUserCenterLevel", centerLevel: centerLevel}, function(data)
+  	$.post(App.phpPath+"app.php", { action: "changeUserCenterLevel", centerLevel: centerLevel}, function(data)
   	{
   		if(data.error != null){
   			console.log(data.error);
@@ -220,7 +222,7 @@ var Engine = {
   },
 
   changeUserFameLevel: function(fameLevel){
-  	$.post("src/php/executor.php", { action: "changeUserFameLevel", fameLevel: fameLevel}, function(data){
+  	$.post(App.phpPath+"app.php", { action: "changeUserFameLevel", fameLevel: fameLevel}, function(data){
   		if(data.error != null){
   			console.log(data.error);
   		}else{
@@ -232,7 +234,7 @@ var Engine = {
   sendReport: function(reported_player){
   	var report_message = $('.popup-box#report-box .box-content #report_message').val();
 
-  	$.post("src/php/executor.php", { action: "reportPlayer", reported_player: reported_player, report_message: report_message}, function(data){
+  	$.post(App.phpPath+"app.php", { action: "reportPlayer", reported_player: reported_player, report_message: report_message}, function(data){
   		if(data.result){
   			$('.popup-box#report-box .box-content ul li:nth-child(2)').fadeOut(200);
   			$('.popup-box#report-box .box-content ul li:first-child p').fadeOut(200).html(data.reply).fadeIn(200);

@@ -11,6 +11,8 @@ class Engine
 
 	public static function loadModel($modelName, $argPage)
 	{
+		$ToolClass = new Tool();
+		
 		$modelFilename = '../models/'.$modelName.'.php';
 
 		if(file_exists($modelFilename)){

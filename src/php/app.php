@@ -5,12 +5,17 @@
 	require("class/Engine.php");
 	require("class/User.php");
 	require('class/Tool.php');
-
+	
 	$dataArray = array();
 
 	if(isset($_POST['action']) AND !empty($_POST['action']))
 	{
 		$action = htmlspecialchars($_POST['action']);
+
+		if($action == "init")
+		{
+			$dataArray['result'] = Tool::init();
+		}
 
 		if($action == "isUserLogged")
 		{

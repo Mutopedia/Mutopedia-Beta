@@ -7,80 +7,21 @@ class Tool
 	static $localisationTXTPath = 'https://s-beta.kobojo.com/mutants/gameconfig/localisation_en.txt';
 	static $gamedefinitionsXMLPath = 'https://s-beta.kobojo.com/mutants/gameconfig/gamedefinitions.xml';
 	static $bigDNAPNG = "https://s-ak.kobojo.com/mutants/assets/genes/";
-	static $specimenList;
 
 	public function __construct()
 	{
-		if(!file_exists(self::$localisationTXTPath) OR !file_exists(self::$gamedefinitionsXMLPath))
-		{
-			return null;
-		}
 
-		$specimenList = self::listSpecimen();
 	}
 
-	/*static function listSpecimen()
+	public static function init()
 	{
-		$specimenCount = 0;
-		$dataArray[$specimenCount]['nameCode'] = array();
-		$dataArray[$specimenCount]['name'] = array();
+		$specimenList = self::listSpecimen();
+		$_SESSION['specimenList'] = $specimenList;
 
-		$specimenList = file_get_contents(self::$localisationTXTPath);
+		return $_SESSION['specimenList'];
+	}
 
-		$searchfor = "Specimen_";
-		$char_pos = 0;
-
-		$nameCode_CharPos = 0;
-		$name_CharPos = 0;
-
-		while(($char_pos = strpos($specimenList, $searchfor, $char_pos)) !== false)
-		{
-			$namePos = $char_pos;
-
-			$underscore_counter = 0;
-			$underscore_char_pos = $char_pos;
-
-			while($specimenList[$underscore_char_pos] != ";")
-			{
-				if($specimenList[$underscore_char_pos] == "_")
-				{
-					$underscore_counter++;
-				}
-				$underscore_char_pos++;
-			}
-
-			if($underscore_counter == 2)
-			{
-				$nameCode = "";
-				while($specimenList[$namePos] != ";")
-				{
- 					$nameCode .= $specimenList[$namePos];
-			   		$namePos++;
-			   	}
-			   	$dataArray[$specimenCount]['nameCode'][$nameCode_CharPos] = $nameCode;
-			   	$nameCode_CharPos++;
-
-			   	$namePos++;
-
-			   	$name = "";
-			   	while($specimenList[$namePos] != "\n")
-			   	{
-			   		$name .= $specimenList[$namePos];
-			   		$namePos++;
-			   	}
-			   	$dataArray[$specimenCount]['name'][$name_CharPos] = $name;
-			   	$name_CharPos++;
-
-			   	$specimenCount++;
-			}
-
-			$char_pos++;
-		}
-
-		return $dataArray;
-	}*/
-
-	static function listSpecimen()
+	public static function listSpecimen()
 	{
 		$specimenCount = 0;
 		$dataArray[$specimenCount]['nameCode'] = array();
@@ -161,10 +102,10 @@ class Tool
 		return $dataArray;
 	}
 
-	static function getSpecimens()
+	public static function getSpecimens()
 	{
 		$returnSpecimen = array();
-		$returnSpecimen = self::listSpecimen();
+		$returnSpecimen = $_SESSION['specimenList'];
 
 		if($returnSpecimen !== null)
 		{
@@ -197,10 +138,10 @@ class Tool
 		}
 	}
 
-	static function searchSpecimen($specimenName)
+	public static function searchSpecimen($specimenName)
 	{
 		$returnSpecimen = array();
-		$returnSpecimen = self::listSpecimen();
+		$returnSpecimen = $_SESSION['specimenList'];
 
 		if($returnSpecimen == null)
 		{
@@ -220,6 +161,13 @@ class Tool
 
 					if(strpos(strtolower($mutantName), strtolower($specimenName)) !== false)
 					{
+						$mutantIconDNA_0 = self::getIconDNA($returnSpecimen[$countSpecimen]['dna_0'][$countSpecimen]);
+						$mutantIconDNA_1 = "";
+						if(!empty($returnSpecimen[$countSpecimen]['dna_1'][$countSpecimen]))
+						{
+							$mutantIconDNA_1 = self::getIconDNA($returnSpecimen[$countSpecimen]['dna_1'][$countSpecimen]);
+						}
+
 						ob_start();
 						include('../models/specimen_list.php');
 						$dataArray['reply'] .= ob_get_contents();
@@ -242,7 +190,7 @@ class Tool
 		return $dataArray;
 	}
 
-	static function startBreeding($specimenNameCode_1, $specimenNameCode_2)
+	public static function startBreeding($specimenNameCode_1, $specimenNameCode_2)
 	{
 		$dataArray['reply'] = "";
 
@@ -443,10 +391,10 @@ class Tool
 		return $dataArray;
 	}
 
-	static function findSpecimenName($nameCode)
+	public static function findSpecimenName($nameCode)
 	{
 		$returnSpecimen = array();
-		$returnSpecimen = self::listSpecimen();
+		$returnSpecimen = $_SESSION['specimenList'];
 
 		if(isset($nameCode) && !empty($nameCode))
 		{
@@ -465,10 +413,10 @@ class Tool
 		}
 	}
 
-	static function findSpecimenNameCode($specimenName)
+	public static function findSpecimenNameCode($specimenName)
 	{
 		$returnSpecimen = array();
-		$returnSpecimen = self::listSpecimen();
+		$returnSpecimen = $_SESSION['specimenList'];
 
 		$dataArray = array();
 
@@ -494,10 +442,10 @@ class Tool
 		return $dataArray;
 	}
 
-	static function getSpecimenDNA($nameCode)
+	public static function getSpecimenDNA($nameCode)
 	{
 		$returnSpecimen = array();
-		$returnSpecimen = self::listSpecimen();
+		$returnSpecimen = $_SESSION['specimenList'];
 
 		if(isset($nameCode) && !empty($nameCode))
 		{
@@ -514,7 +462,7 @@ class Tool
 		}
 	}
 
-	static function getIconDNA($DNA)
+	public static function getIconDNA($DNA)
 	{
 		if(isset($DNA) && !empty($DNA))
 		{
