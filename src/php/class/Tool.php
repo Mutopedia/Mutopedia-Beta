@@ -6,6 +6,7 @@ class Tool
 
 	static $localisationTXTPath = 'https://s-beta.kobojo.com/mutants/gameconfig/localisation_en.txt';
 	static $gamedefinitionsXMLPath = 'https://s-beta.kobojo.com/mutants/gameconfig/gamedefinitions.xml';
+	static $spritesXMLPath = 'https://s-beta.kobojo.com/mutants/gameconfig/sprites.xml';
 	static $bigDNAPNG = "https://s-ak.kobojo.com/mutants/assets/genes/";
 
 	public function __construct()
@@ -104,7 +105,6 @@ class Tool
 
 	public static function getSpecimens()
 	{
-		$returnSpecimen = array();
 		$returnSpecimen = $_SESSION['specimenList'];
 
 		if($returnSpecimen !== null)
@@ -140,7 +140,6 @@ class Tool
 
 	public static function searchSpecimen($specimenName)
 	{
-		$returnSpecimen = array();
 		$returnSpecimen = $_SESSION['specimenList'];
 
 		if($returnSpecimen == null)
@@ -393,7 +392,6 @@ class Tool
 
 	public static function findSpecimenName($nameCode)
 	{
-		$returnSpecimen = array();
 		$returnSpecimen = $_SESSION['specimenList'];
 
 		if(isset($nameCode) && !empty($nameCode))
@@ -415,7 +413,6 @@ class Tool
 
 	public static function findSpecimenNameCode($specimenName)
 	{
-		$returnSpecimen = array();
 		$returnSpecimen = $_SESSION['specimenList'];
 
 		$dataArray = array();
@@ -444,7 +441,6 @@ class Tool
 
 	public static function getSpecimenDNA($nameCode)
 	{
-		$returnSpecimen = array();
 		$returnSpecimen = $_SESSION['specimenList'];
 
 		if(isset($nameCode) && !empty($nameCode))
@@ -487,6 +483,56 @@ class Tool
 					break;
 			}
 		}
+	}
+
+	public static function getSpecimenSprite($specimenCode)
+	{
+		$xmlDoc = new DOMDocument();
+
+		if(@$xmlDoc->load(self::$spritesXMLPath) === false)
+		{
+			$dataArray['reply'] = null;
+		}
+		else
+		{
+			$xpath = new DOMXpath($xmlDoc);
+
+			$specimenCode = lcfirst($specimenCode);
+
+			$specimenBitmap_query = $xpath->query('//Sprite[@id="'.$specimenCode.'_stand"]/@bitmap')->item(0);
+			$specimenImageValue = $specimenBitmap_query->value;
+
+			$dataArray['reply'] .= 'Image bitmap of '.$specimenCode.'_stand : '.$specimenImageValue;
+
+			$specimenTags = $xmlDoc->getElementsByTagName("Sprite")->item(0)->getElementsByTagName("Composite");
+
+			foreach ($specimenTags as $specimenTag)
+			{
+				$dataArray['reply'] .= 'Image from Composite :';
+
+				$specimenImage_srcX_value = $specimenTag->item(0)->getElementsByTagName("Sprite")->item(0)->getElementsByTagName("Image")->getAttribute('srcX');
+
+				$specimenImage_srcY_query = $xpath->query('//Sprite[@id="'.$specimenCode.'_stand"]/Composite/Sprite/Image/@srcY')->item(0);
+				$specimenImage_srcY_value = $specimenImage_srcY_query->value;
+				$specimenImage_dstX_query = $xpath->query('//Sprite[@id="'.$specimenCode.'_stand"]/Composite/Sprite/Image/@dstX')->item(0);
+				$specimenImage_dstX_value = $specimenImage_dstX_query->value;
+				$specimenImage_dstY_query = $xpath->query('//Sprite[@id="'.$specimenCode.'_stand"]/Composite/Sprite/Image/@dstY')->item(0);
+				$specimenImage_dstY_value = $specimenImage_dstY_query->value;
+				$specimenImage_width_query = $xpath->query('//Sprite[@id="'.$specimenCode.'_stand"]/Composite/Sprite/Image/@width')->item(0);
+				$specimenImage_width_value = $specimenImage_width_query->value;
+				$specimenImage_height_query = $xpath->query('//Sprite[@id="'.$specimenCode.'_stand"]/Composite/Sprite/Image/@height')->item(0);
+				$specimenImage_height_value = $specimenImage_height_query->value;
+
+				$dataArray['reply'] .= 'srcX= '.$specimenImage_srcX_value;
+				$dataArray['reply'] .= 'srcY= '.$specimenImage_srcY_value;
+				$dataArray['reply'] .= 'dstX= '.$specimenImage_dstX_value;
+				$dataArray['reply'] .= 'dstY= '.$specimenImage_dstY_value;
+				$dataArray['reply'] .= 'width= '.$specimenImage_width_value;
+				$dataArray['reply'] .= 'height= '.$specimenImage_height_value;
+			}
+		}
+
+		return $dataArray;
 	}
 }
 

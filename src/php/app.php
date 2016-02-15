@@ -5,7 +5,7 @@
 	require("class/Engine.php");
 	require("class/User.php");
 	require('class/Tool.php');
-	
+
 	$dataArray = array();
 
 	if(isset($_POST['action']) AND !empty($_POST['action']))
@@ -14,7 +14,19 @@
 
 		if($action == "init")
 		{
-			$dataArray['result'] = Tool::init();
+			$dataArray = Tool::init();
+		}
+
+		if($action == "getSpecimenSprite")
+		{
+			if(isset($_POST['specimenNameCode']))
+			{
+				$specimenNameCode = htmlspecialchars($_POST['specimenNameCode']);
+			}else {
+				$specimenNameCode = null;
+			}
+
+			$dataArray['result'] = Tool::getSpecimenSprite($specimenNameCode);
 		}
 
 		if($action == "isUserLogged")

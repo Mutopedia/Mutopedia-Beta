@@ -1,4 +1,4 @@
-$(window).ready(function(){
+
   $(document).on('click', '.select .value, .select .icon', function(){
   	var selectDiv = $(this).parent();
   	var searchDiv = $(this).parent().children('.search');
@@ -50,4 +50,3 @@ $(window).ready(function(){
   	var selectHtml = $(this).parent().parent().children(".value");
   	$('h3', selectHtml).html(valueHtml);
   });
-});

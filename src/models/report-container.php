@@ -7,7 +7,7 @@
 			<div class="user-picture">
 				<img src="<?php echo User::getUserPicture($getReportsInfos['reporting_from']);?>">
 			</div>
-			<h3><?php echo User::getUsername($getReportsInfos['reporting_from']);?></h3>
+			<h3><?php echo User::getUserUsername($getReportsInfos['reporting_from']);?></h3>
 			<h3><?php echo '('.$getReportsInfos['reporting_from'].')';?></h3>
 		</div>
 		<div class="reported-user" onclick="loadModel('profile', '<?php echo $getReportsInfos['reported_player'];?>')">

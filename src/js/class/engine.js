@@ -11,6 +11,14 @@ var Engine = {
   	}, "json");
   },
 
+  getSpecimenSprite: function(specimenNameCode){
+    $.post(App.phpPath+"app.php", { action: "getSpecimenSprite", specimenNameCode: specimenNameCode}, function(data){
+
+        console.log(data.result);
+
+  	}, "json");
+  },
+
   fileExists: function(filePath){
     if(filePath){
       var http = new XMLHttpRequest();

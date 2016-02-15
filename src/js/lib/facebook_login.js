@@ -82,7 +82,7 @@ function connectUser(){
 
 function disconnectUser()
 {
-  $.post("src/php/executor.php", { action: "logOut"}, function(data){
+  $.post(App.phpPath+"app.php", { action: "logOut"}, function(data){
     console.log(data.reply);
 
     if(data.result){
