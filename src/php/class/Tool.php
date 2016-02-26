@@ -22,8 +22,7 @@ class Tool
 		return $_SESSION['specimenList'];
 	}
 
-	public static function listSpecimen()
-	{
+	public static function listSpecimen(){
 		$specimenCount = 0;
 		$dataArray[$specimenCount]['nameCode'] = array();
 		$dataArray[$specimenCount]['name'] = array();
@@ -103,8 +102,7 @@ class Tool
 		return $dataArray;
 	}
 
-	public static function getSpecimens()
-	{
+	public static function getSpecimens(){
 		$returnSpecimen = $_SESSION['specimenList'];
 
 		if($returnSpecimen !== null)
@@ -138,8 +136,7 @@ class Tool
 		}
 	}
 
-	public static function searchSpecimen($specimenName)
-	{
+	public static function searchSpecimen($specimenName){
 		$returnSpecimen = $_SESSION['specimenList'];
 
 		if($returnSpecimen == null)
@@ -189,8 +186,7 @@ class Tool
 		return $dataArray;
 	}
 
-	public static function startBreeding($specimenNameCode_1, $specimenNameCode_2)
-	{
+	public static function startBreeding($specimenNameCode_1, $specimenNameCode_2){
 		$dataArray['reply'] = "";
 
 		$xmlDoc = new DOMDocument();
@@ -485,50 +481,37 @@ class Tool
 		}
 	}
 
-	public static function getSpecimenSprite($specimenCode)
-	{
-		$xmlDoc = new DOMDocument();
+	public static function getSpecimenSprite($specimenCode){
+		$dataArray = array();
 
-		if(@$xmlDoc->load(self::$spritesXMLPath) === false)
+		if(empty($specimenCode) OR !isset($specimenCode))
 		{
 			$dataArray['reply'] = null;
 		}
 		else
 		{
-			$xpath = new DOMXpath($xmlDoc);
+			$xmlDoc = new DOMDocument();
 
-			$specimenCode = lcfirst($specimenCode);
-
-			$specimenBitmap_query = $xpath->query('//Sprite[@id="'.$specimenCode.'_stand"]/@bitmap')->item(0);
-			$specimenImageValue = $specimenBitmap_query->value;
-
-			$dataArray['reply'] .= 'Image bitmap of '.$specimenCode.'_stand : '.$specimenImageValue;
-
-			$specimenTags = $xmlDoc->getElementsByTagName("Sprite")->item(0)->getElementsByTagName("Composite");
-
-			foreach ($specimenTags as $specimenTag)
+			if(@$xmlDoc->load(self::$spritesXMLPath) === false)
 			{
-				$dataArray['reply'] .= 'Image from Composite :';
+				$dataArray['reply'] = null;
+			}
+			else
+			{
+				$xpath = new DOMXpath($xmlDoc);
 
-				$specimenImage_srcX_value = $specimenTag->item(0)->getElementsByTagName("Sprite")->item(0)->getElementsByTagName("Image")->getAttribute('srcX');
+				$specimenCode = lcfirst($specimenCode);
+				$specimenTags = $xmlDoc->getElementsByTagName("Sprite")->item(0);
 
-				$specimenImage_srcY_query = $xpath->query('//Sprite[@id="'.$specimenCode.'_stand"]/Composite/Sprite/Image/@srcY')->item(0);
-				$specimenImage_srcY_value = $specimenImage_srcY_query->value;
-				$specimenImage_dstX_query = $xpath->query('//Sprite[@id="'.$specimenCode.'_stand"]/Composite/Sprite/Image/@dstX')->item(0);
-				$specimenImage_dstX_value = $specimenImage_dstX_query->value;
-				$specimenImage_dstY_query = $xpath->query('//Sprite[@id="'.$specimenCode.'_stand"]/Composite/Sprite/Image/@dstY')->item(0);
-				$specimenImage_dstY_value = $specimenImage_dstY_query->value;
-				$specimenImage_width_query = $xpath->query('//Sprite[@id="'.$specimenCode.'_stand"]/Composite/Sprite/Image/@width')->item(0);
-				$specimenImage_width_value = $specimenImage_width_query->value;
-				$specimenImage_height_query = $xpath->query('//Sprite[@id="'.$specimenCode.'_stand"]/Composite/Sprite/Image/@height')->item(0);
-				$specimenImage_height_value = $specimenImage_height_query->value;
+			/*	$specimenBitmapValue = $xpath->query("/@bitmap", $specimenTags)->value;
 
-				$dataArray['reply'] .= 'srcX= '.$specimenImage_srcX_value;
-				$dataArray['reply'] .= 'srcY= '.$specimenImage_srcY_value;
-				$dataArray['reply'] .= 'dstX= '.$specimenImage_dstX_value;
-				$dataArray['reply'] .= 'dstY= '.$specimenImage_dstY_value;
-				$dataArray['reply'] .= 'width= '.$specimenImage_width_value;
-				$dataArray['reply'] .= 'height= '.$specimenImage_height_value;
+				$dataArray['reply'] .= 'Image bitmap of '.$specimenCode.'_stand : '.$specimenBitmapValue;*/
+
+				/*$dataArray['reply'] .= 'Image from Composite :';
+
+				$specimenImage_srcX_value = $specimenTags->getElementsByTagName("Composite")->item(0)->getElementsByTagName("Sprite")->item(0)->getElementsByTagName("Image")->getAttribute('srcX');
+
+				$dataArray['reply'] .= 'srcX= '.$specimenImage_srcX_value;*/
 			}
 		}
 
