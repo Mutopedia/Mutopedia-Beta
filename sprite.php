@@ -31,6 +31,8 @@
 
     $specimenArray = array();
 
+    $specimenCharacterImage = imagecreatefrompng($filename);
+
     $imageCount = 0;
     foreach ($compositeNode as $compositeNode) {
       $dataArray['reply'] .= '</br/>#'.$imageCount.' > ';
@@ -60,30 +62,52 @@
 
       $keyNodeX = $compositeNode->getElementsByTagName('Key')->item(0)->getAttribute('x');
       $keyNodeY = $compositeNode->getElementsByTagName("Key")->item(0)->getAttribute('y');
+      $keyNodeAngle = $compositeNode->getElementsByTagName("Key")->item(0)->getAttribute('angle');
 
       $specimenArray[$imageCount]['keyX'] = $keyNodeX;
       $specimenArray[$imageCount]['keyY'] = $keyNodeY;
+      $specimenArray[$imageCount]['keyAngle'] = $keyNodeAngle;
 
       $dataArray['reply'] .= " | Key Frame0 X= ".$keyNodeX;
       $dataArray['reply'] .= " | Key Frame0 Y= ".$keyNodeY;
+      $dataArray['reply'] .= " | Key Frame0 Angle= ".$keyNodeAngle;
 
       $dataArray['reply'] .= '</br>';
+
+      $image_p = imagecreatetruecolor($specimenArray[$imageCount]['width'], $specimenArray[$imageCount]['height']);
+      $alpha_channel = imagecolorallocatealpha($image_p, 0, 0, 0, 127);
+      imagecolortransparent($image_p, $alpha_channel);
+      imagefill($image_p, 0, 0, $alpha_channel);
+      imagesavealpha($image_p, true);
+
+      imagecopyresampled($image_p, $specimenCharacterImage, 0, 0, $specimenArray[$imageCount]['srcX'], $specimenArray[$imageCount]['srcY'], $specimenArray[$imageCount]['width'], $specimenArray[$imageCount]['height'], $specimenArray[$imageCount]['width'], $specimenArray[$imageCount]['height']);
+
+      ob_start();
+      imagepng($image_p);
+      $imageSample = ob_get_contents();
+      ob_end_clean();
+
+      $dataArray['reply'] .= '<img src="data:image/png;base64,'.base64_encode($imageSample).'" /><br/>';
 
       $imageCount++;
     }
 
-    $countSpecimenImage = 18;
+    $countSpecimenImage = 0;
     $specimenResult = imagecreatetruecolor(600, 600);
+    $alpha_channel = imagecolorallocatealpha($specimenResult, 0, 0, 0, 127);
+    imagecolortransparent($specimenResult, $alpha_channel);
+    imagefill($specimenResult, 0, 0, $alpha_channel);
+    imagesavealpha($specimenResult, true);
 
     while($countSpecimenImage < count($specimenArray)){
       $image_p = imagecreatetruecolor($specimenArray[$countSpecimenImage]['width'], $specimenArray[$countSpecimenImage]['height']);
-      $red = imagecolorallocate($specimenResult, 0, 0, 0);
-      imagecolortransparent($image_p, $red);
+      $alpha_channel = imagecolorallocatealpha($image_p, 0, 0, 0, 127);
+      imagecolortransparent($image_p, $alpha_channel);
+      imagefill($image_p, 0, 0, $alpha_channel);
 
-      $image = imagecreatefrompng($filename);
-      imagecopyresampled($image_p, $image, 0, 0, $specimenArray[$countSpecimenImage]['srcX'], $specimenArray[$countSpecimenImage]['srcY'], $specimenArray[$countSpecimenImage]['width'], $specimenArray[$countSpecimenImage]['height'], $specimenArray[$countSpecimenImage]['width'], $specimenArray[$countSpecimenImage]['height']);
+      imagecopy($image_p, $specimenCharacterImage, 0, 0, $specimenArray[$countSpecimenImage]['srcX'], $specimenArray[$countSpecimenImage]['srcY'], $specimenArray[$countSpecimenImage]['width'], $specimenArray[$countSpecimenImage]['height']);
 
-      imagecopymerge($specimenResult, $image_p, -$specimenArray[$countSpecimenImage]['keyX'], -$specimenArray[$countSpecimenImage]['keyY'], 0, 0, $specimenArray[$countSpecimenImage]['width'], $specimenArray[$countSpecimenImage]['height'], 100);
+      imagecopy($specimenResult, $image_p, 300+$specimenArray[$countSpecimenImage]['keyX'], 400+$specimenArray[$countSpecimenImage]['keyY'], 0, 0, $specimenArray[$countSpecimenImage]['width'], $specimenArray[$countSpecimenImage]['height']);
 
       $countSpecimenImage++;
      }
