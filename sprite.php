@@ -81,7 +81,7 @@
       imagesavealpha($image_p, true);
 
       imagecopyresampled($image_p, $specimenCharacterImage, 0, 0, $specimenArray[$imageCount]['srcX'], $specimenArray[$imageCount]['srcY'], $specimenArray[$imageCount]['width'], $specimenArray[$imageCount]['height'], $specimenArray[$imageCount]['width'], $specimenArray[$imageCount]['height']);
-
+      /*$image_p = imagerotate($image_p, 30, $alpha_channel);*/
       ob_start();
       imagepng($image_p);
       $imageSample = ob_get_contents();
@@ -107,7 +107,11 @@
 
       imagecopy($image_p, $specimenCharacterImage, 0, 0, $specimenArray[$countSpecimenImage]['srcX'], $specimenArray[$countSpecimenImage]['srcY'], $specimenArray[$countSpecimenImage]['width'], $specimenArray[$countSpecimenImage]['height']);
 
-      imagecopy($specimenResult, $image_p, 300+$specimenArray[$countSpecimenImage]['keyX'], 400+$specimenArray[$countSpecimenImage]['keyY'], 0, 0, $specimenArray[$countSpecimenImage]['width'], $specimenArray[$countSpecimenImage]['height']);
+      if(!empty($specimenArray[$countSpecimenImage]['keyAngle'])){
+        $image_p = imagerotate($image_p, -$specimenArray[$countSpecimenImage]['keyAngle'], $alpha_channel);
+      }
+
+      imagecopy($specimenResult, $image_p, 300+$specimenArray[$countSpecimenImage]['keyX'], 300+$specimenArray[$countSpecimenImage]['keyY'], 0, 0, imagesx($image_p), imagesy($image_p));
 
       $countSpecimenImage++;
      }
