@@ -76,6 +76,17 @@
 	text-align: left;
 }
 
+#profile-container #infos-container #message-user-container
+{
+	margin-top: 10px;
+}
+#profile-container #infos-container #message-user-container .button
+{
+	margin: auto;
+	width: 140px;
+	text-align: left;
+}
+
 #profile-container #infos-container #user-info-container
 {
 	margin-top: 20px;

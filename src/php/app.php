@@ -324,6 +324,24 @@
 				$dataArray['reply'] = null;
 			}
 		}
+
+		if($action == "sendUserMessage"){
+			if((isset($_POST['toPlayer']) AND !empty($_POST['toPlayer'])) AND (isset($_POST['message_content']) AND !empty($_POST['message_content']))){
+				$toPlayer = htmlspecialchars($_POST['toPlayer']);
+				$messageContent = htmlspecialchars($_POST['message_content']);
+
+				$returnUserMessage = array();
+				$returnUserMessage = User::sendUserMessage($toPlayer, $messageContent);
+
+				$dataArray['result'] = $returnUserMessage['result'];
+				$dataArray['error'] = $returnUserMessage['error'];
+				$dataArray['reply'] = $returnUserMessage['reply'];
+			}else {
+				$dataArray['result'] = false;
+				$dataArray['error'] = "Some informations are empty ...";
+				$dataArray['reply'] = null;
+			}
+		}
 	}
 	else
 	{

@@ -88,6 +88,15 @@
 	cursor: pointer;
 	margin-left: 15px;
 }
+
+#report-panel .report-container .user-report-container .from-to-container
+{
+	display: inline-block;
+	vertical-align: top;
+	height: 100px;
+	line-height: 100px;
+}
+
 #report-panel .report-container .user-report-container .reported-user
 {
 	display: inline-block;

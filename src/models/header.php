@@ -2,7 +2,7 @@
 	<ul id="left-ul">
 		<li id="top-icon"><a href=""><img src="src/img/default/icon.png"/></a></li>
 		<div id="top-bar-left-separator"></div>
-		<li id="title-message"><p>Welcome on <a href="">Mutopedia ALPHA</a> :<i> The World of Mutants Genetics Gladiators</i></p></li>
+		<li id="title-message"><p>Welcome on <a href="">Mutopedia</a> :<i> The World of Mutants Genetics Gladiators</i></p></li>
 	</ul>
 	<ul id="right-ul">
 		<div id="top-bar-right-separator"></div>
@@ -28,7 +28,7 @@
 </nav>
 
 <div id="news-bar">
-	<p><a>Mutopedia users :</a> <i>The site is in Alpha version, the updates are performed regularly and are not necessarily advertised if we think it is not necessary, so do not hesitate to return to the site from time to time!</i></p>
+	<p><a>Mutopedia users :</a> <i>The site is in Beta version, the updates are performed regularly and are not necessarily advertised if we think it is not, so do not hesitate to return to the site from time to time!</i></p>
 </div>
 
 <nav id="menu-nav">
@@ -40,6 +40,7 @@
 	if(User::isLogged()) {
 ?>
 		<li name="profile" class="unactive" onClick="Interface.loadModel('profile', '<?php echo User::getUserLink();?>')"><h3>PROFILE</h3></li>
+		<li name="messenger" class="unactive" onClick="Interface.loadModel('messenger')"><h3>MESSENGER</h3></li>
 <?php
 		if(User::isAdmin()) {
 ?>

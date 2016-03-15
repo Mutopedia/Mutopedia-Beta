@@ -252,6 +252,21 @@ var Engine = {
   			$('.popup-box#report-box .box-content ul li:first-child p').fadeOut(200).html(data.error).fadeIn(200);
   		}
   	}, "json");
+  },
+
+  sendUserMessage: function(toPlayer){
+  	var message_content = $('.popup-box#message_user-box .box-content #message_content').val();
+
+  	$.post(App.phpPath+"app.php", { action: "sendUserMessage", toPlayer: toPlayer, message_content: message_content}, function(data){
+  		if(data.result){
+  			$('.popup-box#message_user-box .box-content ul li:nth-child(2)').fadeOut(200);
+  			$('.popup-box#message_user-box .box-content ul li:first-child p').fadeOut(200).html(data.reply).fadeIn(200);
+  			$('.popup-box#message_user-box .box-content ul li:last-child .button').attr("onclick", "Interface.closePopUp('message_user-box');").children('p').html('Finish !');
+  		}
+  		if(data.error != null){
+  			$('.popup-box#message_user-box .box-content ul li:first-child p').fadeOut(200).html(data.error).fadeIn(200);
+  		}
+  	}, "json");
   }
 }
 

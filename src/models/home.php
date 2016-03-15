@@ -18,6 +18,6 @@
 
 <div id="video-player">
 	<div id="iframe-container">
-		<iframe src="http://www.youtube.com/embed/GTgjoDdNrQs?wmode=opaque" allowfullscreen="" frameborder="0"></iframe>
+		<iframe src="https://www.youtube.com/embed/GTgjoDdNrQs?wmode=opaque" allowfullscreen="" frameborder="0"></iframe>
 	</div>
 </div>

@@ -1,5 +1,5 @@
 <div id="report-box" class="popup-box">
-	<div class="close-box" onClick="Interface.closePopUp('report-box');"></div>
+	<div class="close-box"></div>
 
 	<div class="box-title">
 		<h2>Report : <?php echo User::getUserUsername($argPage);?></h2>

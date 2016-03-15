@@ -66,5 +66,17 @@
 
 		<div id="background-container"><!--onClick="closePopUp();closeBackground();"-->
 		</div>
+
+		<div align="center">
+			<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+			<!-- Footer Ad -->
+			<ins class="adsbygoogle"
+			     style="display:inline-block;width:728px;height:90px"
+			     data-ad-client="ca-pub-5272534379252746"
+			     data-ad-slot="3227499514"></ins>
+			<script>
+			(adsbygoogle = window.adsbygoogle || []).push({});
+			</script>
+		</div>
 	</body>
 </html>

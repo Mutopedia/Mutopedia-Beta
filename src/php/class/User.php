@@ -353,9 +353,38 @@ class User
 		}
 	}
 
+	public static function getMessagesUsers(){
+		if(self::isLogged()){
+			$newStaticBdd = new BDD();
+			$dataArray['reply'] = "";
+
+			$messagesUsers = $newStaticBdd->select("to_player, from_player, message_content", "messages_user", "WHERE to_player LIKE '".self::getUserLink()."' OR from_player LIKE '".self::getUserLink()."'");
+			$thereMessages = $newStaticBdd->num_rows($messagesUsers);
+
+			if($thereMessages > 0){
+				while($getMessagesUsers = $newStaticBdd->fetch_array($messagesUsers)){
+					ob_start();
+					include('../models/messenger_users.php');
+					$dataArray['reply'] .= ob_get_contents();
+					ob_end_clean();
+				}
+
+				$dataArray['result'] = true;
+				$dataArray['error'] = null;
+
+			}else {
+				$dataArray['result'] = false;
+				$dataArray['error'] = "You have no messages ...";
+				$dataArray['reply'] = null;
+			}
+
+			return $dataArray;
+		}
+	}
+
 	public static function changeCharterAcceptance($state)
 	{
-		if(User::isLogged())
+		if(self::isLogged())
 		{
 			$newStaticBdd = new BDD();
 			if(isset($state) AND !empty($state))
@@ -488,37 +517,74 @@ class User
 
 	public static function reportPlayer($reportedPlayer, $reportMessage)
 	{
-		$newStaticBdd = new BDD();
-
-		if(!empty($reportedPlayer) AND !empty($reportMessage))
+		if(User::isLogged())
 		{
-			$fromPlayerLinkId = self::getUserLink();
-			$reportedPlayerLinkId = $reportedPlayer;
-			$reportMessage = $newStaticBdd->real_escape_string(htmlspecialchars($reportMessage));
+			$newStaticBdd = new BDD();
 
-			$reportInfos = $newStaticBdd->select("reporting_from, reported_player", "report_player", "WHERE reporting_from LIKE '".$fromPlayerLinkId."' AND reported_player LIKE '".$reportedPlayerLinkId."'");
-			$getReportInfos = $newStaticBdd->num_rows($reportInfos);
-
-			if($getReportInfos < 1)
+			if(!empty($reportedPlayer) AND !empty($reportMessage))
 			{
-				$regUser = $newStaticBdd->insert("report_player", "reporting_from, reported_player, report_message, date", "'".$fromPlayerLinkId."', '".$reportedPlayerLinkId."', '".$reportMessage."', '".time()."'");
+				$fromPlayerLinkId = self::getUserLink();
+				$reportedPlayerLinkId = $reportedPlayer;
+				$reportMessage = $newStaticBdd->real_escape_string(htmlspecialchars($reportMessage));
 
-				$dataArray['result'] = true;
-				$dataArray['error'] = null;
-				$dataArray['reply'] = "The user has been successfully reported, thanks for your help !";
+				$reportInfos = $newStaticBdd->select("reporting_from, reported_player", "report_player", "WHERE reporting_from LIKE '".$fromPlayerLinkId."' AND reported_player LIKE '".$reportedPlayerLinkId."'");
+				$getReportInfos = $newStaticBdd->num_rows($reportInfos);
+
+				if($getReportInfos < 1)
+				{
+					$regUser = $newStaticBdd->insert("report_player", "reporting_from, reported_player, report_message, date", "'".$fromPlayerLinkId."', '".$reportedPlayerLinkId."', '".$reportMessage."', '".time()."'");
+
+					$dataArray['result'] = true;
+					$dataArray['error'] = null;
+					$dataArray['reply'] = "The user has been successfully reported, thanks for your help !";
+				}
+				else
+				{
+					$dataArray['result'] = false;
+					$dataArray['error'] = "Sorry, you have already reported this player. Only one report per player is possible.";
+					$dataArray['reply'] = null;
+				}
 			}
 			else
 			{
 				$dataArray['result'] = false;
-				$dataArray['error'] = "Sorry, you have already reported this player. Only one report per player is possible.";
+				$dataArray['error'] = "The message of the report is empty !";
 				$dataArray['reply'] = null;
 			}
 		}
-		else
+
+		return $dataArray;
+	}
+
+	public static function sendUserMessage($toPlayer, $messageContent){
+		if(User::isLogged())
 		{
-			$dataArray['result'] = false;
-			$dataArray['error'] = "The message of the report is empty !";
-			$dataArray['reply'] = null;
+			$newStaticBdd = new BDD();
+
+			if(!empty($toPlayer) AND !empty($messageContent)){
+				$fromPlayer = self::getUserLink();
+				$toPlayer = $toPlayer;
+				$messageContent = $newStaticBdd->real_escape_string(htmlspecialchars($messageContent));
+
+				$userInfos = $newStaticBdd->select("userlink", "users", "WHERE userlink LIKE '".$toPlayer."'");
+				$getUserInfos = $newStaticBdd->num_rows($userInfos);
+
+				if($getUserInfos == 1){
+					$newStaticBdd->insert("messages_user", "from_player, to_player, message_content, time", "'".$fromPlayer."', '".$toPlayer."', '".$messageContent."', '".time()."'");
+
+					$dataArray['result'] = true;
+					$dataArray['error'] = null;
+					$dataArray['reply'] = "Your message has been successfully send !";
+				}else {
+					$dataArray['result'] = false;
+					$dataArray['error'] = "Sorry, the player was not found ...";
+					$dataArray['reply'] = null;
+				}
+			}else {
+				$dataArray['result'] = false;
+				$dataArray['error'] = "Your message is empty !";
+				$dataArray['reply'] = null;
+			}
 		}
 
 		return $dataArray;

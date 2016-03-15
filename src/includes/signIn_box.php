@@ -1,5 +1,5 @@
 <div id="signIn-box" class="popup-box">
-	<div class="close-box" onClick="closePopUp();"></div>
+	<div class="close-box"></div>
 
 	<div class="box-title">
 		<h2>SignIn</h2>

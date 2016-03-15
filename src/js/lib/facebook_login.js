@@ -76,7 +76,7 @@ function connectUser(){
       if(!Engine.getCookie('AcceptationCookies') || Engine.getCookie('AcceptationCookies') != 1){
         Interface.showPopUp("welcome-box");
       }
-      Engine.logUser(response.id, response.first_name, response.last_name, "http://graph.facebook.com/" + response.id + "/picture");
+      Engine.logUser(response.id, response.first_name, response.last_name, "https://graph.facebook.com/" + response.id + "/picture");
     });
 }
 

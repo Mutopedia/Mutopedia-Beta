@@ -2,7 +2,7 @@
 <meta name="language" content="english">
 <meta name="google" content="notranslate">
 
-<title>Mutopedia Alpha: The World of MGG</title>
+<title>Mutopedia: The World of MGG</title>
 <meta name="author" content="Mutopedia">
 <meta name="description" content="Mutants: The World of Mutants Genetics Gladiators" />
 <meta name="keywords" content="Mutopedia, mutopedia, mutants, genetics, gladiators, MGG" />
@@ -23,7 +23,7 @@
 <meta property="og:description" content="Mutants: The World of Mutants Genetics Gladiators" />
 <meta property="og:url" content="<?php echo URL;?>" />
 <meta property="og:site_name" content="Mutopedia" />
-<meta property="og:image" content="<?php echo URL.IMG;?>/default/preview.png" />
+<meta property="og:image" content="<?php echo URL.IMG;?>default/preview.png" />
 
 <!-- Facebook spec -->
 <meta property="article:publisher" content="<?php echo FACEBOOK;?>" />
@@ -33,7 +33,7 @@
 <meta property="twitter:site" content="@mutopedia" />
 <meta property="twitter:domain" content="mutopedia" />
 <meta property="twitter:creator" content="@mutopedia" />
-<meta property="twitter:image" content="<?php echo URL.IMG;?>/default/preview.png" />
+<meta property="twitter:image" content="<?php echo URL.IMG;?>default/preview.png" />
 <meta property="twitter:title" content="Mutopedia" />
 <meta property="twitter:description" content="Mutants: The World of Mutants Genetics Gladiators" />
 <meta property="twitter:url" content="<?php echo TWITTER;?>" />

@@ -1,8 +1,8 @@
 <div id="welcome-box" class="popup-box">
-	<div class="close-box" onClick="closePopUp();"></div>
+	<div class="close-box"></div>
 
 	<div class="box-title">
-		<h2>Welcome on Mutopedia ALPHA</h2>
+		<h2>Welcome on Mutopedia !</h2>
 	</div>
 
 	<div class="box-content">

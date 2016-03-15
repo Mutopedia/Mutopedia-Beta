@@ -1,0 +1,44 @@
+#messenger-container{
+  text-align: center;
+}
+
+#messenger-container .title-container{
+  margin-bottom: 20px;
+}
+
+#messenger-container .messenger-users{
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 30%;
+  margin: auto;
+  overflow: hidden;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border-bottom: 3px solid rgba(0, 0, 0, 0.5);
+  margin-bottom: 5px;
+}
+#messenger-container .messenger-users .user-container{
+  display: inline-block;
+  vertical-align: middle;
+  float: left;
+  width: 35%;
+  border-right: 1px solid rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+    cursor: pointer;
+}
+#messenger-container .messenger-users .user-container .user-picture{
+  display: inline-block;
+  vertical-align: middle;
+  float: left;
+}
+#messenger-container .messenger-users .user-container .user-picture img{
+  display: inline-block;
+  vertical-align: middle;
+}
+#messenger-container .messenger-users .message_content{
+  display: inline-block;
+  vertical-align: middle;
+  text-align: left;
+  width: 65%;
+  box-sizing: border-box;
+  padding-left: 10px;
+}

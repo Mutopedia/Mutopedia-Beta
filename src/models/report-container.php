@@ -3,14 +3,17 @@
 		<div class="report-infos-container">
 			<h3><?php echo $getReportsInfos['id'];?># Reported on <?php echo date("d/m/Y - H:i", $getReportsInfos['date']);?></h3>
 		</div>
-		<div class="report-from-user" onclick="loadModel('profile', '<?php echo $getReportsInfos['reporting_from'];?>')">
+		<div class="report-from-user" onclick="Interface.loadModel('profile', '<?php echo $getReportsInfos['reporting_from'];?>')">
 			<div class="user-picture">
 				<img src="<?php echo User::getUserPicture($getReportsInfos['reporting_from']);?>">
 			</div>
 			<h3><?php echo User::getUserUsername($getReportsInfos['reporting_from']);?></h3>
 			<h3><?php echo '('.$getReportsInfos['reporting_from'].')';?></h3>
 		</div>
-		<div class="reported-user" onclick="loadModel('profile', '<?php echo $getReportsInfos['reported_player'];?>')">
+		<div class="from-to-container">
+				<h3>FROM -> TO</h3>
+		</div>
+		<div class="reported-user" onclick="Interface.loadModel('profile', '<?php echo $getReportsInfos['reported_player'];?>')">
 			<div class="user-picture">
 				<img src="<?php echo User::getUserPicture($getReportsInfos['reported_player']);?>">
 			</div>

@@ -50,3 +50,8 @@
   	var selectHtml = $(this).parent().parent().children(".value");
   	$('h3', selectHtml).html(valueHtml);
   });
+
+  $(document).on('click', '.close-box', function() {
+    var popUpName = $(this).parent().attr('id');
+  	Interface.closePopUp(popUpName);
+  });

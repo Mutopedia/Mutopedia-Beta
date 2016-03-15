@@ -13,7 +13,7 @@ class BDD
 		$bddCon = mysqli_connect($this->host, $this->user, $this->password, $this->bdname);
 		if(!$bddCon)
 		{
-            die("Nous sommes d&eacutesol&eacute : La connexion &agrave la base de donn&eacutees &agrave &eacutechou&eacutee ..."); 
+            die("Nous sommes d&eacutesol&eacute : La connexion &agrave la base de donn&eacutees &agrave &eacutechou&eacutee ...");
         }
         else
         {

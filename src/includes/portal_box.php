@@ -1,5 +1,5 @@
 <div id="portal-box" class="popup-box">
-	<div class="close-box" onClick="closePopUp();"></div>
+	<div class="close-box"></div>
 
 	<div class="box-title">
 		<h2>Portal of Mutopedia</h2>

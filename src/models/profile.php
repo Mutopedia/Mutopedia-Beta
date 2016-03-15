@@ -64,6 +64,17 @@
 				</div>
 <?php
 			}
+
+			if(User::isLogged() AND (User::getToken() != User::getUserToken($argPage)))
+			{
+?>
+				<div id="message-user-container">
+					<div class="button" onclick="Interface.showPopUp('message_user-box');">
+						<img class="button-icon" src="src/img/default/icon.png"/><p>Send a message</p>
+					</div>
+				</div>
+<?php
+			}
 ?>
 
 				<ul id="user-info-container">
@@ -203,6 +214,7 @@
 
 		<?php
 			include('../includes/report_box.php');
+			include('../includes/messageUser_box.php');
 		?>
 		<script type="text/javascript">
 			Interface.showPopUp("profile-box");

@@ -482,11 +482,16 @@ footer #copyright-container
 	margin-right: 7px;
 	border-radius: 3px;
 	float: left;
+	width: 25px;
+	height: 25px;
+	overflow: hidden;
 }
 .button .button-icon img
 {
 	display: inline-block;
 	vertical-align: middle;
+	width: 25px;
+	height: 25px;
 }
 .button.unactivated
 {
