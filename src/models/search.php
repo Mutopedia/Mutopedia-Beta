@@ -1,6 +1,6 @@
 <div id="search-container">
 	<div id="input-container">
-		<input type="text" placeholder="Search a player by username or by mutant tag">
+		<input type="text" placeholder="Search a player by username or by userlink">
 	</div>
 
 	<div id="option-layout-container">

@@ -104,7 +104,7 @@
 #search-container #option-row-container
 {
 	display: block;
-	width: 50%;
+	width: 60%;
 	height: 45px;
 	line-height: 45px;
 	margin: auto;
@@ -115,7 +115,7 @@
 	margin-bottom: -20px;
 	box-sizing: border-box;
 	padding-right: 40px;
-	padding-left: 7px;
+	padding-left: 10px;
 }
 #search-container #option-row-container > div
 {
@@ -131,8 +131,8 @@
 
 #search-container #result-container
 {
-	height: 70%;
-	width: 50%;
+	height: 450px;
+	width: 60%;
 	overflow-x: hidden;
 	margin: auto;
 	margin-top: 20px;

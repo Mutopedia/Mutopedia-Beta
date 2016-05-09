@@ -1,5 +1,6 @@
 var Engine = {
   documentTitle: "",
+  userNumberCount: 0,
 
   init: function(){
     this.documentTitle = document.title;
@@ -132,15 +133,16 @@ var Engine = {
   	}, "json");
   },
 
-  searchUsers: function(searchContent){
+  searchUsers: function(){
+    var searchContent = $('#search-container #input-container input').val();
   	var sortByValue = $("#search-container #option-sort-container .select").attr('value');
 
-  	$('#search-container #result-container').stop().fadeOut(100).html('<h2 style="text-align: center;">Loading ...</h2>').fadeIn(200).queue(function(){
-  		$.post(App.phpPath+"app.php", { action: "searchUsers", searchContent: searchContent, sortByValue: sortByValue}, function(data){
+  	$('#search-container #result-container').stop().fadeOut(100).html('<h2 style="text-align: center;">Loading ...</h2>').stop().fadeIn(200).queue(function(){
+  		$.post(App.phpPath+"app.php", { action: "searchUsers", searchContent: searchContent, sortByValue: sortByValue, limitNumberStart: Engine.userNumberCount, limitNumber: 10}, function(data){
   			if(data.result){
   				$('#search-container #error-container').fadeOut(200).queue(function(){
   					$('#search-container #result-container').fadeOut(200).queue(function() {
-  						$(this).html(data.reply).queue(function() {
+  						$(this).html(data.reply).append('<div class="button" onclick="Engine.searchUsersScroll();"><p>Load More</p></div>').queue(function() {
   							$(this).fadeIn(400);
   							$(this).dequeue();
   						});
@@ -150,8 +152,11 @@ var Engine = {
   				});
   			}else {
   				$('#search-container #result-container').fadeOut(200).queue(function(){
-  					$('#search-container #error-container').fadeOut(200).html('<h2 style="text-align: center;">Loading ...</h2>').fadeIn(200).queue(function() {
-  						$(this).children('h2').fadeOut(200).html(data.error).parent().fadeIn(200);
+  					$('#search-container #error-container').fadeIn(200).queue(function() {
+  						$(this).children('h2').fadeOut(400).queue(function() {
+                  $(this).html(data.error).fadeIn(400);
+                  $(this).dequeue();
+      					});
   						$(this).dequeue();
   					});
   					$(this).dequeue();
@@ -162,6 +167,27 @@ var Engine = {
 
   		$(this).dequeue();
   	});
+  },
+
+  searchUsersScroll(searchContent){
+    var searchContent = $('#search-container #input-container input').val();
+    var sortByValue = $("#search-container #option-sort-container .select").attr('value');
+
+    Engine.userNumberCount = Engine.userNumberCount + 10;
+
+		$.post(App.phpPath+"app.php", { action: "searchUsers", searchContent: searchContent, sortByValue: sortByValue, limitNumberStart: Engine.userNumberCount, limitNumber: 10}, function(data){
+			if(data.result){
+				$('#search-container #error-container').fadeOut(200).queue(function(){
+            $('#search-container #result-container .button').fadeOut(100).remove();
+						$('#search-container #result-container').append(data.reply).queue(function() {
+              $(this).append('<div class="button" onclick="Engine.searchUsersScroll();"><p>Load More</p></div>')
+							$('#search-container #result-container .button').fadeIn(200);
+							$(this).dequeue();
+						});
+					$(this).dequeue();
+				});
+			}
+    }, "json");
   },
 
   getReleaseCounter: function(releaseName){
@@ -239,10 +265,10 @@ var Engine = {
   	}, "json");
   },
 
-  sendReport: function(reported_player){
+  sendReport: function(reported_playerId){
   	var report_message = $('.popup-box#report-box .box-content #report_message').val();
 
-  	$.post(App.phpPath+"app.php", { action: "reportPlayer", reported_player: reported_player, report_message: report_message}, function(data){
+  	$.post(App.phpPath+"app.php", { action: "reportPlayer", reported_playerId: reported_playerId, report_message: report_message}, function(data){
   		if(data.result){
   			$('.popup-box#report-box .box-content ul li:nth-child(2)').fadeOut(200);
   			$('.popup-box#report-box .box-content ul li:first-child p').fadeOut(200).html(data.reply).fadeIn(200);
@@ -254,10 +280,10 @@ var Engine = {
   	}, "json");
   },
 
-  sendUserMessage: function(toPlayer){
+  sendUserMessage: function(toPlayerId){
   	var message_content = $('.popup-box#message_user-box .box-content #message_content').val();
 
-  	$.post(App.phpPath+"app.php", { action: "sendUserMessage", toPlayer: toPlayer, message_content: message_content}, function(data){
+  	$.post(App.phpPath+"app.php", { action: "sendUserMessage", toPlayerId: toPlayerId, message_content: message_content}, function(data){
   		if(data.result){
   			$('.popup-box#message_user-box .box-content ul li:nth-child(2)').fadeOut(200);
   			$('.popup-box#message_user-box .box-content ul li:first-child p').fadeOut(200).html(data.reply).fadeIn(200);

@@ -93,7 +93,7 @@
     }
 
     $countSpecimenImage = 0;
-    $specimenResult = imagecreatetruecolor(600, 600);
+    $specimenResult = imagecreatetruecolor(250, 400);
     $alpha_channel = imagecolorallocatealpha($specimenResult, 0, 0, 0, 127);
     imagecolortransparent($specimenResult, $alpha_channel);
     imagefill($specimenResult, 0, 0, $alpha_channel);
@@ -111,7 +111,7 @@
         $image_p = imagerotate($image_p, -$specimenArray[$countSpecimenImage]['keyAngle'], $alpha_channel);
       }
 
-      imagecopy($specimenResult, $image_p, 300+$specimenArray[$countSpecimenImage]['keyX'], 300+$specimenArray[$countSpecimenImage]['keyY'], 0, 0, imagesx($image_p), imagesy($image_p));
+      imagecopy($specimenResult, $image_p, $specimenArray[$countSpecimenImage]['dstX'], $specimenArray[$countSpecimenImage]['dstY'], 0, 0, imagesx($image_p), imagesy($image_p));
 
       $countSpecimenImage++;
      }

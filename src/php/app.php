@@ -159,9 +159,11 @@
 			if(isset($_POST['sortByValue']) AND !empty($_POST['sortByValue']))
 			{
 				$sortByValue = htmlspecialchars($_POST['sortByValue']);
+				$limitNumberStart = htmlspecialchars($_POST['limitNumberStart']);
+				$limitNumber = htmlspecialchars($_POST['limitNumber']);
 
 				$returnReg = array();
-				$returnReg = Engine::searchUsers($searchContent, $sortByValue);
+				$returnReg = Engine::searchUsers($searchContent, $sortByValue, $limitNumberStart, $limitNumber);
 
 				$dataArray['result'] = $returnReg['result'];
 				$dataArray['error'] = $returnReg['error'];
@@ -305,13 +307,13 @@
 
 		if($action == "reportPlayer")
 		{
-			if((isset($_POST['reported_player']) AND !empty($_POST['reported_player'])) AND (isset($_POST['report_message']) AND !empty($_POST['report_message'])))
+			if((isset($_POST['reported_playerId']) AND !empty($_POST['reported_playerId'])) AND (isset($_POST['report_message']) AND !empty($_POST['report_message'])))
 			{
-				$reportedPlayer = htmlspecialchars($_POST['reported_player']);
+				$reportedPlayerId = htmlspecialchars($_POST['reported_playerId']);
 				$reportMessage = htmlspecialchars($_POST['report_message']);
 
 				$returnUserMutant = array();
-				$returnUserMutant = User::reportPlayer($reportedPlayer, $reportMessage);
+				$returnUserMutant = User::reportPlayer($reportedPlayerId, $reportMessage);
 
 				$dataArray['result'] = $returnUserMutant['result'];
 				$dataArray['error'] = $returnUserMutant['error'];
@@ -326,12 +328,12 @@
 		}
 
 		if($action == "sendUserMessage"){
-			if((isset($_POST['toPlayer']) AND !empty($_POST['toPlayer'])) AND (isset($_POST['message_content']) AND !empty($_POST['message_content']))){
-				$toPlayer = htmlspecialchars($_POST['toPlayer']);
+			if((isset($_POST['toPlayerId']) AND !empty($_POST['toPlayerId'])) AND (isset($_POST['message_content']) AND !empty($_POST['message_content']))){
+				$toPlayerId = htmlspecialchars($_POST['toPlayerId']);
 				$messageContent = htmlspecialchars($_POST['message_content']);
 
 				$returnUserMessage = array();
-				$returnUserMessage = User::sendUserMessage($toPlayer, $messageContent);
+				$returnUserMessage = User::sendUserMessage($toPlayerId, $messageContent);
 
 				$dataArray['result'] = $returnUserMessage['result'];
 				$dataArray['error'] = $returnUserMessage['error'];

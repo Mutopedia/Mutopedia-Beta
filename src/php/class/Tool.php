@@ -423,6 +423,7 @@ class Tool
 				$mutantNameCode = $returnSpecimen[$countSpecimen]['nameCode'][$countSpecimen];
 				$mutantName = $returnSpecimen[$countSpecimen]['name'][$countSpecimen];
 
+				$dataArray[$arrayId] = null;
 				if(strpos(strtolower($mutantName), strtolower($specimenName)) !== false)
 				{
 					$dataArray[$arrayId] = $mutantNameCode;

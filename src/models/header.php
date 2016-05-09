@@ -15,10 +15,10 @@
 <?php
 		}else {
 ?>
-			<li id="fb-status" onClick="Interface.loadModel('profile', '<?php echo User::getUserLink();?>')">
+			<li id="fb-status" onClick="Interface.loadModel('profile', '<?php echo User::getId();?>')">
 				<h3><?php echo User::getUsername();?></h3>
 			</li>
-			<li id="fb-profile-picture" onClick="Interface.loadModel('profile', '<?php echo User::getUserLink();?>')">
+			<li id="fb-profile-picture" onClick="Interface.loadModel('profile', '<?php echo User::getId();?>')">
 				<img src="<?php echo User::getPicture();?>"/>
 			</li>
 <?php
@@ -39,7 +39,7 @@
 <?php
 	if(User::isLogged()) {
 ?>
-		<li name="profile" class="unactive" onClick="Interface.loadModel('profile', '<?php echo User::getUserLink();?>')"><h3>PROFILE</h3></li>
+		<li name="profile" class="unactive" onClick="Interface.loadModel('profile', '<?php echo User::getId();?>')"><h3>PROFILE</h3></li>
 		<li name="messenger" class="unactive" onClick="Interface.loadModel('messenger')"><h3>MESSENGER</h3></li>
 <?php
 		if(User::isAdmin()) {

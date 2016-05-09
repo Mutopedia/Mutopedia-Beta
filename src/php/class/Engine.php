@@ -12,7 +12,7 @@ class Engine
 	public static function loadModel($modelName, $argPage)
 	{
 		$ToolClass = new Tool();
-		
+
 		$modelFilename = '../models/'.$modelName.'.php';
 
 		if(file_exists($modelFilename)){
@@ -34,7 +34,7 @@ class Engine
 		return self::$dataArray;
 	}
 
-	public static function searchUsers($searchContent, $sortByValue)
+	public static function searchUsers($searchContent, $sortByValue, $limitNumberStart, $limitNumber)
 	{
 		$newStaticBdd = new BDD();
 
@@ -42,6 +42,8 @@ class Engine
 		{
 			$searchContent = $newStaticBdd->real_escape_string(htmlspecialchars($searchContent));
 			$sortByValue = $newStaticBdd->real_escape_string(htmlspecialchars($sortByValue));
+			$limitNumberStart = $newStaticBdd->real_escape_string(htmlspecialchars($limitNumberStart));
+			$limitNumber = $newStaticBdd->real_escape_string(htmlspecialchars($limitNumber));
 
 			switch ($sortByValue) {
 				case "fame-asc":
@@ -73,7 +75,7 @@ class Engine
 					break;
 			}
 
-			$UserInfos = $newStaticBdd->select("userlink, fb_firstname, fb_lastname, fb_picture, user_mutant_namecode, fame_level, center_level, time_update", "users", "WHERE fb_firstname LIKE '%".$searchContent."%' OR fb_lastname LIKE '%".$searchContent."%' OR user_mutant_namecode LIKE '%".Tool::findSpecimenNameCode($searchContent)[0]."%' ORDER BY ".$orderBySQL."");
+			$UserInfos = $newStaticBdd->select("id, userlink, fb_firstname, fb_lastname, fb_picture, user_mutant_namecode, fame_level, center_level, time_update", "users", "WHERE fb_firstname = '".$searchContent."' OR fb_lastname = '".$searchContent."' OR userlink = '".$searchContent."' ORDER BY ".$orderBySQL." LIMIT ".$limitNumberStart.", ".$limitNumber."");
 			$isUserExist = $newStaticBdd->num_rows($UserInfos);
 
 			if($isUserExist == 1)
@@ -143,7 +145,7 @@ class Engine
 						break;
 				}
 
-				$UserInfos = $newStaticBdd->select("userlink, fb_firstname, fb_lastname, fb_picture, fame_level, center_level, user_mutant_namecode, time_update", "users", "ORDER BY ".$orderBySQL."");
+				$UserInfos = $newStaticBdd->select("id, userlink, fb_firstname, fb_lastname, fb_picture, fame_level, center_level, user_mutant_namecode, time_update", "users", "ORDER BY ".$orderBySQL." LIMIT ".$limitNumberStart.", ".$limitNumber."");
 				while($getUserInfos = $newStaticBdd->fetch_array($UserInfos))
 				{
 					$mutantDNA = Tool::getSpecimenDNA($getUserInfos['user_mutant_namecode']);

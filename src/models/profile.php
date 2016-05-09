@@ -1,7 +1,7 @@
 <?php
 	if(!isset($argPage) OR empty($argPage) OR $argPage == null)
 	{
-		$argPage = User::getUserLink();
+		$argPage = User::getId();
 	}
 
 	if(User::getUserFbId($argPage))
@@ -16,7 +16,7 @@
 					<h2><?php echo User::getUserUsername($argPage);?></h2>
 				</div>
 				<div id="user-tag-container">
-					<p><?php echo $argPage;?></p>
+					<p><?php echo User::getUserUserLink($argPage);?></p>
 				</div>
 
 				<div id="facebook-infos-container">
@@ -78,7 +78,7 @@
 ?>
 
 				<ul id="user-info-container">
-					<h2>Information <?php echo $argPage;?> :</h2>
+					<h2>Information <?php echo User::getUserUserLink($argPage);?> :</h2>
 <?php
 					if(User::isLogged() AND (User::getToken() == User::getUserToken($argPage)))
 					{

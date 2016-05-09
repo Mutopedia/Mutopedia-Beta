@@ -8,17 +8,17 @@
 				<img src="<?php echo User::getUserPicture($getReportsInfos['reporting_from']);?>">
 			</div>
 			<h3><?php echo User::getUserUsername($getReportsInfos['reporting_from']);?></h3>
-			<h3><?php echo '('.$getReportsInfos['reporting_from'].')';?></h3>
+			<h3>(<?php echo User::getUserUserLink($getReportsInfos['reporting_from']);?>)</h3>
 		</div>
 		<div class="from-to-container">
-				<h3>FROM -> TO</h3>
+				<h3>FROM => TO</h3>
 		</div>
 		<div class="reported-user" onclick="Interface.loadModel('profile', '<?php echo $getReportsInfos['reported_player'];?>')">
 			<div class="user-picture">
 				<img src="<?php echo User::getUserPicture($getReportsInfos['reported_player']);?>">
 			</div>
 			<h3><?php echo User::getUserUsername($getReportsInfos['reported_player']);?></h3>
-			<h3><?php echo '('.$getReportsInfos['reported_player'].')';?></h3>
+			<h3>(<?php echo User::getUserUserLink($getReportsInfos['reported_player']);?>)</h3>
 		</div>
 	</div>
 	<div class="report-message">

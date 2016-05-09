@@ -71,12 +71,12 @@ class User
 		}
 	}
 
-	public static function getUserToken($user)
+	public static function getUserToken($userId)
 	{
 		if(self::isLogged())
 		{
 			$newStaticBdd = new BDD();
-			$IdToken = $newStaticBdd->select("token", "users", "WHERE userlink LIKE '".$user."'");
+			$IdToken = $newStaticBdd->select("token", "users", "WHERE id LIKE '".$userId."'");
 			$getIdToken = $newStaticBdd->fetch_array($IdToken);
 
 			return $getIdToken['token'];
@@ -159,14 +159,14 @@ class User
 		}
 	}
 
-	public static function getUserPicture($user)
+	public static function getUserPicture($userId)
 	{
-		if(isset($user) AND !empty($user))
+		if(isset($userId) AND !empty($userId))
 		{
 			$newStaticBdd = new BDD();
-			$user = $newStaticBdd->real_escape_string(htmlspecialchars($user));
+			$user = $newStaticBdd->real_escape_string(htmlspecialchars($userId));
 
-			$IdToken = $newStaticBdd->select("fb_picture", "users", "WHERE userlink LIKE '".$user."'");
+			$IdToken = $newStaticBdd->select("fb_picture", "users", "WHERE id LIKE '".$userId."'");
 			$getIdToken = $newStaticBdd->fetch_array($IdToken);
 
 			return $getIdToken['fb_picture'];
@@ -189,14 +189,14 @@ class User
 		}
 	}
 
-	public static function getUserFbId($user)
+	public static function getUserFbId($userId)
 	{
-		if(isset($user) AND !empty($user))
+		if(isset($userId) AND !empty($userId))
 		{
 			$newStaticBdd = new BDD();
-			$user = $newStaticBdd->real_escape_string(htmlspecialchars($user));
+			$userId = $newStaticBdd->real_escape_string(htmlspecialchars($userId));
 
-			$FbId = $newStaticBdd->select("fb_id", "users", "WHERE userlink LIKE '".$user."'");
+			$FbId = $newStaticBdd->select("fb_id", "users", "WHERE id LIKE '".$userId."'");
 			$getFbId = $newStaticBdd->fetch_array($FbId);
 
 			return $getFbId['fb_id'];
@@ -229,70 +229,84 @@ class User
 		}
 	}
 
-	public static function getUserUsername($user)
+	public static function getUserUserLink($userId)
 	{
-		if(isset($user) AND !empty($user))
+		if(isset($userId) AND !empty($userId))
 		{
 			$newStaticBdd = new BDD();
-			$user = $newStaticBdd->real_escape_string(htmlspecialchars($user));
+			$userId = $newStaticBdd->real_escape_string(htmlspecialchars($userId));
 
-			$Username = $newStaticBdd->select("fb_firstname, fb_lastname", "users", "WHERE userlink LIKE '".$user."'");
+			$UserLink = $newStaticBdd->select("userlink", "users", "WHERE id LIKE '".$userId."'");
+			$getUserLink = $newStaticBdd->fetch_array($UserLink);
+
+			return $getUserLink['userlink'];
+		}
+	}
+
+	public static function getUserUsername($userId)
+	{
+		if(isset($userId) AND !empty($userId))
+		{
+			$newStaticBdd = new BDD();
+			$userId = $newStaticBdd->real_escape_string(htmlspecialchars($userId));
+
+			$Username = $newStaticBdd->select("fb_firstname, fb_lastname", "users", "WHERE id LIKE '".$userId."'");
 			$getUsername = $newStaticBdd->fetch_array($Username);
 
 			return $getUsername['fb_firstname'].' '.$getUsername['fb_lastname'];
 		}
 	}
 
-	public static function getUserMutant($user)
+	public static function getUserMutant($userId)
 	{
-		if(isset($user) AND !empty($user))
+		if(isset($userId) AND !empty($userId))
 		{
 			$newStaticBdd = new BDD();
-			$user = $newStaticBdd->real_escape_string(htmlspecialchars($user));
+			$userId = $newStaticBdd->real_escape_string(htmlspecialchars($userId));
 
-			$UserMutant = $newStaticBdd->select("user_mutant_namecode", "users", "WHERE userlink LIKE '".$user."'");
+			$UserMutant = $newStaticBdd->select("user_mutant_namecode", "users", "WHERE id LIKE '".$userId."'");
 			$getUserMutant = $newStaticBdd->fetch_array($UserMutant);
 
 			return $getUserMutant['user_mutant_namecode'];
 		}
 	}
 
-	public static function getUserCenterLevel($user)
+	public static function getUserCenterLevel($userId)
 	{
-		if(isset($user) AND !empty($user))
+		if(isset($userId) AND !empty($userId))
 		{
 			$newStaticBdd = new BDD();
-			$user = $newStaticBdd->real_escape_string(htmlspecialchars($user));
+			$userId = $newStaticBdd->real_escape_string(htmlspecialchars($userId));
 
-			$UserMutant = $newStaticBdd->select("center_level", "users", "WHERE userlink LIKE '".$user."'");
+			$UserMutant = $newStaticBdd->select("center_level", "users", "WHERE id LIKE '".$userId."'");
 			$getUserMutant = $newStaticBdd->fetch_array($UserMutant);
 
 			return $getUserMutant['center_level'];
 		}
 	}
 
-	public static function getUserFameLevel($user)
+	public static function getUserFameLevel($userId)
 	{
-		if(isset($user) AND !empty($user))
+		if(isset($userId) AND !empty($userId))
 		{
 			$newStaticBdd = new BDD();
-			$user = $newStaticBdd->real_escape_string(htmlspecialchars($user));
+			$user = $newStaticBdd->real_escape_string(htmlspecialchars($userId));
 
-			$UserMutant = $newStaticBdd->select("fame_level", "users", "WHERE userlink LIKE '".$user."'");
+			$UserMutant = $newStaticBdd->select("fame_level", "users", "WHERE id LIKE '".$userId."'");
 			$getUserMutant = $newStaticBdd->fetch_array($UserMutant);
 
 			return $getUserMutant['fame_level'];
 		}
 	}
 
-	public static function getFbPermission($user)
+	public static function getFbPermission($userId)
 	{
-		if(isset($user) AND !empty($user))
+		if(isset($userId) AND !empty($userId))
 		{
 			$newStaticBdd = new BDD();
-			$user = $newStaticBdd->real_escape_string(htmlspecialchars($user));
+			$userId = $newStaticBdd->real_escape_string(htmlspecialchars($userId));
 
-			$FbPermission = $newStaticBdd->select("showFbAccount", "users", "WHERE userlink LIKE '".$user."'");
+			$FbPermission = $newStaticBdd->select("showFbAccount", "users", "WHERE id LIKE '".$userId."'");
 			$getFbPermission = $newStaticBdd->fetch_array($FbPermission);
 
 			if($getFbPermission['showFbAccount'] == 0)
@@ -332,14 +346,14 @@ class User
 		return $dataArray;
 	}
 
-	public static function getCharterAcceptance($user)
+	public static function getCharterAcceptance($userId)
 	{
-		if(isset($user) AND !empty($user))
+		if(isset($userId) AND !empty($userId))
 		{
 			$newStaticBdd = new BDD();
-			$user = $newStaticBdd->real_escape_string(htmlspecialchars($user));
+			$userId = $newStaticBdd->real_escape_string(htmlspecialchars($userId));
 
-			$FbPermission = $newStaticBdd->select("charterAcceptance", "users", "WHERE userlink LIKE '".$user."'");
+			$FbPermission = $newStaticBdd->select("charterAcceptance", "users", "WHERE id LIKE '".$userId."'");
 			$getFbPermission = $newStaticBdd->fetch_array($FbPermission);
 
 			if($getFbPermission['charterAcceptance'] == 0)
@@ -358,7 +372,7 @@ class User
 			$newStaticBdd = new BDD();
 			$dataArray['reply'] = "";
 
-			$messagesUsers = $newStaticBdd->select("to_player, from_player, message_content", "messages_user", "WHERE to_player LIKE '".self::getUserLink()."' OR from_player LIKE '".self::getUserLink()."'");
+			$messagesUsers = $newStaticBdd->select("to_player, from_player, message_content", "messages_user", "WHERE to_player LIKE '".self::getId()."' OR from_player LIKE '".self::getId()."'");
 			$thereMessages = $newStaticBdd->num_rows($messagesUsers);
 
 			if($thereMessages > 0){
@@ -414,7 +428,7 @@ class User
 	{
 		if(User::isLogged())
 		{
-			if(User::getCharterAcceptance(self::getUserLink()))
+			if(User::getCharterAcceptance(self::getId()))
 			{
 				$newStaticBdd = new BDD();
 				if(isset($mutantNameCode) AND !empty($mutantNameCode))
@@ -449,7 +463,7 @@ class User
 	{
 		if(User::isLogged())
 		{
-			if(User::getCharterAcceptance(self::getUserLink()))
+			if(User::getCharterAcceptance(self::getId()))
 			{
 				$newStaticBdd = new BDD();
 				if(isset($centerLevel) AND !empty($centerLevel))
@@ -484,7 +498,7 @@ class User
 	{
 		if(User::isLogged())
 		{
-			if(User::getCharterAcceptance(self::getUserLink()))
+			if(User::getCharterAcceptance(self::getId()))
 			{
 				$newStaticBdd = new BDD();
 				if(isset($fameLevel) AND !empty($fameLevel))
@@ -515,24 +529,24 @@ class User
 		return $dataArray;
 	}
 
-	public static function reportPlayer($reportedPlayer, $reportMessage)
+	public static function reportPlayer($reportedPlayerId, $reportMessage)
 	{
 		if(User::isLogged())
 		{
 			$newStaticBdd = new BDD();
 
-			if(!empty($reportedPlayer) AND !empty($reportMessage))
+			if(!empty($reportedPlayerId) AND !empty($reportedPlayerId))
 			{
-				$fromPlayerLinkId = self::getUserLink();
-				$reportedPlayerLinkId = $reportedPlayer;
+				$fromPlayerLinkId = self::getId();
+				$reportedPlayerId = $reportedPlayerId;
 				$reportMessage = $newStaticBdd->real_escape_string(htmlspecialchars($reportMessage));
 
-				$reportInfos = $newStaticBdd->select("reporting_from, reported_player", "report_player", "WHERE reporting_from LIKE '".$fromPlayerLinkId."' AND reported_player LIKE '".$reportedPlayerLinkId."'");
+				$reportInfos = $newStaticBdd->select("reporting_from, reported_player", "report_player", "WHERE reporting_from LIKE '".$fromPlayerLinkId."' AND reported_player LIKE '".$reportedPlayerId."'");
 				$getReportInfos = $newStaticBdd->num_rows($reportInfos);
 
 				if($getReportInfos < 1)
 				{
-					$regUser = $newStaticBdd->insert("report_player", "reporting_from, reported_player, report_message, date", "'".$fromPlayerLinkId."', '".$reportedPlayerLinkId."', '".$reportMessage."', '".time()."'");
+					$regUser = $newStaticBdd->insert("report_player", "reporting_from, reported_player, report_message, date", "'".$fromPlayerLinkId."', '".$reportedPlayerId."', '".$reportMessage."', '".time()."'");
 
 					$dataArray['result'] = true;
 					$dataArray['error'] = null;
@@ -556,21 +570,21 @@ class User
 		return $dataArray;
 	}
 
-	public static function sendUserMessage($toPlayer, $messageContent){
+	public static function sendUserMessage($toPlayerId, $messageContent){
 		if(User::isLogged())
 		{
 			$newStaticBdd = new BDD();
 
-			if(!empty($toPlayer) AND !empty($messageContent)){
-				$fromPlayer = self::getUserLink();
-				$toPlayer = $toPlayer;
+			if(!empty($toPlayerId) AND !empty($messageContent)){
+				$fromPlayerId = self::getId();
+				$toPlayerId = $toPlayerId;
 				$messageContent = $newStaticBdd->real_escape_string(htmlspecialchars($messageContent));
 
-				$userInfos = $newStaticBdd->select("userlink", "users", "WHERE userlink LIKE '".$toPlayer."'");
+				$userInfos = $newStaticBdd->select("userlink", "users", "WHERE id LIKE '".$toPlayerId."'");
 				$getUserInfos = $newStaticBdd->num_rows($userInfos);
 
 				if($getUserInfos == 1){
-					$newStaticBdd->insert("messages_user", "from_player, to_player, message_content, time", "'".$fromPlayer."', '".$toPlayer."', '".$messageContent."', '".time()."'");
+					$newStaticBdd->insert("messages_user", "from_player, to_player, message_content, time", "'".$fromPlayerId."', '".$toPlayerId."', '".$messageContent."', '".time()."'");
 
 					$dataArray['result'] = true;
 					$dataArray['error'] = null;
@@ -605,11 +619,11 @@ class User
 		}
 
 		$userId = $newStaticBdd->real_escape_string(htmlspecialchars($userId));
-		$userFirstName = $newStaticBdd->real_escape_string(htmlspecialchars($userFirstName));
-		$userLastName = $newStaticBdd->real_escape_string(htmlspecialchars($userLastName));
 		$userPicSrc = $newStaticBdd->real_escape_string(htmlspecialchars($userPicSrc));
 
-		$userLink = preg_replace("/[^A-Za-z0-9 ]/", '', strtolower($userFirstName)).".".preg_replace("/[^A-Za-z0-9 ]/", '', strtolower($userLastName));
+		$userLink = $newStaticBdd->real_escape_string(htmlspecialchars(preg_replace("/[\s\W]+/", '', strtolower($userFirstName)).".".preg_replace("/[\s\W]+/", '', strtolower($userLastName))));
+		$userFirstName = $newStaticBdd->real_escape_string(htmlspecialchars($userFirstName));
+		$userLastName = $newStaticBdd->real_escape_string(htmlspecialchars($userLastName));
 
 		$userInfos = $newStaticBdd->select("fb_id, userlink, fb_firstname, fb_lastname, fb_picture, time_update", "users", "WHERE fb_id LIKE '".$userId."'");
 		$getUserInfos = $newStaticBdd->fetch_array($userInfos);
