@@ -7,12 +7,21 @@
 			<h1>Admin Panel</h1>
 		</div>
 
-		<div id="report-panel">
+		<div id="report-panel" class="panel">
 			<div class="title-container">
-				<img class="title-icon" src="src/img/default/report_icon.png"/><h2>Report Panel</h2>
+				<img class="title-icon" src="src/img/default/report_icon.png"/><h2>Reports Panel</h2>
 			</div>
-			<div id="report-result-container">
+			<div class="result-container">
 				<?php echo Engine::getReports()['reply'];?>
+			</div>
+		</div>
+
+		<div id="users-infos-panel" class="panel">
+			<div class="title-container">
+				<img class="title-icon" src="src/img/default/report_icon.png"/><h2>Users Infos Panel</h2>
+			</div>
+			<div class="result-container">
+				<?php echo Engine::getUserInfos()['reply'];?>
 			</div>
 		</div>
 <?php
@@ -20,7 +29,7 @@
 	else
 	{
 ?>
-		<h1>Sorry, you're not an Admin !</h1>
+		<h1>Sorry, you're not an Admin ! ;)</h1>
 <?php
 	}
 ?>

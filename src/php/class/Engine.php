@@ -252,8 +252,7 @@ class Engine
 		return $dataArray;
 	}
 
-	public static function getReports()
-	{
+	public static function getReports() {
 		$dataArray = array();
 
 		if(User::isAdmin()) {
@@ -263,6 +262,24 @@ class Engine
 			while($getReportsInfos = $newStaticBdd->fetch_array($ReportsInfos)) {
 				ob_start();
 				include('../models/report-container.php');
+				$dataArray['reply'] .= ob_get_contents();
+				ob_end_clean();
+			}
+
+			return $dataArray;
+		}
+	}
+
+	public static function getUserInfos() {
+		$dataArray = array();
+
+		if(User::isAdmin()) {
+			$newStaticBdd = new BDD();
+
+			$UserInfos = $newStaticBdd->select("id, fb_firstname, fb_lastname, fb_picture, email, user_ip", "users", "ORDER BY id ASC");
+			while($getUserInfos = $newStaticBdd->fetch_array($UserInfos)) {
+				ob_start();
+				include('../models/users-infos-container.php');
 				$dataArray['reply'] .= ob_get_contents();
 				ob_end_clean();
 			}
