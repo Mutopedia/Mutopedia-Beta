@@ -3,22 +3,14 @@ class BDD
 {
 	private $bdd;
 
-	private $host = "localhost";
-	private $user = "root";
-	private $password = "";
-	private $bdname = "mutopedia";
-
 	public function __construct()
 	{
-		$bddCon = mysqli_connect($this->host, $this->user, $this->password, $this->bdname);
-		if(!$bddCon)
-		{
-            die("Nous sommes d&eacutesol&eacute : La connexion &agrave la base de donn&eacutees &agrave &eacutechou&eacutee ...");
-        }
-        else
-        {
-        	$this->bdd = $bddCon;
-        }
+		$bddCon = mysqli_connect(getEnv('DB_HOST'), getEnv('DB_USER'), getEnv('DB_PASSWORD'), getEnv('DB_NAME'));
+		if(!$bddCon) {
+    	die("Nous sommes d&eacutesol&eacute : La connexion &agrave la base de donn&eacutees &agrave &eacutechou&eacutee ...");
+    }else {
+    	$this->bdd = $bddCon;
+    }
 	}
 
 	public function select($id, $table, $options="")

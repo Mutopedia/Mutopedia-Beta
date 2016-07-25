@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	include('includes/define_header.php');
+	include('src/includes/define_header.php');
 	require(PHP."class/bdd.php");
 	require(PHP."class/Engine.php");
 ?>
@@ -25,11 +25,11 @@
 
 		<section id="portal-container">
 			<div id="video-container">
-				<video autoplay loop poster="img/portal/portal_preview.jpg" id="bgvid">
-					<source src="img/portal/portal_animation.mp4" type="video/mp4">
+				<video autoplay loop poster="<?php echo IMG;?>portal/portal_preview.jpg" id="bgvid">
+					<source src="<?php echo IMG;?>portal/portal_animation.mp4" type="video/mp4">
 				</video>
 				<audio autoplay loop>
-					<source src="img/portal/portal_audio.mp3" type="audio/mpeg">
+					<source src="<?php echo IMG;?>portal/portal_audio.mp3" type="audio/mpeg">
 				</audio>
 			</div>
 
@@ -60,7 +60,7 @@
 		</footer>
 
 		<?php
-			include('includes/sorry_box.php');
+			include(INCLUDES.'sorry_box.php');
 		?>
 		<script type="text/javascript">
 			showPopUp("sorry-box");

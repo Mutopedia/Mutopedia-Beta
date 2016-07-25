@@ -27,23 +27,21 @@ class User
 
 	public static function isLogged()
 	{
-		if(isset($_SESSION["SID_ID"]) AND !empty($_SESSION["SID_ID"]))
-		{
-			$newStaticBdd = new BDD();
-			$UserInfo = $newStaticBdd->select("isLoggedFB", "users", "WHERE token LIKE '".self::getToken()."'");
-			$getUserInfo = $newStaticBdd->fetch_array($UserInfo);
+		if(isset($_SESSION["SID_ID"]) AND !empty($_SESSION["SID_ID"])) {
+			if(self::getToken() !== null) {
+				$newStaticBdd = new BDD();
+				$UserInfo = $newStaticBdd->select("isLoggedFB", "users", "WHERE token LIKE '".self::getToken()."'");
+				$getUserInfo = $newStaticBdd->fetch_array($UserInfo);
 
-			if($getUserInfo['isLoggedFB'] == 1)
-			{
-				return true;
-			}
-			else
-			{
+				if($getUserInfo['isLoggedFB'] == 1) {
+					return true;
+				}else {
+					return false;
+				}
+			}else {
 				return false;
 			}
-		}
-		else
-		{
+		}else {
 			return false;
 		}
 	}
@@ -59,15 +57,11 @@ class User
 		return true;
 	}
 
-	public static function getToken()
-	{
-		if(isset($_COOKIE['token']) AND !empty($_COOKIE['token']))
-		{
+	public static function getToken() {
+		if(isset($_COOKIE['token']) AND !empty($_COOKIE['token'])) {
 			return $_COOKIE["token"];
-		}
-		else
-		{
-			return "null";
+		}else {
+			return null;
 		}
 	}
 
@@ -632,27 +626,21 @@ class User
 		setcookie("username", $userFirstName.' '.$userLastName, time() + 7200, "/");
 		$_SESSION['SID_ID'] = session_id();
 
-		if(self::setToken($userId))
-		{
-			if($getUserId != 1)
-			{
+		if(self::setToken($userId)) {
+			if($getUserId != 1) {
 				$regUser = $newStaticBdd->insert("users", "fb_id, userlink, fb_firstname, fb_lastname, fb_picture, user_ip, isLoggedFB", "'".$userId."', '".$userLink."', '".$userFirstName."', '".$userLastName."', '".$userPicSrc."', '".$ip."', 1");
 
 				$dataArray['result'] = true;
 				$dataArray['error'] = null;
 				$dataArray['reply'] = "User ".$userFirstName." ".$userLastName." registred !";
-			}
-			else
-			{
+			}else {
 				$regUser = $newStaticBdd->update("users", "fb_id = '".$userId."', userlink = '".$userLink."', fb_firstname = '".$userFirstName."', fb_lastname = '".$userLastName."', fb_picture = '".$userPicSrc."', user_ip = '".$ip."', isLoggedFB = 1", "WHERE fb_id LIKE '".$userId."'");
 
 				$dataArray['result'] = true;
 				$dataArray['error'] = null;
 				$dataArray['reply'] = "User ".$userFirstName." ".$userLastName." updated and logged !";
 			}
-		}
-		else
-		{
+		}else{
 			$dataArray['result'] = false;
 			$dataArray['error'] = "Token not set !";
 			$dataArray['reply'] = "User not logged !";
@@ -663,8 +651,7 @@ class User
 
 	public static function setToken($userId)
 	{
-		if(isset($userId) AND !empty($userId))
-		{
+		if(isset($userId) AND !empty($userId)) {
 			$newStaticBdd = new BDD();
 			$newStaticBdd->real_escape_string(htmlspecialchars($userId));
 
@@ -674,14 +661,13 @@ class User
 
 			setcookie("token", $token, time()+7200, "/");
 
-			if($newStaticBdd->update("users", "token = '".$token."', time_update = '".time()."'", "WHERE fb_id = '".$userId."'") == true)
-			{
+			if($newStaticBdd->update("users", "token = '".$token."', time_update = '".time()."'", "WHERE fb_id = '".$userId."'") == true) {
 				return true;
-			}
-			else
-			{
+			}else {
 				return false;
 			}
+		}else {
+			return false;
 		}
 	}
 }
